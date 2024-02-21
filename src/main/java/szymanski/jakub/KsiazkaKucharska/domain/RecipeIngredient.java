@@ -12,21 +12,20 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "recipe_ingredients")
-public class RecipeIngredients {
+public class RecipeIngredient {
 
     @EmbeddedId
-    private RecipeIngredientsKey id;
+    private RecipeIngredientKey id = new RecipeIngredientKey();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("recipeId")
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("ingredientId")
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
 
     private String quantity;
-
 }

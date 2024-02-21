@@ -21,7 +21,7 @@ public class Ingredient {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "ingredient")
-    private Set<RecipeIngredients> recipeIngredients;
+//    @OneToMany(mappedBy = "ingredient", fetch = FetchType.EAGER)
+//    private Set<RecipeIngredient> recipeIngredients;
 
 }

@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Dictionary;
 import java.util.Set;
 
 @Data
@@ -24,11 +23,12 @@ public class Recipe {
     private String description;
     private String imageURL;
 
+    //Author
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_id")
-    private User author;
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @OneToMany(mappedBy = "recipe")
-    private Set<RecipeIngredients> recipeIngredients;
+//    @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    private Set<RecipeIngredient> recipeIngredients;
 
 }
