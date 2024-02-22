@@ -1,6 +1,5 @@
 package szymanski.jakub.KsiazkaKucharska.repositories;
 
-import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import szymanski.jakub.KsiazkaKucharska.TestDataUtil;
 import szymanski.jakub.KsiazkaKucharska.domain.*;
 
 import java.util.Optional;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,8 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class RecipeRepositoryIntegrationTests {
 
-    private RecipeRepository underTest;
-    private IngredientRepository ingredientRepository;
+    private final RecipeRepository underTest;
+    private final IngredientRepository ingredientRepository;
 
     @Autowired
     public RecipeRepositoryIntegrationTests(RecipeRepository underTest, IngredientRepository ingredientRepository) {
@@ -31,7 +29,7 @@ public class RecipeRepositoryIntegrationTests {
 
     @Test
     public void testThatRecipeCanBeCreatedAndRecalled() {
-        User author = TestDataUtil.createTestUser();
+        User author = TestDataUtil.createTestUserA();
 
         Recipe recipe = TestDataUtil.createTestRecipeA(author);
 

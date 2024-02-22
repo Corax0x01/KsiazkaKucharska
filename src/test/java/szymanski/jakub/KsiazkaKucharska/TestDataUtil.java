@@ -2,16 +2,34 @@ package szymanski.jakub.KsiazkaKucharska;
 
 import szymanski.jakub.KsiazkaKucharska.domain.*;
 
-import java.util.Set;
-
 public final class TestDataUtil {
 
     private TestDataUtil() {
     }
 
-    public static User createTestUser() {
+    public static User createTestUserA() {
         return User.builder()
                 .id(1L)
+                .username("testUser")
+                .password("testPassword")
+                .email("testEmail")
+                .isAdmin(false)
+                .build();
+    }
+
+    public static User createTestUserB() {
+        return User.builder()
+                .id(2L)
+                .username("testUser")
+                .password("testPassword")
+                .email("testEmail")
+                .isAdmin(false)
+                .build();
+    }
+
+    public static User createTestUserC() {
+        return User.builder()
+                .id(3L)
                 .username("testUser")
                 .password("testPassword")
                 .email("testEmail")

@@ -12,8 +12,6 @@ import szymanski.jakub.KsiazkaKucharska.domain.Recipe;
 import szymanski.jakub.KsiazkaKucharska.domain.RecipeIngredient;
 import szymanski.jakub.KsiazkaKucharska.domain.User;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class RecipeIngredientsIntegrationTests {
 
-    private RecipeIngredientsRepository underTest;
+    private final RecipeIngredientsRepository underTest;
 
     @Autowired
     public RecipeIngredientsIntegrationTests(RecipeIngredientsRepository underTest) {
@@ -32,7 +30,7 @@ public class RecipeIngredientsIntegrationTests {
 
     @Test
     public void testThatRecipeIngredientsCanBeCreatedAndRecalled() {
-        User author = TestDataUtil.createTestUser();
+        User author = TestDataUtil.createTestUserA();
         Recipe recipe = TestDataUtil.createTestRecipeA(author);
         Ingredient ingredientA = TestDataUtil.createTestIngredientA();
         Ingredient ingredientB = TestDataUtil.createTestIngredientB();
