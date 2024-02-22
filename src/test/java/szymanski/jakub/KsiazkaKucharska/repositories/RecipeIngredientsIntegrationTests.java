@@ -12,6 +12,8 @@ import szymanski.jakub.KsiazkaKucharska.domain.Recipe;
 import szymanski.jakub.KsiazkaKucharska.domain.RecipeIngredient;
 import szymanski.jakub.KsiazkaKucharska.domain.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,6 +51,7 @@ public class RecipeIngredientsIntegrationTests {
 
         assertThat(resultB).isPresent();
         assertThat(resultB.get()).isEqualTo(recipeIngredientB);
+
     }
 
 }
