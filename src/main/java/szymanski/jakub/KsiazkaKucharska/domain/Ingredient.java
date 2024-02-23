@@ -18,6 +18,7 @@ public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ingredient_id_seq")
+    @SequenceGenerator(name = "ingredient_id_seq", sequenceName = "ingredient_id_seq", allocationSize = 1)
     private Long id;
     private String name;
 
