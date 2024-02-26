@@ -7,11 +7,11 @@ import szymanski.jakub.KsiazkaKucharska.domain.entities.UserEntity;
 import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
 
 @Component
-public class AuthorMapperImpl implements Mapper<UserEntity, UserDto> {
+public class UserMapperImpl implements Mapper<UserEntity, UserDto> {
 
     private final ModelMapper modelMapper;
 
-    public AuthorMapperImpl(ModelMapper modelMapper) {
+    public UserMapperImpl(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 
