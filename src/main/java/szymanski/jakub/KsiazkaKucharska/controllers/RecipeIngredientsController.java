@@ -7,30 +7,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeIngredientEntity;
-import szymanski.jakub.KsiazkaKucharska.services.RecipeIngredientsService;
+import szymanski.jakub.KsiazkaKucharska.services.impl.RecipeIngredientsServiceImpl;
 
 @Log
 @RestController
 public class RecipeIngredientsController {
 
-    private final RecipeIngredientsService recipeIngredientsService;
+    private final RecipeIngredientsServiceImpl recipeIngredientsServiceImpl;
 
-    public RecipeIngredientsController(RecipeIngredientsService recipeIngredientsService) {
-        this.recipeIngredientsService = recipeIngredientsService;
+    public RecipeIngredientsController(RecipeIngredientsServiceImpl recipeIngredientsServiceImpl) {
+        this.recipeIngredientsServiceImpl = recipeIngredientsServiceImpl;
     }
 
     @GetMapping("/recipe/ingredients")
     @ResponseStatus(code = HttpStatus.OK)
     public Iterable<RecipeIngredientEntity> getRecipeIngredients(@RequestParam(name = "recipeId") final Long recipeId) {
         log.info("Getting recipe ingredients");
-        return recipeIngredientsService.findRecipeIngredients(recipeId);
+        return recipeIngredientsServiceImpl.findRecipeIngredients(recipeId);
     }
 
     @GetMapping("/ingredient/recipes")
     @ResponseStatus(code = HttpStatus.OK)
     public Iterable<RecipeIngredientEntity> getIngredientRecipes(@RequestParam(name = "ingredientId") final Long ingredientId) {
         log.info("Getting ingredient recipes");
-        return recipeIngredientsService.findIngredientRecipes(ingredientId);
+        return recipeIngredientsServiceImpl.findIngredientRecipes(ingredientId);
     }
 
 }

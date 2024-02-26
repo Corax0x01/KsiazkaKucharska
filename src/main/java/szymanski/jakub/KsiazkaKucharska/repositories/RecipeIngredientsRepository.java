@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface RecipeIngredientsRepository extends CrudRepository<RecipeIngredientEntity, RecipeIngredientKey> {
 
-    List<RecipeIngredientEntity> findAllByRecipeId(Long recipeId);
-    List<RecipeIngredientEntity> findAllByIngredientId(Long ingredientId);
+    List<RecipeIngredientEntity> findAllByRecipeEntityId(Long recipeId);
+    List<RecipeIngredientEntity> findAllByIngredientEntityId(Long ingredientId);
 
 }

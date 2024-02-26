@@ -4,28 +4,28 @@ import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeEntity;
-import szymanski.jakub.KsiazkaKucharska.services.RecipeService;
+import szymanski.jakub.KsiazkaKucharska.services.impl.RecipeServiceImpl;
 
 @Log
 @RestController
 public class RecipeController {
 
-    private final RecipeService recipeService;
+    private final RecipeServiceImpl recipeServiceImpl;
 
-    public RecipeController(RecipeService recipeService) {
-        this.recipeService = recipeService;
+    public RecipeController(RecipeServiceImpl recipeServiceImpl) {
+        this.recipeServiceImpl = recipeServiceImpl;
     }
 
     @GetMapping("/recipes")
     @ResponseStatus(code = HttpStatus.OK)
     public Iterable<RecipeEntity> getRecipes() {
-        return recipeService.findAllRecipes();
+        return recipeServiceImpl.findAllRecipes();
     }
 
     @GetMapping("/recipes/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public RecipeEntity getRecipe(@PathVariable(name = "id") final Long id) {
-        return recipeService.findRecipe(id);
+        return recipeServiceImpl.findRecipe(id);
     }
 
     @PostMapping("/recipes")
@@ -33,7 +33,7 @@ public class RecipeController {
     public void createRecipe(@RequestBody final RecipeEntity recipeEntity) {
         log.info("Creating recipe: " + recipeEntity.toString());
 
-        recipeService.saveRecipe(recipeEntity);
+        recipeServiceImpl.saveRecipe(recipeEntity);
     }
 
     @PutMapping("/recipes")
@@ -41,7 +41,7 @@ public class RecipeController {
     public void updateRecipe(@RequestParam(name = "id") final Long id, @RequestBody final RecipeEntity recipeEntity) {
         log.info("Updating recipe: " + recipeEntity.toString());
 
-        recipeService.updateRecipe(recipeEntity);
+        recipeServiceImpl.updateRecipe(recipeEntity);
     }
 
     @DeleteMapping("/recipes")
@@ -49,7 +49,7 @@ public class RecipeController {
     public void deleteRecipe(@RequestParam(name = "id") final Long id) {
         log.info("Deleting recipe with id: " + id);
 
-        recipeService.deleteRecipe(id);
+        recipeServiceImpl.deleteRecipe(id);
     }
 
 }

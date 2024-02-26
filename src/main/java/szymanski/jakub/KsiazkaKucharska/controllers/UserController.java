@@ -2,58 +2,68 @@ package szymanski.jakub.KsiazkaKucharska.controllers;
 
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import szymanski.jakub.KsiazkaKucharska.domain.entities.UserEntity;
 import szymanski.jakub.KsiazkaKucharska.domain.dto.UserDto;
-import szymanski.jakub.KsiazkaKucharska.services.UserService;
+import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
+import szymanski.jakub.KsiazkaKucharska.services.impl.UserServiceImpl;
 
 @Log
 @RestController
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    public UserController(UserService userService) {
+    private final Mapper<UserEntity, UserDto> userMapper;
+
+    public UserController(UserServiceImpl userService, Mapper<UserEntity, UserDto> userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @GetMapping("/users")
-    @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<UserEntity> getUser() {
+    public ResponseEntity<Iterable<UserEntity>> getUser() {
 
-        return userService.findAllUsers();
+        return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
 
     }
 
     @GetMapping("/users/{id}")
-    @ResponseStatus(code = HttpStatus.OK)
-    public UserEntity getUserById(@PathVariable Long id) {
-        return userService.findUser(id);
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+
+        return new ResponseEntity<>(userMapper.mapTo(userService.findUser(id)), HttpStatus.OK);
     }
 
     @PostMapping("/users")
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public UserDto createUser(@RequestBody UserDto user) {
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user) {
         log.info("Creating user: " + user);
 
-        userService.saveUser(user);
+        UserEntity userEntity = userMapper.mapFrom(user);
+        UserEntity savedUserEntity = userService.saveUser(userEntity);
+
+        return new ResponseEntity<>(userMapper.mapTo(savedUserEntity), HttpStatus.CREATED);
     }
 
     @PutMapping("/users")
-    @ResponseStatus(code = HttpStatus.OK)
-    public void updateUser(@RequestBody UserEntity userEntity) {
-        log.info("Updating user with id: " + userEntity.getId() + " to: " + userEntity);
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto user) {
+        log.info("Updating user with id: " + user.getId() + " to: " + user);
 
-        userService.updateUser(userEntity);
+        UserEntity userEntity = userMapper.mapFrom(user);
+        UserEntity updatedUserEntity = userService.updateUser(userEntity);
+
+        return new ResponseEntity<>(userMapper.mapTo(updatedUserEntity), HttpStatus.OK);
     }
 
-    @PatchMapping("/users/{id}")
-    @ResponseStatus(code = HttpStatus.OK)
-    public void updateUser(@PathVariable final Long id, @RequestBody UserEntity userEntity) {
-        log.info("Updating user with id: " + id + " to: " + userEntity);
-
-        userService.updateUser(id, userEntity);
-    }
+//    @PatchMapping("/users/{id}")
+//    @ResponseStatus(code = HttpStatus.OK)
+//    public ResponseEntity<UserDto> updateUser(@PathVariable final Long id, @RequestBody UserDto user) {
+//        log.info("Updating user with id: " + id + " to: " + user);
+//
+//        UserEntity userEntity = userMapper.mapFrom(user);
+//        UserEntity updatedUserEntity = userService.updateUser(id, userEntity);
+//
+//    }
 
     @DeleteMapping("/users/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
