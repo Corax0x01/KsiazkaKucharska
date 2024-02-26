@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import szymanski.jakub.KsiazkaKucharska.domain.User;
 import szymanski.jakub.KsiazkaKucharska.services.UserService;
 
-import java.util.List;
-
 @Log
 @RestController
 public class UserController {
@@ -20,17 +18,22 @@ public class UserController {
 
     @GetMapping("/users")
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<User> getUser(@RequestParam(name = "id", required = false) final Long id) {
+    public Iterable<User> getUser() {
 
-        if(id == null) return userService.findAllUsers();
-        else return List.of(userService.findUser(id));
+        return userService.findAllUsers();
 
+    }
+
+    @GetMapping("/users/{id}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public User getUserById(@PathVariable Long id) {
+        return userService.findUser(id);
     }
 
     @PostMapping("/users")
     @ResponseStatus(code = HttpStatus.CREATED)
     public void createUser(@RequestBody final User user) {
-        log.info("Creating user: " + user.toString());
+        log.info("Creating user: " + user);
 
         userService.saveUser(user);
     }
@@ -38,14 +41,14 @@ public class UserController {
     @PutMapping("/users")
     @ResponseStatus(code = HttpStatus.OK)
     public void updateUser(@RequestBody final User user) {
-        log.info("Updating user with id: " + user.getId() + " to: " + user.toString());
+        log.info("Updating user with id: " + user.getId() + " to: " + user);
 
         userService.updateUser(user);
     }
 
-    @DeleteMapping("/users")
+    @DeleteMapping("/users/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteUser(@RequestParam(name = "id") final Long id) {
+    public void deleteUser(@PathVariable final Long id) {
         log.info("Deleting user with id: " + id);
 
         userService.deleteUser(id);

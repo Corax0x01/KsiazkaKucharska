@@ -20,9 +20,14 @@ public class IngredientController {
 
     @GetMapping("/ingredients")
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<Ingredient> getIngredients(@RequestParam(name = "id", required = false) final Long id) {
-        if (id == null) return ingredientService.findAllIngredients();
-        else return List.of(ingredientService.findIngredient(id));
+    public Iterable<Ingredient> getIngredients() {
+        return ingredientService.findAllIngredients();
+    }
+
+    @GetMapping("/ingredients/{id}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Ingredient getIngredient(@PathVariable final Long id) {
+        return ingredientService.findIngredient(id);
     }
 
     @PostMapping("/ingredients")
@@ -39,9 +44,9 @@ public class IngredientController {
         ingredientService.updateIngredient(ingredient);
     }
 
-    @DeleteMapping("/ingredients")
+    @DeleteMapping("/ingredients/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteIngredient(@RequestParam(name = "id") final Long id) {
+    public void deleteIngredient(@PathVariable final Long id) {
         log.info("Deleting ingredient with id: " + id);
         ingredientService.deleteIngredient(id);
     }

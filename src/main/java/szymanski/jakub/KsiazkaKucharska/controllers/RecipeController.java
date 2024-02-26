@@ -20,9 +20,14 @@ public class RecipeController {
 
     @GetMapping("/recipes")
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<Recipe> getRecipes(@RequestParam(name = "id", required = false) final Long id) {
-        if (id == null) return recipeService.findAllRecipes();
-        else return List.of(recipeService.findRecipe(id));
+    public Iterable<Recipe> getRecipes() {
+        return recipeService.findAllRecipes();
+    }
+
+    @GetMapping("/recipes/{id}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Recipe getRecipe(@PathVariable(name = "id") final Long id) {
+        return recipeService.findRecipe(id);
     }
 
     @PostMapping("/recipes")
