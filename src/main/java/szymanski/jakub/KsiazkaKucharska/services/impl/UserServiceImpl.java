@@ -6,6 +6,7 @@ import szymanski.jakub.KsiazkaKucharska.repositories.UserRepository;
 import szymanski.jakub.KsiazkaKucharska.services.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -16,31 +17,42 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    public List<UserEntity> findAllUsers() {
+    public List<UserEntity> findAll() {
         return (List<UserEntity>) userRepository.findAll();
     }
 
-    public UserEntity findUser(Long id) {
-        return userRepository.findById(id).orElse(null);
+    public Optional<UserEntity> find(Long id) {
+        return userRepository.findById(id);
     }
 
-    public UserEntity findUser(String username) {
-        return userRepository.findByUsername(username).orElse(null);
+    public Optional<UserEntity> find(String username) {
+        return userRepository.findByUsername(username);
     }
 
-    public UserEntity saveUser(UserEntity userEntity) {
+    public UserEntity save(UserEntity userEntity) {
         return userRepository.save(userEntity);
     }
 
-    public UserEntity updateUser(UserEntity userEntity) {
-        return userRepository.save(userEntity);
+    public UserEntity partialUpdate(Long id, UserEntity userEntity){
+        userEntity.setId(id);
+
+        return userRepository.findById(id).map(existingUser -> {
+           Optional.ofNullable(userEntity.getUsername()).ifPresent(existingUser::setUsername);
+           Optional.ofNullable(userEntity.getPassword()).ifPresent(existingUser::setPassword);
+           Optional.ofNullable(userEntity.getEmail()).ifPresent(existingUser::setEmail);
+           return userRepository.save(existingUser);
+        }).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    public void deleteUser(Long id) {
+    public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
-    public void deleteUser(UserEntity userEntity) {
+    public void delete(UserEntity userEntity) {
         userRepository.delete(userEntity);
+    }
+
+    public boolean exists(Long id) {
+        return userRepository.existsById(id);
     }
 }

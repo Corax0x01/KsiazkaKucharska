@@ -2,6 +2,7 @@ package szymanski.jakub.KsiazkaKucharska.controllers;
 
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import szymanski.jakub.KsiazkaKucharska.domain.dto.RecipeDto;
 import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeEntity;
@@ -9,6 +10,9 @@ import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
 import szymanski.jakub.KsiazkaKucharska.services.impl.RecipeServiceImpl;
 
 import java.util.List;
+import java.util.Optional;
+
+//TODO: Add tests
 
 @Log
 @RestController
@@ -24,38 +28,58 @@ public class RecipeController {
 
     @GetMapping("/recipes")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<RecipeEntity> getRecipes() {
-        return recipeService.findAllRecipes();
+    public List<RecipeDto> getRecipes() {
+        return recipeService.findAll().stream().map(recipeMapper::mapTo).toList();
     }
 
     @GetMapping("/recipes/{id}")
-    @ResponseStatus(code = HttpStatus.OK)
-    public RecipeEntity getRecipe(@PathVariable(name = "id") final Long id) {
-        return recipeService.findRecipe(id);
+    public ResponseEntity<RecipeDto> getRecipe(@PathVariable("id") Long id) {
+        Optional<RecipeEntity> recipe = recipeService.find(id);
+        return recipe.map(recipeEntity -> {
+            RecipeDto recipeDto = recipeMapper.mapTo(recipeEntity);
+            return new ResponseEntity<>(recipeDto, HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/recipes")
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public void createRecipe(@RequestBody final RecipeEntity recipeEntity) {
-        log.info("Creating recipe: " + recipeEntity.toString());
+    public ResponseEntity<RecipeDto> createRecipe(@RequestBody RecipeDto recipe) {
+        log.info("Creating recipe: " + recipe);
 
-        recipeService.saveRecipe(recipeEntity);
+        RecipeEntity recipeEntity = recipeMapper.mapFrom(recipe);
+        RecipeEntity savedRecipeEntity = recipeService.save(recipeEntity);
+
+        return new ResponseEntity<>(recipeMapper.mapTo(savedRecipeEntity), HttpStatus.CREATED);
     }
 
-    @PutMapping("/recipes")
-    @ResponseStatus(code = HttpStatus.OK)
-    public void updateRecipe(@RequestParam(name = "id") final Long id, @RequestBody final RecipeEntity recipeEntity) {
-        log.info("Updating recipe: " + recipeEntity.toString());
+    @PutMapping("/recipes/{id}")
+    public ResponseEntity<RecipeDto> updateRecipe(@PathVariable("id") Long id, @RequestBody RecipeDto recipe) {
+        if(!recipeService.exists(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        recipeService.updateRecipe(recipeEntity);
+        recipe.setId(id);
+        RecipeEntity recipeEntity = recipeMapper.mapFrom(recipe);
+        RecipeEntity updatedRecipeEntity = recipeService.save(recipeEntity);
+
+        return new ResponseEntity<>(recipeMapper.mapTo(updatedRecipeEntity), HttpStatus.OK);
     }
 
-    @DeleteMapping("/recipes")
+    @PatchMapping("/recipes/{id}")
+    public ResponseEntity<RecipeDto> patchRecipe(@PathVariable("id") Long id, @RequestBody RecipeDto recipe) {
+        if(!recipeService.exists(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        RecipeEntity recipeEntity = recipeMapper.mapFrom(recipe);
+        RecipeEntity updatedRecipeEntity = recipeService.partialUpdate(id, recipeEntity);
+
+        return new ResponseEntity<>(recipeMapper.mapTo(updatedRecipeEntity), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/recipes/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteRecipe(@RequestParam(name = "id") final Long id) {
-        log.info("Deleting recipe with id: " + id);
-
-        recipeService.deleteRecipe(id);
+    public void deleteRecipe(@PathVariable("id") Long id) {
+        recipeService.delete(id);
     }
 
 }

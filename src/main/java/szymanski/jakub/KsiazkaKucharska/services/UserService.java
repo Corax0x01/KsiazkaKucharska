@@ -3,21 +3,24 @@ package szymanski.jakub.KsiazkaKucharska.services;
 import szymanski.jakub.KsiazkaKucharska.domain.entities.UserEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
-    List<UserEntity> findAllUsers();
+    List<UserEntity> findAll();
 
-    UserEntity findUser(Long id);
+    Optional<UserEntity> find(Long id);
 
-    UserEntity findUser(String username);
+    Optional<UserEntity> find(String username);
 
-    UserEntity saveUser(UserEntity userEntity);
+    UserEntity save(UserEntity userEntity);
 
-    UserEntity updateUser(UserEntity userEntity);
+    UserEntity partialUpdate(Long id, UserEntity userEntity);
 
-    void deleteUser(Long id);
+    void delete(Long id);
 
-    void deleteUser(UserEntity userEntity);
+    void delete(UserEntity userEntity);
+
+    boolean exists(Long id);
 
 }

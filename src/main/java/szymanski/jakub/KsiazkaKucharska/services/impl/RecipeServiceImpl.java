@@ -6,6 +6,7 @@ import szymanski.jakub.KsiazkaKucharska.repositories.RecipeRepository;
 import szymanski.jakub.KsiazkaKucharska.services.RecipeService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -16,28 +17,40 @@ public class RecipeServiceImpl implements RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
-    public List<RecipeEntity> findAllRecipes() {
+    public List<RecipeEntity> findAll() {
         return (List<RecipeEntity>) recipeRepository.findAll();
     }
 
-    public RecipeEntity findRecipe(Long id) {
-        return recipeRepository.findById(id).orElse(null);
+    public Optional<RecipeEntity> find(Long id) {
+        return recipeRepository.findById(id);
     }
 
-    public RecipeEntity saveRecipe(RecipeEntity recipeEntity) {
+    public RecipeEntity save(RecipeEntity recipeEntity) {
         return recipeRepository.save(recipeEntity);
     }
 
-    public RecipeEntity updateRecipe(RecipeEntity recipeEntity) {
-        return recipeRepository.save(recipeEntity);
+    public RecipeEntity partialUpdate(Long id, RecipeEntity recipeEntity) {
+        recipeEntity.setId(id);
+
+        return recipeRepository.findById(id).map(existingRecipe -> {
+            Optional.ofNullable(recipeEntity.getTitle()).ifPresent(existingRecipe::setTitle);
+            Optional.ofNullable(recipeEntity.getDescription()).ifPresent(existingRecipe::setDescription);
+            Optional.ofNullable(recipeEntity.getImageURL()).ifPresent(existingRecipe::setImageURL);
+            Optional.ofNullable(recipeEntity.getRecipeURL()).ifPresent(existingRecipe::setRecipeURL);
+            return recipeRepository.save(existingRecipe);
+        }).orElseThrow(() -> new RuntimeException("Recipe not found"));
     }
 
-    public void deleteRecipe(Long id) {
+    public void delete(Long id) {
         recipeRepository.deleteById(id);
     }
 
-    public void deleteRecipe(RecipeEntity recipeEntity) {
+    public void delete(RecipeEntity recipeEntity) {
         recipeRepository.delete(recipeEntity);
+    }
+
+    public boolean exists(Long id) {
+        return recipeRepository.existsById(id);
     }
 
 }

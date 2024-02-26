@@ -7,6 +7,7 @@ import szymanski.jakub.KsiazkaKucharska.repositories.RecipeIngredientsRepository
 import szymanski.jakub.KsiazkaKucharska.services.RecipeIngredientsService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecipeIngredientsServiceImpl implements RecipeIngredientsService {
@@ -25,20 +26,29 @@ public class RecipeIngredientsServiceImpl implements RecipeIngredientsService {
         return recipeIngredientsRepository.findAllByIngredientEntityId(ingredientId);
     }
 
-    public RecipeIngredientEntity saveRecipeIngredient(RecipeIngredientEntity recipeIngredientEntity) {
+    public RecipeIngredientEntity save(RecipeIngredientEntity recipeIngredientEntity) {
         return recipeIngredientsRepository.save(recipeIngredientEntity);
     }
 
-    public RecipeIngredientEntity updateRecipeIngredient(RecipeIngredientEntity recipeIngredientEntity) {
-        return recipeIngredientsRepository.save(recipeIngredientEntity);
+    public RecipeIngredientEntity partialUpdate(RecipeIngredientKey id, RecipeIngredientEntity recipeIngredientEntity) {
+        recipeIngredientEntity.setId(id);
+
+        return recipeIngredientsRepository.findById(id).map(existingRecipeIngredient -> {
+            Optional.ofNullable(recipeIngredientEntity.getQuantity()).ifPresent(existingRecipeIngredient::setQuantity);
+            return recipeIngredientsRepository.save(existingRecipeIngredient);
+        }).orElseThrow(() -> new RuntimeException("RecipeIngredient not found"));
     }
 
-    public void deleteRecipeIngredient(RecipeIngredientKey id) {
-        recipeIngredientsRepository.deleteById(id);
+    public void delete(Long recipeId, Long ingredientId) {
+        recipeIngredientsRepository.deleteById(new RecipeIngredientKey(recipeId, ingredientId));
     }
 
-    public void deleteRecipeIngredient(RecipeIngredientEntity recipeIngredientEntity) {
+    public void delete(RecipeIngredientEntity recipeIngredientEntity) {
         recipeIngredientsRepository.delete(recipeIngredientEntity);
     }
 
+    @Override
+    public boolean exists(RecipeIngredientKey id) {
+        return recipeIngredientsRepository.existsById(id);
+    }
 }

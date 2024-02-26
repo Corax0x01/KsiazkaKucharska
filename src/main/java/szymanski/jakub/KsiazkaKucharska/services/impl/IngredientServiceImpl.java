@@ -6,6 +6,7 @@ import szymanski.jakub.KsiazkaKucharska.repositories.IngredientRepository;
 import szymanski.jakub.KsiazkaKucharska.services.IngredientService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class IngredientServiceImpl implements IngredientService {
@@ -16,36 +17,50 @@ public class IngredientServiceImpl implements IngredientService {
         this.ingredientRepository = ingredientRepository;
     }
 
-    public List<IngredientEntity> findAllIngredients() {
+    public List<IngredientEntity> findAll() {
         return (List<IngredientEntity>) ingredientRepository.findAll();
     }
 
-    public IngredientEntity findIngredient(Long id) {
-        return ingredientRepository.findById(id).orElse(null);
+    public Optional<IngredientEntity> find(Long id) {
+        return ingredientRepository.findById(id);
     }
 
-    public IngredientEntity findIngredient(String name) {
-        return ingredientRepository.findByName(name).orElse(null);
+    public Optional<IngredientEntity> find(String name) {
+        return ingredientRepository.findByName(name);
     }
 
-    public IngredientEntity saveIngredient(IngredientEntity ingredientEntity) {
+    public IngredientEntity save(IngredientEntity ingredientEntity) {
         return ingredientRepository.save(ingredientEntity);
     }
 
-    public IngredientEntity updateIngredient(IngredientEntity ingredientEntity) {
-        return ingredientRepository.save(ingredientEntity);
+    public IngredientEntity partialUpdate(Long id, IngredientEntity ingredientEntity) {
+        ingredientEntity.setId(id);
+
+        return ingredientRepository.findById(id).map(existingIngredient -> {
+            Optional.ofNullable(ingredientEntity.getName()).ifPresent(existingIngredient::setName);
+            return ingredientRepository.save(existingIngredient);
+        }).orElseThrow(() -> new RuntimeException("Ingredient not found"));
     }
 
-    public void deleteIngredient(Long id) {
+    public void delete(Long id) {
         ingredientRepository.deleteById(id);
     }
 
-    public void deleteIngredient(String name) {
-        ingredientRepository.deleteById(findIngredient(name).getId());
+    public void delete(String name) {
+        Optional<IngredientEntity> ingredientEntity = find(name);
+        ingredientEntity.ifPresent(ingredient -> ingredientRepository.deleteById(ingredient.getId()));
     }
 
-    public void deleteIngredient(IngredientEntity ingredientEntity) {
+    public void delete(IngredientEntity ingredientEntity) {
         ingredientRepository.delete(ingredientEntity);
+    }
+
+    public boolean exists(Long id) {
+        return ingredientRepository.existsById(id);
+    }
+
+    public boolean exists(String name) {
+        return ingredientRepository.existsByName(name);
     }
 
 }

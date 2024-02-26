@@ -1,6 +1,7 @@
 package szymanski.jakub.KsiazkaKucharska.services;
 
 import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeIngredientEntity;
+import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeIngredientKey;
 
 import java.util.List;
 
@@ -10,9 +11,13 @@ public interface RecipeIngredientsService {
 
     List<RecipeIngredientEntity> findIngredientRecipes(Long ingredientId);
 
-    RecipeIngredientEntity saveRecipeIngredient(RecipeIngredientEntity recipeIngredientEntity);
+    RecipeIngredientEntity save(RecipeIngredientEntity recipeIngredientEntity);
 
-    RecipeIngredientEntity updateRecipeIngredient(RecipeIngredientEntity recipeIngredientEntity);
+    RecipeIngredientEntity partialUpdate(RecipeIngredientKey id, RecipeIngredientEntity recipeIngredientEntity);
 
-    void deleteRecipeIngredient(RecipeIngredientEntity recipeIngredientEntity);
+    void delete(Long recipeId, Long ingredientId);
+
+    void delete(RecipeIngredientEntity recipeIngredientEntity);
+
+    boolean exists(RecipeIngredientKey id);
 }

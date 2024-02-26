@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface IngredientRepository extends CrudRepository<IngredientEntity, Long> {
 
     public Optional<IngredientEntity> findByName(String name);
+
+    boolean existsByName(String name);
 }

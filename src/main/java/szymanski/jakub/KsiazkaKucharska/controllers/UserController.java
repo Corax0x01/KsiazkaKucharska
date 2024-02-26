@@ -4,12 +4,15 @@ import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import szymanski.jakub.KsiazkaKucharska.domain.entities.UserEntity;
 import szymanski.jakub.KsiazkaKucharska.domain.dto.UserDto;
+import szymanski.jakub.KsiazkaKucharska.domain.entities.UserEntity;
 import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
 import szymanski.jakub.KsiazkaKucharska.services.impl.UserServiceImpl;
 
 import java.util.List;
+import java.util.Optional;
+
+//TODO: add tests
 
 @Log
 @RestController
@@ -25,53 +28,58 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<UserEntity>> getUser() {
-
-        return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
-
+    @ResponseStatus(code = HttpStatus.OK)
+    public List<UserDto> getUser() {
+        List<UserEntity> users = userService.findAll();
+        return users.stream().map(userMapper::mapTo).toList();
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
-
-        return new ResponseEntity<>(userMapper.mapTo(userService.findUser(id)), HttpStatus.OK);
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
+        Optional<UserEntity> user = userService.find(id);
+        return user.map(userEntity -> {
+            UserDto userDto = userMapper.mapTo(userEntity);
+            return new ResponseEntity<>(userDto, HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/users")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto user) {
-        log.info("Creating user: " + user);
 
         UserEntity userEntity = userMapper.mapFrom(user);
-        UserEntity savedUserEntity = userService.saveUser(userEntity);
+        UserEntity savedUserEntity = userService.save(userEntity);
 
         return new ResponseEntity<>(userMapper.mapTo(savedUserEntity), HttpStatus.CREATED);
     }
 
-    @PutMapping("/users")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto user) {
-        log.info("Updating user with id: " + user.getId() + " to: " + user);
+    @PutMapping("/users/{id}")
+    public ResponseEntity<UserDto> fullUpdateUser(@PathVariable("id") Long id, @RequestBody UserDto user) {
+        if(!userService.exists(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
+        user.setId(id);
         UserEntity userEntity = userMapper.mapFrom(user);
-        UserEntity updatedUserEntity = userService.updateUser(userEntity);
+        UserEntity updatedUserEntity = userService.save(userEntity);
 
         return new ResponseEntity<>(userMapper.mapTo(updatedUserEntity), HttpStatus.OK);
     }
 
-//    @PatchMapping("/users/{id}")
-//    @ResponseStatus(code = HttpStatus.OK)
-//    public ResponseEntity<UserDto> updateUser(@PathVariable final Long id, @RequestBody UserDto user) {
-//        log.info("Updating user with id: " + id + " to: " + user);
-//
-//        UserEntity userEntity = userMapper.mapFrom(user);
-//        UserEntity updatedUserEntity = userService.updateUser(id, userEntity);
-//
-//    }
+    @PatchMapping("/users/{id}")
+    public ResponseEntity<UserDto> partialUpdateUser(@PathVariable("id") Long id, @RequestBody UserDto user) {
+        if(!userService.exists(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        UserEntity userEntity = userMapper.mapFrom(user);
+        UserEntity updatedUser = userService.partialUpdate(id, userEntity);
+
+        return new ResponseEntity<>(userMapper.mapTo(updatedUser), HttpStatus.OK);
+    }
 
     @DeleteMapping("/users/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable final Long id) {
-        log.info("Deleting user with id: " + id);
-
-        userService.deleteUser(id);
+    public void deleteUser(@PathVariable("id") Long id) {
+        userService.delete(id);
     }
 }
