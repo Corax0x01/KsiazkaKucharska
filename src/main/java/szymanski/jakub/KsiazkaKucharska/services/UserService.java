@@ -1,43 +1,21 @@
 package szymanski.jakub.KsiazkaKucharska.services;
 
-import org.springframework.stereotype.Service;
 import szymanski.jakub.KsiazkaKucharska.domain.entities.UserEntity;
-import szymanski.jakub.KsiazkaKucharska.repositories.UserRepository;
 
-@Service
-public class UserService {
+public interface UserService {
 
-    private final UserRepository userRepository;
+    Iterable<UserEntity> findAllUsers();
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    UserEntity findUser(Long id);
 
-    public Iterable<UserEntity> findAllUsers() {
-        return userRepository.findAll();
-    }
+    UserEntity findUser(String username);
 
-    public UserEntity findUser(Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
+    UserEntity saveUser(UserEntity userEntity);
 
-    public UserEntity findUser(String username) {
-        return userRepository.findByUsername(username).orElse(null);
-    }
+    UserEntity updateUser(UserEntity userEntity);
 
-    public void saveUser(UserEntity userEntity) {
-        userRepository.save(userEntity);
-    }
+    void deleteUser(Long id);
 
-    public void updateUser(UserEntity userEntity) {
-        userRepository.save(userEntity);
-    }
+    void deleteUser(UserEntity userEntity);
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
-    }
-
-    public void deleteUser(UserEntity userEntity) {
-        userRepository.delete(userEntity);
-    }
 }
