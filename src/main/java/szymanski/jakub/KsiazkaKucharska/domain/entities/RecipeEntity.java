@@ -21,6 +21,7 @@ public class RecipeEntity {
     private String title;
     private String description;
     private String imageURL;
+    private String recipeURL;
 
     //Author
     @ManyToOne(cascade = CascadeType.ALL)

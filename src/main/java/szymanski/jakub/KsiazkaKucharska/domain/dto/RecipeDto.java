@@ -15,6 +15,7 @@ public class RecipeDto {
     private String title;
     private String description;
     private String imageURL;
+    private String recipeURL;
     private UserDto user;
 
 }

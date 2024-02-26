@@ -59,6 +59,7 @@ public final class TestDataUtil {
                 .title("testRecipeA")
                 .description("testDescription")
                 .imageURL("testImageURL")
+                .recipeURL("testRecipeURL")
                 .build();
     }
 
