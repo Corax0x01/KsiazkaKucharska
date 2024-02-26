@@ -1,6 +1,8 @@
 package szymanski.jakub.KsiazkaKucharska.controllers;
 
 import lombok.extern.java.Log;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +11,6 @@ import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeEntity;
 import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
 import szymanski.jakub.KsiazkaKucharska.services.impl.RecipeServiceImpl;
 
-import java.util.List;
 import java.util.Optional;
 
 //TODO: Add tests
@@ -28,8 +29,10 @@ public class RecipeController {
 
     @GetMapping("/recipes")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<RecipeDto> getRecipes() {
-        return recipeService.findAll().stream().map(recipeMapper::mapTo).toList();
+    public Page<RecipeDto> getRecipes(Pageable pageable) {
+
+        Page<RecipeEntity> recipeEntities = recipeService.findAll(pageable);
+        return recipeEntities.map(recipeMapper::mapTo);
     }
 
     @GetMapping("/recipes/{id}")

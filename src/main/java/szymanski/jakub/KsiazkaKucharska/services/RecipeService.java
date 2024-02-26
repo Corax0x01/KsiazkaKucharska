@@ -1,6 +1,9 @@
 package szymanski.jakub.KsiazkaKucharska.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeEntity;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +11,7 @@ import java.util.Optional;
 public interface RecipeService {
 
     List<RecipeEntity> findAll();
+    Page<RecipeEntity> findAll(Pageable pageable);
     Optional<RecipeEntity> find(Long id);
     RecipeEntity save(RecipeEntity recipeEntity);
 
