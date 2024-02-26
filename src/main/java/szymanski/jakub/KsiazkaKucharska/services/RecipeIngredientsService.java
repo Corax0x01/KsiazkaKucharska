@@ -1,8 +1,8 @@
 package szymanski.jakub.KsiazkaKucharska.services;
 
 import org.springframework.stereotype.Service;
-import szymanski.jakub.KsiazkaKucharska.domain.RecipeIngredient;
-import szymanski.jakub.KsiazkaKucharska.domain.RecipeIngredientKey;
+import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeIngredientEntity;
+import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeIngredientKey;
 import szymanski.jakub.KsiazkaKucharska.repositories.RecipeIngredientsRepository;
 
 @Service
@@ -14,28 +14,28 @@ public class RecipeIngredientsService {
         this.recipeIngredientsRepository = recipeIngredientsRepository;
     }
 
-    public Iterable<RecipeIngredient> findRecipeIngredients(Long recipeId) {
+    public Iterable<RecipeIngredientEntity> findRecipeIngredients(Long recipeId) {
         return recipeIngredientsRepository.findAllByRecipeId(recipeId);
     }
 
-    public Iterable<RecipeIngredient> findIngredientRecipes(Long ingredientId) {
+    public Iterable<RecipeIngredientEntity> findIngredientRecipes(Long ingredientId) {
         return recipeIngredientsRepository.findAllByIngredientId(ingredientId);
     }
 
-    public void saveRecipeIngredient(RecipeIngredient recipeIngredient) {
-        recipeIngredientsRepository.save(recipeIngredient);
+    public void saveRecipeIngredient(RecipeIngredientEntity recipeIngredientEntity) {
+        recipeIngredientsRepository.save(recipeIngredientEntity);
     }
 
-    public void updateRecipeIngredient(RecipeIngredient recipeIngredient) {
-        recipeIngredientsRepository.save(recipeIngredient);
+    public void updateRecipeIngredient(RecipeIngredientEntity recipeIngredientEntity) {
+        recipeIngredientsRepository.save(recipeIngredientEntity);
     }
 
     public void deleteRecipeIngredient(RecipeIngredientKey id) {
         recipeIngredientsRepository.deleteById(id);
     }
 
-    public void deleteRecipeIngredient(RecipeIngredient recipeIngredient) {
-        recipeIngredientsRepository.delete(recipeIngredient);
+    public void deleteRecipeIngredient(RecipeIngredientEntity recipeIngredientEntity) {
+        recipeIngredientsRepository.delete(recipeIngredientEntity);
     }
 
 }

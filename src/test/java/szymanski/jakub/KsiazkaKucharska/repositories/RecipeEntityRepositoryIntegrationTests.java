@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import szymanski.jakub.KsiazkaKucharska.TestDataUtil;
-import szymanski.jakub.KsiazkaKucharska.domain.*;
+import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeEntity;
+import szymanski.jakub.KsiazkaKucharska.domain.entities.UserEntity;
 
 import java.util.Optional;
 
@@ -16,28 +17,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class RecipeRepositoryIntegrationTests {
+public class RecipeEntityRepositoryIntegrationTests {
 
     private final RecipeRepository underTest;
     private final IngredientRepository ingredientRepository;
 
     @Autowired
-    public RecipeRepositoryIntegrationTests(RecipeRepository underTest, IngredientRepository ingredientRepository) {
+    public RecipeEntityRepositoryIntegrationTests(RecipeRepository underTest, IngredientRepository ingredientRepository) {
         this.underTest = underTest;
         this.ingredientRepository = ingredientRepository;
     }
 
     @Test
     public void testThatRecipeCanBeCreatedAndRecalled() {
-        User author = TestDataUtil.createTestUserA();
+        UserEntity author = TestDataUtil.createTestUserA();
 
-        Recipe recipe = TestDataUtil.createTestRecipeA(author);
+        RecipeEntity recipeEntity = TestDataUtil.createTestRecipeA(author);
 
-        underTest.save(recipe);
-        Optional<Recipe> result = underTest.findById(recipe.getId());
+        underTest.save(recipeEntity);
+        Optional<RecipeEntity> result = underTest.findById(recipeEntity.getId());
 
         assertThat(result).isPresent();
-        assertThat(result.get()).isEqualTo(recipe);
+        assertThat(result.get()).isEqualTo(recipeEntity);
     }
 
 }

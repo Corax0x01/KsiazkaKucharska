@@ -1,7 +1,7 @@
 package szymanski.jakub.KsiazkaKucharska.services;
 
 import org.springframework.stereotype.Service;
-import szymanski.jakub.KsiazkaKucharska.domain.Recipe;
+import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeEntity;
 import szymanski.jakub.KsiazkaKucharska.repositories.RecipeRepository;
 
 @Service
@@ -13,28 +13,28 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
-    public Iterable<Recipe> findAllRecipes() {
+    public Iterable<RecipeEntity> findAllRecipes() {
         return recipeRepository.findAll();
     }
 
-    public Recipe findRecipe(Long id) {
+    public RecipeEntity findRecipe(Long id) {
         return recipeRepository.findById(id).orElse(null);
     }
 
-    public void saveRecipe(Recipe recipe) {
-        recipeRepository.save(recipe);
+    public void saveRecipe(RecipeEntity recipeEntity) {
+        recipeRepository.save(recipeEntity);
     }
 
-    public void updateRecipe(Recipe recipe) {
-        recipeRepository.save(recipe);
+    public void updateRecipe(RecipeEntity recipeEntity) {
+        recipeRepository.save(recipeEntity);
     }
 
     public void deleteRecipe(Long id) {
         recipeRepository.deleteById(id);
     }
 
-    public void deleteRecipe(Recipe recipe) {
-        recipeRepository.delete(recipe);
+    public void deleteRecipe(RecipeEntity recipeEntity) {
+        recipeRepository.delete(recipeEntity);
     }
 
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import szymanski.jakub.KsiazkaKucharska.domain.RecipeIngredient;
+import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeIngredientEntity;
 import szymanski.jakub.KsiazkaKucharska.services.RecipeIngredientsService;
 
 @Log
@@ -21,14 +21,14 @@ public class RecipeIngredientsController {
 
     @GetMapping("/recipe/ingredients")
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<RecipeIngredient> getRecipeIngredients(@RequestParam(name = "recipeId") final Long recipeId) {
+    public Iterable<RecipeIngredientEntity> getRecipeIngredients(@RequestParam(name = "recipeId") final Long recipeId) {
         log.info("Getting recipe ingredients");
         return recipeIngredientsService.findRecipeIngredients(recipeId);
     }
 
     @GetMapping("/ingredient/recipes")
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<RecipeIngredient> getIngredientRecipes(@RequestParam(name = "ingredientId") final Long ingredientId) {
+    public Iterable<RecipeIngredientEntity> getIngredientRecipes(@RequestParam(name = "ingredientId") final Long ingredientId) {
         log.info("Getting ingredient recipes");
         return recipeIngredientsService.findIngredientRecipes(ingredientId);
     }

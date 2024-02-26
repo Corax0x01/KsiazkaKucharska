@@ -1,4 +1,4 @@
-package szymanski.jakub.KsiazkaKucharska.domain;
+package szymanski.jakub.KsiazkaKucharska.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,7 +10,7 @@ import lombok.*;
 @Entity
 @EqualsAndHashCode
 @Table(name = "recipe_ingredients")
-public class RecipeIngredient {
+public class RecipeIngredientEntity {
 
     @EmbeddedId
     private RecipeIngredientKey id;
@@ -18,12 +18,12 @@ public class RecipeIngredient {
     @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("recipeId")
     @JoinColumn(name = "recipe_id")
-    private Recipe recipe;
+    private RecipeEntity recipeEntity;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("ingredientId")
     @JoinColumn(name = "ingredient_id")
-    private Ingredient ingredient;
+    private IngredientEntity ingredientEntity;
 
     private String quantity;
 }

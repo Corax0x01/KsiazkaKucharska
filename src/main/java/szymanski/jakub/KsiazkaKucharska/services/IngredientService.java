@@ -1,7 +1,7 @@
 package szymanski.jakub.KsiazkaKucharska.services;
 
 import org.springframework.stereotype.Service;
-import szymanski.jakub.KsiazkaKucharska.domain.Ingredient;
+import szymanski.jakub.KsiazkaKucharska.domain.entities.IngredientEntity;
 import szymanski.jakub.KsiazkaKucharska.repositories.IngredientRepository;
 
 @Service
@@ -13,24 +13,24 @@ public class IngredientService {
         this.ingredientRepository = ingredientRepository;
     }
 
-    public Iterable<Ingredient> findAllIngredients() {
+    public Iterable<IngredientEntity> findAllIngredients() {
         return ingredientRepository.findAll();
     }
 
-    public Ingredient findIngredient(Long id) {
+    public IngredientEntity findIngredient(Long id) {
         return ingredientRepository.findById(id).orElse(null);
     }
 
-    public Ingredient findIngredient(String name) {
+    public IngredientEntity findIngredient(String name) {
         return ingredientRepository.findByName(name).orElse(null);
     }
 
-    public void saveIngredient(Ingredient ingredient) {
-        ingredientRepository.save(ingredient);
+    public void saveIngredient(IngredientEntity ingredientEntity) {
+        ingredientRepository.save(ingredientEntity);
     }
 
-    public void updateIngredient(Ingredient ingredient) {
-        ingredientRepository.save(ingredient);
+    public void updateIngredient(IngredientEntity ingredientEntity) {
+        ingredientRepository.save(ingredientEntity);
     }
 
     public void deleteIngredient(Long id) {
@@ -41,8 +41,8 @@ public class IngredientService {
         ingredientRepository.deleteById(findIngredient(name).getId());
     }
 
-    public void deleteIngredient(Ingredient ingredient) {
-        ingredientRepository.delete(ingredient);
+    public void deleteIngredient(IngredientEntity ingredientEntity) {
+        ingredientRepository.delete(ingredientEntity);
     }
 
 }

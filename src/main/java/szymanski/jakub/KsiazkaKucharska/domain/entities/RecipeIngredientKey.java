@@ -1,4 +1,4 @@
-package szymanski.jakub.KsiazkaKucharska.domain;
+package szymanski.jakub.KsiazkaKucharska.domain.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

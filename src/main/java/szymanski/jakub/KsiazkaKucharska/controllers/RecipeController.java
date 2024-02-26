@@ -3,10 +3,8 @@ package szymanski.jakub.KsiazkaKucharska.controllers;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import szymanski.jakub.KsiazkaKucharska.domain.Recipe;
+import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeEntity;
 import szymanski.jakub.KsiazkaKucharska.services.RecipeService;
-
-import java.util.List;
 
 @Log
 @RestController
@@ -20,30 +18,30 @@ public class RecipeController {
 
     @GetMapping("/recipes")
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<Recipe> getRecipes() {
+    public Iterable<RecipeEntity> getRecipes() {
         return recipeService.findAllRecipes();
     }
 
     @GetMapping("/recipes/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public Recipe getRecipe(@PathVariable(name = "id") final Long id) {
+    public RecipeEntity getRecipe(@PathVariable(name = "id") final Long id) {
         return recipeService.findRecipe(id);
     }
 
     @PostMapping("/recipes")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void createRecipe(@RequestBody final Recipe recipe) {
-        log.info("Creating recipe: " + recipe.toString());
+    public void createRecipe(@RequestBody final RecipeEntity recipeEntity) {
+        log.info("Creating recipe: " + recipeEntity.toString());
 
-        recipeService.saveRecipe(recipe);
+        recipeService.saveRecipe(recipeEntity);
     }
 
     @PutMapping("/recipes")
     @ResponseStatus(code = HttpStatus.OK)
-    public void updateRecipe(@RequestParam(name = "id") final Long id, @RequestBody final Recipe recipe) {
-        log.info("Updating recipe: " + recipe.toString());
+    public void updateRecipe(@RequestParam(name = "id") final Long id, @RequestBody final RecipeEntity recipeEntity) {
+        log.info("Updating recipe: " + recipeEntity.toString());
 
-        recipeService.updateRecipe(recipe);
+        recipeService.updateRecipe(recipeEntity);
     }
 
     @DeleteMapping("/recipes")

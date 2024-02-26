@@ -3,7 +3,8 @@ package szymanski.jakub.KsiazkaKucharska.controllers;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import szymanski.jakub.KsiazkaKucharska.domain.User;
+import szymanski.jakub.KsiazkaKucharska.domain.entities.UserEntity;
+import szymanski.jakub.KsiazkaKucharska.domain.dto.UserDto;
 import szymanski.jakub.KsiazkaKucharska.services.UserService;
 
 @Log
@@ -18,7 +19,7 @@ public class UserController {
 
     @GetMapping("/users")
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<User> getUser() {
+    public Iterable<UserEntity> getUser() {
 
         return userService.findAllUsers();
 
@@ -26,13 +27,13 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public User getUserById(@PathVariable Long id) {
+    public UserEntity getUserById(@PathVariable Long id) {
         return userService.findUser(id);
     }
 
     @PostMapping("/users")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void createUser(@RequestBody final User user) {
+    public UserDto createUser(@RequestBody UserDto user) {
         log.info("Creating user: " + user);
 
         userService.saveUser(user);
@@ -40,10 +41,18 @@ public class UserController {
 
     @PutMapping("/users")
     @ResponseStatus(code = HttpStatus.OK)
-    public void updateUser(@RequestBody final User user) {
-        log.info("Updating user with id: " + user.getId() + " to: " + user);
+    public void updateUser(@RequestBody UserEntity userEntity) {
+        log.info("Updating user with id: " + userEntity.getId() + " to: " + userEntity);
 
-        userService.updateUser(user);
+        userService.updateUser(userEntity);
+    }
+
+    @PatchMapping("/users/{id}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public void updateUser(@PathVariable final Long id, @RequestBody UserEntity userEntity) {
+        log.info("Updating user with id: " + id + " to: " + userEntity);
+
+        userService.updateUser(id, userEntity);
     }
 
     @DeleteMapping("/users/{id}")

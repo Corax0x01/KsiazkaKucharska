@@ -1,14 +1,14 @@
 package szymanski.jakub.KsiazkaKucharska;
 
-import szymanski.jakub.KsiazkaKucharska.domain.*;
+import szymanski.jakub.KsiazkaKucharska.domain.entities.*;
 
 public final class TestDataUtil {
 
     private TestDataUtil() {
     }
 
-    public static User createTestUserA() {
-        return User.builder()
+    public static UserEntity createTestUserA() {
+        return UserEntity.builder()
                 .id(1L)
                 .username("testUser")
                 .password("testPassword")
@@ -17,8 +17,8 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static User createTestUserB() {
-        return User.builder()
+    public static UserEntity createTestUserB() {
+        return UserEntity.builder()
                 .id(2L)
                 .username("testUser")
                 .password("testPassword")
@@ -27,8 +27,8 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static User createTestUserC() {
-        return User.builder()
+    public static UserEntity createTestUserC() {
+        return UserEntity.builder()
                 .id(3L)
                 .username("testUser")
                 .password("testPassword")
@@ -37,45 +37,45 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static Ingredient createTestIngredientA() {
-        return Ingredient.builder()
+    public static IngredientEntity createTestIngredientA() {
+        return IngredientEntity.builder()
                 .id(1L)
                 .name("testIngredientA")
                 .build();
     }
 
-    public static Ingredient createTestIngredientB() {
-        return Ingredient.builder()
+    public static IngredientEntity createTestIngredientB() {
+        return IngredientEntity.builder()
                 .id(2L)
                 .name("testIngredientB")
                 .build();
     }
 
-    public static Recipe createTestRecipeA(final User author) {
+    public static RecipeEntity createTestRecipeA(final UserEntity author) {
 
-        return Recipe.builder()
+        return RecipeEntity.builder()
                 .id(1L)
-                .user(author)
+                .userEntity(author)
                 .title("testRecipeA")
                 .description("testDescription")
                 .imageURL("testImageURL")
                 .build();
     }
 
-    public static RecipeIngredient createTestRecipeIngredientA(final Recipe recipe, final Ingredient ingredient) {
-        return RecipeIngredient.builder()
-                .id(new RecipeIngredientKey(recipe.getId(), ingredient.getId()))
-                .recipe(recipe)
-                .ingredient(ingredient)
+    public static RecipeIngredientEntity createTestRecipeIngredientA(final RecipeEntity recipeEntity, final IngredientEntity ingredientEntity) {
+        return RecipeIngredientEntity.builder()
+                .id(new RecipeIngredientKey(recipeEntity.getId(), ingredientEntity.getId()))
+                .recipeEntity(recipeEntity)
+                .ingredientEntity(ingredientEntity)
                 .quantity("testQuantity")
                 .build();
     }
 
-    public static RecipeIngredient createTestRecipeIngredientB(final Recipe recipe, final Ingredient ingredient) {
-        return RecipeIngredient.builder()
-                .id(new RecipeIngredientKey(recipe.getId(), ingredient.getId()))
-                .recipe(recipe)
-                .ingredient(ingredient)
+    public static RecipeIngredientEntity createTestRecipeIngredientB(final RecipeEntity recipeEntity, final IngredientEntity ingredientEntity) {
+        return RecipeIngredientEntity.builder()
+                .id(new RecipeIngredientKey(recipeEntity.getId(), ingredientEntity.getId()))
+                .recipeEntity(recipeEntity)
+                .ingredientEntity(ingredientEntity)
                 .quantity("testQuantity")
                 .build();
     }
