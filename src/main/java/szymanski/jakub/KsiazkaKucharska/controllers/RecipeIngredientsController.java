@@ -6,31 +6,35 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import szymanski.jakub.KsiazkaKucharska.domain.dto.RecipeIngredientDto;
 import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeIngredientEntity;
+import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
 import szymanski.jakub.KsiazkaKucharska.services.impl.RecipeIngredientsServiceImpl;
 
 @Log
 @RestController
 public class RecipeIngredientsController {
 
-    private final RecipeIngredientsServiceImpl recipeIngredientsServiceImpl;
+    private final RecipeIngredientsServiceImpl recipeIngredientsService;
+    private final Mapper<RecipeIngredientEntity, RecipeIngredientDto> recipeIngredientMapper;
 
-    public RecipeIngredientsController(RecipeIngredientsServiceImpl recipeIngredientsServiceImpl) {
-        this.recipeIngredientsServiceImpl = recipeIngredientsServiceImpl;
+    public RecipeIngredientsController(RecipeIngredientsServiceImpl recipeIngredientsService, Mapper<RecipeIngredientEntity, RecipeIngredientDto> recipeIngredientMapper) {
+        this.recipeIngredientsService = recipeIngredientsService;
+        this.recipeIngredientMapper = recipeIngredientMapper;
     }
 
     @GetMapping("/recipe/ingredients")
     @ResponseStatus(code = HttpStatus.OK)
     public Iterable<RecipeIngredientEntity> getRecipeIngredients(@RequestParam(name = "recipeId") final Long recipeId) {
         log.info("Getting recipe ingredients");
-        return recipeIngredientsServiceImpl.findRecipeIngredients(recipeId);
+        return recipeIngredientsService.findRecipeIngredients(recipeId);
     }
 
     @GetMapping("/ingredient/recipes")
     @ResponseStatus(code = HttpStatus.OK)
     public Iterable<RecipeIngredientEntity> getIngredientRecipes(@RequestParam(name = "ingredientId") final Long ingredientId) {
         log.info("Getting ingredient recipes");
-        return recipeIngredientsServiceImpl.findIngredientRecipes(ingredientId);
+        return recipeIngredientsService.findIngredientRecipes(ingredientId);
     }
 
 }

@@ -3,29 +3,33 @@ package szymanski.jakub.KsiazkaKucharska.controllers;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import szymanski.jakub.KsiazkaKucharska.domain.dto.RecipeDto;
 import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeEntity;
+import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
 import szymanski.jakub.KsiazkaKucharska.services.impl.RecipeServiceImpl;
 
 @Log
 @RestController
 public class RecipeController {
 
-    private final RecipeServiceImpl recipeServiceImpl;
+    private final RecipeServiceImpl recipeService;
+    private final Mapper<RecipeEntity, RecipeDto> recipeMapper;
 
-    public RecipeController(RecipeServiceImpl recipeServiceImpl) {
-        this.recipeServiceImpl = recipeServiceImpl;
+    public RecipeController(RecipeServiceImpl recipeService, Mapper<RecipeEntity, RecipeDto> recipeMapper) {
+        this.recipeService = recipeService;
+        this.recipeMapper = recipeMapper;
     }
 
     @GetMapping("/recipes")
     @ResponseStatus(code = HttpStatus.OK)
     public Iterable<RecipeEntity> getRecipes() {
-        return recipeServiceImpl.findAllRecipes();
+        return recipeService.findAllRecipes();
     }
 
     @GetMapping("/recipes/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public RecipeEntity getRecipe(@PathVariable(name = "id") final Long id) {
-        return recipeServiceImpl.findRecipe(id);
+        return recipeService.findRecipe(id);
     }
 
     @PostMapping("/recipes")
@@ -33,7 +37,7 @@ public class RecipeController {
     public void createRecipe(@RequestBody final RecipeEntity recipeEntity) {
         log.info("Creating recipe: " + recipeEntity.toString());
 
-        recipeServiceImpl.saveRecipe(recipeEntity);
+        recipeService.saveRecipe(recipeEntity);
     }
 
     @PutMapping("/recipes")
@@ -41,7 +45,7 @@ public class RecipeController {
     public void updateRecipe(@RequestParam(name = "id") final Long id, @RequestBody final RecipeEntity recipeEntity) {
         log.info("Updating recipe: " + recipeEntity.toString());
 
-        recipeServiceImpl.updateRecipe(recipeEntity);
+        recipeService.updateRecipe(recipeEntity);
     }
 
     @DeleteMapping("/recipes")
@@ -49,7 +53,7 @@ public class RecipeController {
     public void deleteRecipe(@RequestParam(name = "id") final Long id) {
         log.info("Deleting recipe with id: " + id);
 
-        recipeServiceImpl.deleteRecipe(id);
+        recipeService.deleteRecipe(id);
     }
 
 }
