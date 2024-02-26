@@ -5,6 +5,8 @@ import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeEntity;
 import szymanski.jakub.KsiazkaKucharska.repositories.RecipeRepository;
 import szymanski.jakub.KsiazkaKucharska.services.RecipeService;
 
+import java.util.List;
+
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
@@ -14,8 +16,8 @@ public class RecipeServiceImpl implements RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
-    public Iterable<RecipeEntity> findAllRecipes() {
-        return recipeRepository.findAll();
+    public List<RecipeEntity> findAllRecipes() {
+        return (List<RecipeEntity>) recipeRepository.findAll();
     }
 
     public RecipeEntity findRecipe(Long id) {

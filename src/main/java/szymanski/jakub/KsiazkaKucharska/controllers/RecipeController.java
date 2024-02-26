@@ -8,6 +8,8 @@ import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeEntity;
 import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
 import szymanski.jakub.KsiazkaKucharska.services.impl.RecipeServiceImpl;
 
+import java.util.List;
+
 @Log
 @RestController
 public class RecipeController {
@@ -22,7 +24,7 @@ public class RecipeController {
 
     @GetMapping("/recipes")
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<RecipeEntity> getRecipes() {
+    public List<RecipeEntity> getRecipes() {
         return recipeService.findAllRecipes();
     }
 

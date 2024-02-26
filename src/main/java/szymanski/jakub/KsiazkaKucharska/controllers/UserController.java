@@ -9,6 +9,8 @@ import szymanski.jakub.KsiazkaKucharska.domain.dto.UserDto;
 import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
 import szymanski.jakub.KsiazkaKucharska.services.impl.UserServiceImpl;
 
+import java.util.List;
+
 @Log
 @RestController
 public class UserController {
@@ -23,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<Iterable<UserEntity>> getUser() {
+    public ResponseEntity<List<UserEntity>> getUser() {
 
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
 

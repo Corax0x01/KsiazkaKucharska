@@ -2,11 +2,13 @@ package szymanski.jakub.KsiazkaKucharska.services;
 
 import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeIngredientEntity;
 
+import java.util.List;
+
 public interface RecipeIngredientsService {
 
-    Iterable<RecipeIngredientEntity> findRecipeIngredients(Long recipeId);
+    List<RecipeIngredientEntity> findRecipeIngredients(Long recipeId);
 
-    Iterable<RecipeIngredientEntity> findIngredientRecipes(Long ingredientId);
+    List<RecipeIngredientEntity> findIngredientRecipes(Long ingredientId);
 
     RecipeIngredientEntity saveRecipeIngredient(RecipeIngredientEntity recipeIngredientEntity);
 

@@ -11,6 +11,8 @@ import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeIngredientEntity;
 import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
 import szymanski.jakub.KsiazkaKucharska.services.impl.RecipeIngredientsServiceImpl;
 
+import java.util.List;
+
 @Log
 @RestController
 public class RecipeIngredientsController {
@@ -25,14 +27,14 @@ public class RecipeIngredientsController {
 
     @GetMapping("/recipe/ingredients")
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<RecipeIngredientEntity> getRecipeIngredients(@RequestParam(name = "recipeId") final Long recipeId) {
+    public List<RecipeIngredientEntity> getRecipeIngredients(@RequestParam(name = "recipeId") final Long recipeId) {
         log.info("Getting recipe ingredients");
         return recipeIngredientsService.findRecipeIngredients(recipeId);
     }
 
     @GetMapping("/ingredient/recipes")
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<RecipeIngredientEntity> getIngredientRecipes(@RequestParam(name = "ingredientId") final Long ingredientId) {
+    public List<RecipeIngredientEntity> getIngredientRecipes(@RequestParam(name = "ingredientId") final Long ingredientId) {
         log.info("Getting ingredient recipes");
         return recipeIngredientsService.findIngredientRecipes(ingredientId);
     }

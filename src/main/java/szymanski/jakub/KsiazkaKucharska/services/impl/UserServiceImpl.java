@@ -5,6 +5,8 @@ import szymanski.jakub.KsiazkaKucharska.domain.entities.UserEntity;
 import szymanski.jakub.KsiazkaKucharska.repositories.UserRepository;
 import szymanski.jakub.KsiazkaKucharska.services.UserService;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -14,8 +16,8 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    public Iterable<UserEntity> findAllUsers() {
-        return userRepository.findAll();
+    public List<UserEntity> findAllUsers() {
+        return (List<UserEntity>) userRepository.findAll();
     }
 
     public UserEntity findUser(Long id) {

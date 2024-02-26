@@ -9,6 +9,8 @@ import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
 import szymanski.jakub.KsiazkaKucharska.mappers.impl.IngredientMapperImpl;
 import szymanski.jakub.KsiazkaKucharska.services.impl.IngredientServiceImpl;
 
+import java.util.List;
+
 @Log
 @RestController
 public class IngredientController {
@@ -23,7 +25,7 @@ public class IngredientController {
 
     @GetMapping("/ingredients")
     @ResponseStatus(code = HttpStatus.OK)
-    public Iterable<IngredientEntity> getIngredients() {
+    public List<IngredientEntity> getIngredients() {
         return ingredientService.findAllIngredients();
     }
 

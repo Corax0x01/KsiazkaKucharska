@@ -2,9 +2,11 @@ package szymanski.jakub.KsiazkaKucharska.services;
 
 import szymanski.jakub.KsiazkaKucharska.domain.entities.UserEntity;
 
+import java.util.List;
+
 public interface UserService {
 
-    Iterable<UserEntity> findAllUsers();
+    List<UserEntity> findAllUsers();
 
     UserEntity findUser(Long id);
 
