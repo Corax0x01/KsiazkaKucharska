@@ -63,16 +63,19 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static RecipeIngredientEntity createTestRecipeIngredientA(final RecipeEntity recipeEntity, final IngredientEntity ingredientEntity) {
-        return RecipeIngredientEntity.builder()
-                .id(new RecipeIngredientKey(recipeEntity.getId(), ingredientEntity.getId()))
-                .recipeEntity(recipeEntity)
-                .ingredientEntity(ingredientEntity)
-                .quantity("testQuantity")
+    public static RecipeEntity createTestRecipeB(final UserEntity author) {
+
+        return RecipeEntity.builder()
+                .id(2L)
+                .userEntity(author)
+                .title("testRecipeB")
+                .description("testDescription")
+                .imageURL("testImageURL")
+                .recipeURL("testRecipeURL")
                 .build();
     }
 
-    public static RecipeIngredientEntity createTestRecipeIngredientB(final RecipeEntity recipeEntity, final IngredientEntity ingredientEntity) {
+    public static RecipeIngredientEntity createTestRecipeIngredient(final RecipeEntity recipeEntity, final IngredientEntity ingredientEntity) {
         return RecipeIngredientEntity.builder()
                 .id(new RecipeIngredientKey(recipeEntity.getId(), ingredientEntity.getId()))
                 .recipeEntity(recipeEntity)
