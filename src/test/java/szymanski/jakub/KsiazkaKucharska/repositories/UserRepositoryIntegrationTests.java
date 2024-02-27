@@ -17,12 +17,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class UserEntityRepositoryIntegrationTests {
+public class UserRepositoryIntegrationTests {
 
     private final UserRepository underTest;
 
     @Autowired
-    public UserEntityRepositoryIntegrationTests(UserRepository underTest) {
+    public UserRepositoryIntegrationTests(UserRepository underTest) {
         this.underTest = underTest;
     }
 
@@ -39,52 +39,52 @@ public class UserEntityRepositoryIntegrationTests {
     }
 
     @Test
-    public void testThatMultipleUsersCanBeCreatedAndRecalled() {
-        UserEntity userEntityA = TestDataUtil.createTestUserA();
-        UserEntity userEntityB = TestDataUtil.createTestUserB();
-        UserEntity userEntityC = TestDataUtil.createTestUserC();
+    public void testThatUserCanBeFoundByUsername() {
+        UserEntity testUser = TestDataUtil.createTestUserA();
+        UserEntity savedUser = underTest.save(testUser);
 
-        underTest.saveAll(List.of(userEntityA, userEntityB, userEntityC));
+        Optional<UserEntity> result = underTest.findByUsername(savedUser.getUsername());
+
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(savedUser);
+    }
+
+    @Test
+    public void testThatMultipleUsersCanBeCreatedAndRecalled() {
+        UserEntity testUserA = TestDataUtil.createTestUserA();
+        UserEntity testUserB = TestDataUtil.createTestUserB();
+        UserEntity testUserC = TestDataUtil.createTestUserC();
+
+        underTest.saveAll(List.of(testUserA, testUserB, testUserC));
 
         Iterable<UserEntity> result = underTest.findAll();
 
-        assertThat(result).hasSize(3).containsExactly(userEntityA, userEntityB, userEntityC);
+        assertThat(result).hasSize(3).containsExactly(testUserA, testUserB, testUserC);
     }
 
     @Test
     public void testThatUserCanBeUpdated() {
-        UserEntity userEntityA = TestDataUtil.createTestUserA();
-        underTest.save(userEntityA);
+        UserEntity testUser = TestDataUtil.createTestUserA();
+        UserEntity savedUser = underTest.save(testUser);
 
-        userEntityA.setUsername("updatedUsername");
-        underTest.save(userEntityA);
+        savedUser.setUsername("updatedUsername");
+        underTest.save(savedUser);
 
-        Optional<UserEntity> result = underTest.findById(userEntityA.getId());
+        Optional<UserEntity> result = underTest.findById(savedUser.getId());
 
         assertThat(result).isPresent();
-        assertThat(result.get()).isEqualTo(userEntityA);
+        assertThat(result.get()).isEqualTo(savedUser);
     }
 
     @Test
     public void testThatUserCanBeDeleted() {
-        UserEntity userEntityA = TestDataUtil.createTestUserA();
-        underTest.save(userEntityA);
+        UserEntity testUser = TestDataUtil.createTestUserA();
+        UserEntity savedUser = underTest.save(testUser);
 
-        underTest.deleteById(userEntityA.getId());
+        underTest.deleteById(savedUser.getId());
 
-        Optional<UserEntity> result = underTest.findById(userEntityA.getId());
+        Optional<UserEntity> result = underTest.findById(savedUser.getId());
 
         assertThat(result).isEmpty();
-    }
-
-    @Test
-    public void testThatUserCanBeFoundByUsername() {
-        UserEntity userEntityA = TestDataUtil.createTestUserA();
-        underTest.save(userEntityA);
-
-        Optional<UserEntity> result = underTest.findByUsername(userEntityA.getUsername());
-
-        assertThat(result).isPresent();
-        assertThat(result.get()).isEqualTo(userEntityA);
     }
 }

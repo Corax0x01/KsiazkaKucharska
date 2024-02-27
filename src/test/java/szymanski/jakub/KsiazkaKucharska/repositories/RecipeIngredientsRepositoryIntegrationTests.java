@@ -19,12 +19,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class RecipeEntityIngredientsIntegrationTests {
+public class RecipeIngredientsRepositoryIntegrationTests {
 
     private final RecipeIngredientsRepository underTest;
 
     @Autowired
-    public RecipeEntityIngredientsIntegrationTests(RecipeIngredientsRepository underTest) {
+    public RecipeIngredientsRepositoryIntegrationTests(RecipeIngredientsRepository underTest) {
         this.underTest = underTest;
     }
 
@@ -35,8 +35,8 @@ public class RecipeEntityIngredientsIntegrationTests {
         IngredientEntity ingredientEntityA = TestDataUtil.createTestIngredientA();
         IngredientEntity ingredientEntityB = TestDataUtil.createTestIngredientB();
 
-        RecipeIngredientEntity recipeIngredientEntityA = TestDataUtil.createTestRecipeIngredientA(recipeEntity, ingredientEntityA);
-        RecipeIngredientEntity recipeIngredientEntityB = TestDataUtil.createTestRecipeIngredientB(recipeEntity, ingredientEntityB);
+        RecipeIngredientEntity recipeIngredientEntityA = TestDataUtil.createTestRecipeIngredient(recipeEntity, ingredientEntityA);
+        RecipeIngredientEntity recipeIngredientEntityB = TestDataUtil.createTestRecipeIngredient(recipeEntity, ingredientEntityB);
 
         underTest.save(recipeIngredientEntityA);
         underTest.save(recipeIngredientEntityB);
