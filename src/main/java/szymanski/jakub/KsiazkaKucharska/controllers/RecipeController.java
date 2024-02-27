@@ -36,7 +36,9 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/{id}")
-    public ResponseEntity<RecipeDto> getRecipe(@PathVariable("id") Long id) {
+    public ResponseEntity<RecipeDto> getRecipe(
+            @PathVariable("id") Long id) {
+
         Optional<RecipeEntity> recipe = recipeService.find(id);
         return recipe.map(recipeEntity -> {
             RecipeDto recipeDto = recipeMapper.mapTo(recipeEntity);
@@ -45,8 +47,8 @@ public class RecipeController {
     }
 
     @PostMapping("/recipes")
-    public ResponseEntity<RecipeDto> createRecipe(@RequestBody RecipeDto recipe) {
-        log.info("Creating recipe: " + recipe);
+    public ResponseEntity<RecipeDto> createRecipe(
+            @RequestBody RecipeDto recipe) {
 
         RecipeEntity recipeEntity = recipeMapper.mapFrom(recipe);
         RecipeEntity savedRecipeEntity = recipeService.save(recipeEntity);
@@ -55,7 +57,10 @@ public class RecipeController {
     }
 
     @PutMapping("/recipes/{id}")
-    public ResponseEntity<RecipeDto> fullUpdateRecipe(@PathVariable("id") Long id, @RequestBody RecipeDto recipe) {
+    public ResponseEntity<RecipeDto> fullUpdateRecipe(
+            @PathVariable("id") Long id,
+            @RequestBody RecipeDto recipe) {
+
         if(!recipeService.exists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -68,7 +73,10 @@ public class RecipeController {
     }
 
     @PatchMapping("/recipes/{id}")
-    public ResponseEntity<RecipeDto> partialUpdateRecipe(@PathVariable("id") Long id, @RequestBody RecipeDto recipe) {
+    public ResponseEntity<RecipeDto> partialUpdateRecipe(
+            @PathVariable("id") Long id,
+            @RequestBody RecipeDto recipe) {
+
         if(!recipeService.exists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -20,7 +20,7 @@ public class IngredientEntity {
     private Long id;
     private String name;
 
-//    @OneToMany(mappedBy = "ingredient", fetch = FetchType.EAGER)
-//    private Set<RecipeIngredient> recipeIngredients;
+//    @OneToMany(mappedBy = "ingredientEntity", fetch = FetchType.EAGER)
+//    private List<RecipeIngredientEntity> recipeIngredients;
 
 }

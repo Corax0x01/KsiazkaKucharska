@@ -28,7 +28,7 @@ public class RecipeEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-//    @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    private Set<RecipeIngredient> recipeIngredients;
+//    @OneToMany(mappedBy = "recipeEntity", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    private List<RecipeIngredientEntity> recipeIngredients;
 
 }

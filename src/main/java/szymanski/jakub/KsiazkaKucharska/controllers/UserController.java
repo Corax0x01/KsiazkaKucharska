@@ -35,7 +35,9 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable("id") Long id) {
+    public ResponseEntity<UserDto> getUser(
+            @PathVariable("id") Long id) {
+
         Optional<UserEntity> user = userService.find(id);
         return user.map(userEntity -> {
             UserDto userDto = userMapper.mapTo(userEntity);
@@ -44,7 +46,8 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user) {
+    public ResponseEntity<UserDto> createUser(
+            @RequestBody UserDto user) {
 
         UserEntity userEntity = userMapper.mapFrom(user);
         UserEntity savedUserEntity = userService.save(userEntity);
@@ -53,7 +56,10 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<UserDto> fullUpdateUser(@PathVariable("id") Long id, @RequestBody UserDto user) {
+    public ResponseEntity<UserDto> fullUpdateUser(
+            @PathVariable("id") Long id,
+            @RequestBody UserDto user) {
+
         if(!userService.exists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -66,7 +72,10 @@ public class UserController {
     }
 
     @PatchMapping("/users/{id}")
-    public ResponseEntity<UserDto> partialUpdateUser(@PathVariable("id") Long id, @RequestBody UserDto user) {
+    public ResponseEntity<UserDto> partialUpdateUser(
+            @PathVariable("id") Long id,
+            @RequestBody UserDto user) {
+
         if(!userService.exists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

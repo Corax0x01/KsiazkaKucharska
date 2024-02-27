@@ -8,6 +8,7 @@ import szymanski.jakub.KsiazkaKucharska.domain.dto.RecipeIngredientDto;
 import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeIngredientEntity;
 import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
 import szymanski.jakub.KsiazkaKucharska.services.IngredientService;
+import szymanski.jakub.KsiazkaKucharska.services.RecipeIngredientsService;
 import szymanski.jakub.KsiazkaKucharska.services.RecipeService;
 
 import java.util.List;
@@ -33,8 +34,9 @@ public class RecipeIngredientsController {
         this.ingredientService = ingredientService;
     }
 
-    @GetMapping("/recipe/{id}/ingredients")
-    public ResponseEntity<List<RecipeIngredientDto>> getRecipeIngredients(@PathVariable("id") Long recipeId) {
+    @GetMapping("/recipes/{id}/ingredients")
+    public ResponseEntity<List<RecipeIngredientDto>> getRecipeIngredients(
+            @PathVariable("id") Long recipeId) {
         if(!recipeService.exists(recipeId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -47,8 +49,9 @@ public class RecipeIngredientsController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/ingredient/{id}/recipes")
-    public ResponseEntity<List<RecipeIngredientDto>> getIngredientRecipes(@PathVariable("id") Long ingredientId) {
+    @GetMapping("/ingredients/{id}/recipes")
+    public ResponseEntity<List<RecipeIngredientDto>> getIngredientRecipes(
+            @PathVariable("id") Long ingredientId) {
         if(!ingredientService.exists(ingredientId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -61,10 +64,11 @@ public class RecipeIngredientsController {
                 HttpStatus.OK);
     }
 
-    @DeleteMapping("/recipe/{recipeId}/ingredient/{ingredientId}")
+    @DeleteMapping("/recipes/{recipeId}/ingredients/{ingredientId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteRecipeIngredient(@PathVariable("recipeId") Long recipeId,
-                                                      @PathVariable("ingredientId") Long ingredientId) {
+    public void deleteRecipeIngredient(
+            @PathVariable("recipeId") Long recipeId,
+            @PathVariable("ingredientId") Long ingredientId) {
 
         recipeIngredientsService.delete(recipeId, ingredientId);
     }

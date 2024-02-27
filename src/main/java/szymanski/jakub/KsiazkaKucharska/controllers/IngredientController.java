@@ -32,7 +32,9 @@ public class IngredientController {
     }
 
     @GetMapping("/ingredients/{id}")
-    public ResponseEntity<IngredientDto> getIngredient(@PathVariable("id") Long id) {
+    public ResponseEntity<IngredientDto> getIngredient(
+            @PathVariable("id") Long id) {
+
         Optional<IngredientEntity> ingredient = ingredientService.find(id);
         return ingredient.map(ingredientEntity -> {
             IngredientDto ingredientDto = ingredientMapper.mapTo(ingredientEntity);
@@ -41,8 +43,8 @@ public class IngredientController {
     }
 
     @PostMapping("/ingredients")
-    public ResponseEntity<IngredientDto> createIngredient(@RequestBody IngredientDto ingredient) {
-        log.info("Creating ingredient: " + ingredient);
+    public ResponseEntity<IngredientDto> createIngredient(
+            @RequestBody IngredientDto ingredient) {
 
         IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
         IngredientEntity savedIngredient = ingredientService.save(ingredientEntity);
@@ -51,7 +53,10 @@ public class IngredientController {
     }
 
     @PutMapping("/ingredients/{id}")
-    public ResponseEntity<IngredientDto> fullUpdateIngredient(@PathVariable("id") Long id, @RequestBody IngredientDto ingredient) {
+    public ResponseEntity<IngredientDto> fullUpdateIngredient(
+            @PathVariable("id") Long id,
+            @RequestBody IngredientDto ingredient) {
+
         if(!ingredientService.exists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -64,8 +69,10 @@ public class IngredientController {
     }
 
     @PatchMapping("/ingredients/{id}")
-    public ResponseEntity<IngredientDto> partialUpdateIngredient(@PathVariable("id") Long id,
-                                                                 @RequestBody IngredientDto ingredient) {
+    public ResponseEntity<IngredientDto> partialUpdateIngredient(
+            @PathVariable("id") Long id,
+            @RequestBody IngredientDto ingredient) {
+
         if(!ingredientService.exists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
