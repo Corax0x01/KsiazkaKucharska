@@ -1,5 +1,6 @@
 package szymanski.jakub.KsiazkaKucharska.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,7 @@ public class RecipeEntity {
     //Author
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    @JsonProperty("user")
     private UserEntity userEntity;
 
 //    @OneToMany(mappedBy = "recipeEntity", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
