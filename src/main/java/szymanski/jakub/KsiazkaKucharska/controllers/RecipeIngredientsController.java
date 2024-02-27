@@ -9,7 +9,6 @@ import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeIngredientEntity;
 import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
 import szymanski.jakub.KsiazkaKucharska.services.IngredientService;
 import szymanski.jakub.KsiazkaKucharska.services.RecipeService;
-import szymanski.jakub.KsiazkaKucharska.services.impl.RecipeIngredientsServiceImpl;
 
 import java.util.List;
 
@@ -19,12 +18,12 @@ import java.util.List;
 @RestController
 public class RecipeIngredientsController {
 
-    private final RecipeIngredientsServiceImpl recipeIngredientsService;
+    private final RecipeIngredientsService recipeIngredientsService;
     private final RecipeService recipeService;
     private final IngredientService ingredientService;
     private final Mapper<RecipeIngredientEntity, RecipeIngredientDto> recipeIngredientMapper;
 
-    public RecipeIngredientsController(RecipeIngredientsServiceImpl recipeIngredientsService,
+    public RecipeIngredientsController(RecipeIngredientsService recipeIngredientsService,
                                        RecipeService recipeService,
                                        IngredientService ingredientService, Mapper<RecipeIngredientEntity,
                                         RecipeIngredientDto> recipeIngredientMapper) {

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import szymanski.jakub.KsiazkaKucharska.domain.dto.RecipeDto;
 import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeEntity;
 import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
-import szymanski.jakub.KsiazkaKucharska.services.impl.RecipeServiceImpl;
+import szymanski.jakub.KsiazkaKucharska.services.RecipeService;
 
 import java.util.Optional;
 
@@ -19,10 +19,10 @@ import java.util.Optional;
 @RestController
 public class RecipeController {
 
-    private final RecipeServiceImpl recipeService;
+    private final RecipeService recipeService;
     private final Mapper<RecipeEntity, RecipeDto> recipeMapper;
 
-    public RecipeController(RecipeServiceImpl recipeService, Mapper<RecipeEntity, RecipeDto> recipeMapper) {
+    public RecipeController(RecipeService recipeService, Mapper<RecipeEntity, RecipeDto> recipeMapper) {
         this.recipeService = recipeService;
         this.recipeMapper = recipeMapper;
     }
@@ -55,7 +55,7 @@ public class RecipeController {
     }
 
     @PutMapping("/recipes/{id}")
-    public ResponseEntity<RecipeDto> updateRecipe(@PathVariable("id") Long id, @RequestBody RecipeDto recipe) {
+    public ResponseEntity<RecipeDto> fullUpdateRecipe(@PathVariable("id") Long id, @RequestBody RecipeDto recipe) {
         if(!recipeService.exists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -68,7 +68,7 @@ public class RecipeController {
     }
 
     @PatchMapping("/recipes/{id}")
-    public ResponseEntity<RecipeDto> patchRecipe(@PathVariable("id") Long id, @RequestBody RecipeDto recipe) {
+    public ResponseEntity<RecipeDto> partialUpdateRecipe(@PathVariable("id") Long id, @RequestBody RecipeDto recipe) {
         if(!recipeService.exists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import szymanski.jakub.KsiazkaKucharska.domain.dto.IngredientDto;
 import szymanski.jakub.KsiazkaKucharska.domain.entities.IngredientEntity;
 import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
-import szymanski.jakub.KsiazkaKucharska.services.impl.IngredientServiceImpl;
+import szymanski.jakub.KsiazkaKucharska.services.IngredientService;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,10 +17,10 @@ import java.util.Optional;
 @RestController
 public class IngredientController {
 
-    private final IngredientServiceImpl ingredientService;
+    private final IngredientService ingredientService;
     private final Mapper<IngredientEntity, IngredientDto> ingredientMapper;
 
-    public IngredientController(IngredientServiceImpl ingredientService, Mapper<IngredientEntity, IngredientDto> ingredientMapper) {
+    public IngredientController(IngredientService ingredientService, Mapper<IngredientEntity, IngredientDto> ingredientMapper) {
         this.ingredientService = ingredientService;
         this.ingredientMapper = ingredientMapper;
     }
@@ -51,7 +51,7 @@ public class IngredientController {
     }
 
     @PutMapping("/ingredients/{id}")
-    public ResponseEntity<IngredientDto> updateIngredient(@PathVariable("id") Long id, @RequestBody IngredientDto ingredient) {
+    public ResponseEntity<IngredientDto> fullUpdateIngredient(@PathVariable("id") Long id, @RequestBody IngredientDto ingredient) {
         if(!ingredientService.exists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

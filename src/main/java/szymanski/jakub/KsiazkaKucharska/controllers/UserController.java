@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import szymanski.jakub.KsiazkaKucharska.domain.dto.UserDto;
 import szymanski.jakub.KsiazkaKucharska.domain.entities.UserEntity;
 import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
-import szymanski.jakub.KsiazkaKucharska.services.impl.UserServiceImpl;
+import szymanski.jakub.KsiazkaKucharska.services.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,24 +18,24 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     private final Mapper<UserEntity, UserDto> userMapper;
 
-    public UserController(UserServiceImpl userService, Mapper<UserEntity, UserDto> userMapper) {
+    public UserController(UserService userService, Mapper<UserEntity, UserDto> userMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
     }
 
     @GetMapping("/users")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<UserDto> getUser() {
+    public List<UserDto> getUsers() {
         List<UserEntity> users = userService.findAll();
         return users.stream().map(userMapper::mapTo).toList();
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<UserDto> getUser(@PathVariable("id") Long id) {
         Optional<UserEntity> user = userService.find(id);
         return user.map(userEntity -> {
             UserDto userDto = userMapper.mapTo(userEntity);
