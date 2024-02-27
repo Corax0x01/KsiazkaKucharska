@@ -11,6 +11,7 @@ import szymanski.jakub.KsiazkaKucharska.domain.entities.RecipeEntity;
 import szymanski.jakub.KsiazkaKucharska.mappers.Mapper;
 import szymanski.jakub.KsiazkaKucharska.services.RecipeService;
 
+import java.util.List;
 import java.util.Optional;
 
 //TODO: Add tests
@@ -29,10 +30,10 @@ public class RecipeController {
 
     @GetMapping("/recipes")
     @ResponseStatus(code = HttpStatus.OK)
-    public Page<RecipeDto> getRecipes(Pageable pageable) {
+    public List<RecipeDto> getRecipes() {
 
-        Page<RecipeEntity> recipeEntities = recipeService.findAll(pageable);
-        return recipeEntities.map(recipeMapper::mapTo);
+        List<RecipeEntity> recipeEntities = recipeService.findAll();
+        return recipeEntities.stream().map(recipeMapper::mapTo).toList();
     }
 
     @GetMapping("/recipes/{id}")

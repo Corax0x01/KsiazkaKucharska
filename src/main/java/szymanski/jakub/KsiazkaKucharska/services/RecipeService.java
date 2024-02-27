@@ -11,7 +11,6 @@ import java.util.Optional;
 public interface RecipeService {
 
     List<RecipeEntity> findAll();
-    Page<RecipeEntity> findAll(Pageable pageable);
     Optional<RecipeEntity> find(Long id);
     RecipeEntity save(RecipeEntity recipeEntity);
 
