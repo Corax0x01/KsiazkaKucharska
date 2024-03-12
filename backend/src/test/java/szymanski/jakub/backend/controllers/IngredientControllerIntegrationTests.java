@@ -43,7 +43,7 @@ public class IngredientControllerIntegrationTests {
         IngredientEntity savedIngredientA = ingredientService.save(testIngredientA);
         IngredientEntity savedIngredientB = ingredientService.save(testIngredientB);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/ingredients")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/ingredients")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
@@ -63,7 +63,7 @@ public class IngredientControllerIntegrationTests {
         IngredientEntity testIngredient = TestDataUtil.createTestIngredientA();
         IngredientEntity savedIngredient = ingredientService.save(testIngredient);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/ingredients/" + testIngredient.getId())
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/ingredients/" + testIngredient.getId())
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
@@ -76,7 +76,7 @@ public class IngredientControllerIntegrationTests {
 
     @Test
     public void testThatGetNonExistingIngredientReturnsStatus404() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/ingredients/123")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/ingredients/123")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isNotFound()
@@ -88,7 +88,7 @@ public class IngredientControllerIntegrationTests {
         IngredientEntity testIngredient = TestDataUtil.createTestIngredientA();
         String ingredientJson = objectMapper.writeValueAsString(testIngredient);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/ingredients")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/ingredients")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(ingredientJson)
         ).andExpect(
@@ -109,7 +109,7 @@ public class IngredientControllerIntegrationTests {
         savedIngredient.setName(newName);
         String ingredientJson = objectMapper.writeValueAsString(savedIngredient);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/ingredients/" + savedIngredient.getId())
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/ingredients/" + savedIngredient.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(ingredientJson)
         ).andExpect(
@@ -130,7 +130,7 @@ public class IngredientControllerIntegrationTests {
         savedIngredient.setName(newName);
         String ingredientJson = objectMapper.writeValueAsString(savedIngredient);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/ingredients/2137")
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/ingredients/2137")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(ingredientJson)
         ).andExpect(
@@ -147,7 +147,7 @@ public class IngredientControllerIntegrationTests {
 
         String contentJson = objectMapper.writeValueAsString(IngredientEntity.builder().name(newName).build());
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/ingredients/" + savedIngredient.getId())
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/ingredients/" + savedIngredient.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(contentJson)
         ).andExpect(
@@ -168,7 +168,7 @@ public class IngredientControllerIntegrationTests {
 
         String contentJson = objectMapper.writeValueAsString(IngredientEntity.builder().name(newName).build());
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/ingredients/123")
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/ingredients/123")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(contentJson)
         ).andExpect(
@@ -181,7 +181,7 @@ public class IngredientControllerIntegrationTests {
         IngredientEntity testIngredient = TestDataUtil.createTestIngredientA();
         IngredientEntity savedIngredient = ingredientService.save(testIngredient);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/ingredients/" + savedIngredient.getId())
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/ingredients/" + savedIngredient.getId())
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isNoContent()

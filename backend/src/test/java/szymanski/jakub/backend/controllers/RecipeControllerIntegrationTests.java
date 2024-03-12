@@ -46,7 +46,7 @@ public class RecipeControllerIntegrationTests {
         RecipeEntity savedRecipeA = recipeService.save(testRecipeA);
         RecipeEntity savedRecipeB = recipeService.save(testRecipeB);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/recipes")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/recipes")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
@@ -84,7 +84,7 @@ public class RecipeControllerIntegrationTests {
         RecipeEntity testRecipe = TestDataUtil.createTestRecipeA(testUser);
         RecipeEntity savedRecipe = recipeService.save(testRecipe);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/recipes/" + savedRecipe.getId())
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/recipes/" + savedRecipe.getId())
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
@@ -105,7 +105,7 @@ public class RecipeControllerIntegrationTests {
 
     @Test
     public void testThatGetNonExistingRecipeReturnsStatus404() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/recipes/123")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/recipes/123")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isNotFound()
@@ -118,7 +118,7 @@ public class RecipeControllerIntegrationTests {
         RecipeEntity testRecipe = TestDataUtil.createTestRecipeA(testUser);
         String recipeJson = objectMapper.writeValueAsString(testRecipe);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/recipes")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/recipes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(recipeJson)
         ).andExpect(
@@ -148,7 +148,7 @@ public class RecipeControllerIntegrationTests {
         savedRecipe.setTitle(newTitle);
         String recipeJson = objectMapper.writeValueAsString(savedRecipe);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/recipes/" + savedRecipe.getId())
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/recipes/" + savedRecipe.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(recipeJson)
         ).andExpect(
@@ -178,7 +178,7 @@ public class RecipeControllerIntegrationTests {
         savedRecipe.setTitle(newTitle);
         String recipeJson = objectMapper.writeValueAsString(savedRecipe);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/recipes/2137")
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/recipes/2137")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(recipeJson)
         ).andExpect(
@@ -196,7 +196,7 @@ public class RecipeControllerIntegrationTests {
 
         String contentJson = objectMapper.writeValueAsString(RecipeEntity.builder().title(newTitle).build());
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/recipes/" + savedRecipe.getId())
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/recipes/" + savedRecipe.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(contentJson)
         ).andExpect(
@@ -226,7 +226,7 @@ public class RecipeControllerIntegrationTests {
 
         String contentJson = objectMapper.writeValueAsString(RecipeEntity.builder().title(newTitle).build());
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/recipes/123")
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/recipes/123")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(contentJson)
         ).andExpect(
@@ -240,7 +240,7 @@ public class RecipeControllerIntegrationTests {
         RecipeEntity testRecipe = TestDataUtil.createTestRecipeA(testUser);
         RecipeEntity savedRecipe = recipeService.save(testRecipe);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/recipes/" + savedRecipe.getId())
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/recipes/" + savedRecipe.getId())
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isNoContent()

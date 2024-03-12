@@ -64,7 +64,7 @@ public class RecipeIngredientsControllerIntegrationTests {
         RecipeIngredientEntity savedRecipeIngredientA = recipeIngredientsService.save(recipeIngredientA);
         RecipeIngredientEntity savedRecipeIngredientB = recipeIngredientsService.save(recipeIngredientB);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/recipes/" + savedRecipe.getId() + "/ingredients")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/recipes/" + savedRecipe.getId() + "/ingredients")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()

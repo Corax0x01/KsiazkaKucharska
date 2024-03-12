@@ -1,6 +1,5 @@
 package szymanski.jakub.backend.controllers;
 
-import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +12,7 @@ import szymanski.jakub.backend.services.RecipeService;
 
 import java.util.List;
 
-//TODO: add tests
-
-@Log
+@RequestMapping("/api")
 @RestController
 public class RecipeIngredientsController {
 
