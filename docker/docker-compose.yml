@@ -1,0 +1,58 @@
+version: '3.1'
+services:
+#  frontend:
+#    container_name: 'frontend'
+#    build: './../frontend'
+#    ports:
+#      - "8080:80"
+#    depends_on:
+#      - backend
+#    networks:
+#      frontend:
+#        aliases:
+#          - frontend
+#    deploy:
+#      resources:
+#        limits:
+#          memory: 256M
+#  backend:
+#    container_name: 'backend'
+#    build: './../backend'
+#    ports:
+#      - "8081:8081"
+#    depends_on:
+#      - db
+#    networks:
+#      frontend:
+#        aliases:
+#          - backend
+#      backend:
+#        aliases:
+#          - backend
+#    deploy:
+#      resources:
+#        limits:
+#          memory: 1G
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+  db:
+    container_name: 'db'
+    image: postgres
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - backend
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: P@ssw0rd
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
