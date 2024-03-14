@@ -143,7 +143,7 @@ public class UserControllerIntegrationTests {
         String userJson = objectMapper.writeValueAsString(savedUser);
 
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/users/2")
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/users/2137")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(userJson)
         ).andExpect(
@@ -183,7 +183,7 @@ public class UserControllerIntegrationTests {
 
         String contentJson = objectMapper.writeValueAsString(UserEntity.builder().username(newUsername).build());
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/users/2")
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/users/2137")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(contentJson)
         ).andExpect(
