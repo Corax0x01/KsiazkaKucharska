@@ -23,9 +23,11 @@ public class RecipeEntity {
     @SequenceGenerator(name = "recipe_id_generator", sequenceName = "recipe_id_seq", allocationSize = 1)
     private Long id;
     private String title;
+    @Column(columnDefinition = "varchar(16384)")
     private String description;
     private String imageURL;
     private String recipeURL;
+    @Column(columnDefinition = "smallint array")
     private List<TagsEnum> tags;
 
     //Author
