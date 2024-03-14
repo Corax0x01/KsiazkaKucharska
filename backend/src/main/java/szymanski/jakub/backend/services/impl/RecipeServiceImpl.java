@@ -1,14 +1,16 @@
 package szymanski.jakub.backend.services.impl;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
+import szymanski.jakub.backend.domain.TagsEnum;
 import szymanski.jakub.backend.domain.entities.RecipeEntity;
 import szymanski.jakub.backend.repositories.RecipeRepository;
 import szymanski.jakub.backend.services.RecipeService;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -21,6 +23,13 @@ public class RecipeServiceImpl implements RecipeService {
 
     public List<RecipeEntity> findAll() {
         return (List<RecipeEntity>) recipeRepository.findAll();
+    }
+
+    public List<RecipeEntity> findRecipeByTags(List<TagsEnum> tagsEnumList) {
+
+        return findAll().stream().filter(recipe -> (
+                new HashSet<>(recipe.getTags()).containsAll(tagsEnumList)
+        )).collect(Collectors.toList());
     }
 
     public Optional<RecipeEntity> find(Long id) {

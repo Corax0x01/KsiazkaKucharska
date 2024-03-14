@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import szymanski.jakub.backend.domain.TagsEnum;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -23,6 +26,7 @@ public class RecipeEntity {
     private String description;
     private String imageURL;
     private String recipeURL;
+    private List<TagsEnum> tags;
 
     //Author
     @ManyToOne(cascade = CascadeType.ALL)

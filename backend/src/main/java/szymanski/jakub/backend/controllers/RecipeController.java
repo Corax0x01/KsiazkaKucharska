@@ -3,11 +3,13 @@ package szymanski.jakub.backend.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import szymanski.jakub.backend.domain.TagsEnum;
 import szymanski.jakub.backend.domain.dto.RecipeDto;
 import szymanski.jakub.backend.domain.entities.RecipeEntity;
 import szymanski.jakub.backend.mappers.Mapper;
 import szymanski.jakub.backend.services.RecipeService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,9 +27,14 @@ public class RecipeController {
 
     @GetMapping("/recipes")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<RecipeDto> getRecipes() {
-
-        List<RecipeEntity> recipeEntities = recipeService.findAll();
+    public List<RecipeDto> getRecipes(@RequestBody(required = false) List<TagsEnum> tagsEnumList) {
+        List<RecipeEntity> recipeEntities;
+        if(tagsEnumList == null || tagsEnumList.isEmpty())  {
+            recipeEntities = recipeService.findAll();
+        }
+        else {
+            recipeEntities = recipeService.findRecipeByTags(tagsEnumList);
+        }
         return recipeEntities.stream().map(recipeMapper::mapTo).toList();
     }
 

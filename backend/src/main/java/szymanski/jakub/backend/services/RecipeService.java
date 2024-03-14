@@ -1,5 +1,6 @@
 package szymanski.jakub.backend.services;
 
+import szymanski.jakub.backend.domain.TagsEnum;
 import szymanski.jakub.backend.domain.entities.RecipeEntity;
 
 
@@ -9,6 +10,7 @@ import java.util.Optional;
 public interface RecipeService {
 
     List<RecipeEntity> findAll();
+    List<RecipeEntity> findRecipeByTags(List<TagsEnum> tagsEnumList);
     Optional<RecipeEntity> find(Long id);
     RecipeEntity save(RecipeEntity recipeEntity);
 
