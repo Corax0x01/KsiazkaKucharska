@@ -36,7 +36,4 @@ public class RecipeEntity {
     @JsonProperty("user")
     private UserEntity userEntity;
 
-//    @OneToMany(mappedBy = "recipeEntity", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    private List<RecipeIngredientEntity> recipeIngredients;
-
 }
