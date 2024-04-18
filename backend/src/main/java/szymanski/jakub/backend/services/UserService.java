@@ -1,25 +1,25 @@
 package szymanski.jakub.backend.services;
 
-import szymanski.jakub.backend.domain.entities.UserEntity;
+import szymanski.jakub.backend.domain.dto.UserDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
 
-    List<UserEntity> findAll();
+    List<UserDto> findAll();
 
-    Optional<UserEntity> find(Long id);
+    Optional<UserDto> find(Long id);
 
-    Optional<UserEntity> find(String username);
+    Optional<UserDto> find(String username);
 
-    UserEntity save(UserEntity userEntity);
+    UserDto save(UserDto user);
 
-    UserEntity partialUpdate(Long id, UserEntity userEntity);
+    UserDto partialUpdate(Long id, UserDto user);
 
     void delete(Long id);
 
-    void delete(UserEntity userEntity);
+    void delete(UserDto user);
 
     boolean exists(Long id);
 

@@ -11,77 +11,67 @@ import szymanski.jakub.backend.services.IngredientService;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api")
+@RequestMapping("/api/ingredients")
 @RestController
 public class IngredientController {
 
     private final IngredientService ingredientService;
-    private final Mapper<IngredientEntity, IngredientDto> ingredientMapper;
 
-    public IngredientController(IngredientService ingredientService, Mapper<IngredientEntity, IngredientDto> ingredientMapper) {
+    public IngredientController(IngredientService ingredientService) {
         this.ingredientService = ingredientService;
-        this.ingredientMapper = ingredientMapper;
     }
 
-    @GetMapping("/ingredients")
-    @ResponseStatus(code = HttpStatus.OK)
-    public List<IngredientDto> getIngredients() {
-        return ingredientService.findAll().stream().map(ingredientMapper::mapTo).toList();
+    @GetMapping
+    public ResponseEntity<List<IngredientDto>> getIngredients() {
+        return ResponseEntity.ok(ingredientService.findAll());
     }
 
-    @GetMapping("/ingredients/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<IngredientDto> getIngredient(
             @PathVariable("id") Long id) {
 
-        Optional<IngredientEntity> ingredient = ingredientService.find(id);
-        return ingredient.map(ingredientEntity -> {
-            IngredientDto ingredientDto = ingredientMapper.mapTo(ingredientEntity);
-            return new ResponseEntity<>(ingredientDto, HttpStatus.OK);
-        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        Optional<IngredientDto> ingredient = ingredientService.find(id);
+        return ingredient.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/ingredients")
+    @PostMapping
     public ResponseEntity<IngredientDto> createIngredient(
             @RequestBody IngredientDto ingredient) {
 
-        IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
-        IngredientEntity savedIngredient = ingredientService.save(ingredientEntity);
+        IngredientDto savedIngredient = ingredientService.save(ingredient);
 
-        return new ResponseEntity<>(ingredientMapper.mapTo(savedIngredient), HttpStatus.CREATED);
+        return new ResponseEntity<>(savedIngredient, HttpStatus.CREATED);
     }
 
-    @PutMapping("/ingredients/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<IngredientDto> fullUpdateIngredient(
             @PathVariable("id") Long id,
             @RequestBody IngredientDto ingredient) {
 
         if(!ingredientService.exists(id)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
 
-        ingredient.setId(id);
-        IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
-        IngredientEntity updatedIngredient = ingredientService.save(ingredientEntity);
+        IngredientDto updatedIngredient = ingredientService.save(ingredient);
 
-        return new ResponseEntity<>(ingredientMapper.mapTo(updatedIngredient), HttpStatus.OK);
+        return ResponseEntity.ok(updatedIngredient);
     }
 
-    @PatchMapping("/ingredients/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<IngredientDto> partialUpdateIngredient(
             @PathVariable("id") Long id,
             @RequestBody IngredientDto ingredient) {
 
         if(!ingredientService.exists(id)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
 
-        IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
-        IngredientEntity updatedIngredient = ingredientService.partialUpdate(id, ingredientEntity);
+        IngredientDto updatedIngredient = ingredientService.partialUpdate(id, ingredient);
 
-        return new ResponseEntity<>(ingredientMapper.mapTo(updatedIngredient), HttpStatus.OK);
+        return ResponseEntity.ok(updatedIngredient);
     }
 
-    @DeleteMapping("/ingredients/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteIngredient(@PathVariable final Long id) {
         ingredientService.delete(id);

@@ -4,86 +4,71 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import szymanski.jakub.backend.domain.dto.UserDto;
-import szymanski.jakub.backend.domain.entities.UserEntity;
-import szymanski.jakub.backend.mappers.Mapper;
 import szymanski.jakub.backend.services.UserService;
 
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 @RestController
 public class UserController {
 
     private final UserService userService;
 
-    private final Mapper<UserEntity, UserDto> userMapper;
-
-    public UserController(UserService userService, Mapper<UserEntity, UserDto> userMapper) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userMapper = userMapper;
     }
 
-    @GetMapping("/users")
-    @ResponseStatus(code = HttpStatus.OK)
-    public List<UserDto> getUsers() {
-        List<UserEntity> users = userService.findAll();
-        return users.stream().map(userMapper::mapTo).toList();
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getUsers() {
+        return ResponseEntity.ok(userService.findAll());
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(
             @PathVariable("id") Long id) {
 
-        Optional<UserEntity> user = userService.find(id);
-        return user.map(userEntity -> {
-            UserDto userDto = userMapper.mapTo(userEntity);
-            return new ResponseEntity<>(userDto, HttpStatus.OK);
-        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        Optional<UserDto> user = userService.find(id);
+        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/users")
+    @PostMapping
     public ResponseEntity<UserDto> createUser(
             @RequestBody UserDto user) {
 
-        UserEntity userEntity = userMapper.mapFrom(user);
-        UserEntity savedUserEntity = userService.save(userEntity);
+        UserDto savedUser = userService.save(user);
 
-        return new ResponseEntity<>(userMapper.mapTo(savedUserEntity), HttpStatus.CREATED);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<UserDto> fullUpdateUser(
             @PathVariable("id") Long id,
             @RequestBody UserDto user) {
 
         if(!userService.exists(id)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
 
-        user.setId(id);
-        UserEntity userEntity = userMapper.mapFrom(user);
-        UserEntity updatedUserEntity = userService.save(userEntity);
+        UserDto updatedUser = userService.save(user);
 
-        return new ResponseEntity<>(userMapper.mapTo(updatedUserEntity), HttpStatus.OK);
+        return ResponseEntity.ok(updatedUser);
     }
 
-    @PatchMapping("/users/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<UserDto> partialUpdateUser(
             @PathVariable("id") Long id,
             @RequestBody UserDto user) {
 
         if(!userService.exists(id)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
 
-        UserEntity userEntity = userMapper.mapFrom(user);
-        UserEntity updatedUser = userService.partialUpdate(id, userEntity);
-
-        return new ResponseEntity<>(userMapper.mapTo(updatedUser), HttpStatus.OK);
+        UserDto updatedUser = userService.partialUpdate(id, user);
+        return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable("id") Long id) {
         userService.delete(id);

@@ -1,22 +1,21 @@
 package szymanski.jakub.backend.services;
 
 import szymanski.jakub.backend.domain.TagsEnum;
-import szymanski.jakub.backend.domain.entities.RecipeEntity;
-
+import szymanski.jakub.backend.domain.dto.RecipeDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface RecipeService {
 
-    List<RecipeEntity> findAll();
-    List<RecipeEntity> findRecipeByTags(List<TagsEnum> tagsEnumList);
-    Optional<RecipeEntity> find(Long id);
-    RecipeEntity save(RecipeEntity recipeEntity);
+    List<RecipeDto> findAll();
+    List<RecipeDto> findRecipeByTags(List<TagsEnum> tagsEnumList);
+    Optional<RecipeDto> find(Long id);
+    RecipeDto save(RecipeDto recipeE);
 
-    RecipeEntity partialUpdate(Long id, RecipeEntity recipeEntity);
+    RecipeDto partialUpdate(Long id, RecipeDto recipe);
     void delete(Long id);
-    void delete(RecipeEntity recipeEntity);
+    void delete(RecipeDto recipe);
     boolean exists(Long id);
 
 }

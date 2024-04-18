@@ -1,7 +1,9 @@
 package szymanski.jakub.backend.services.impl;
 
 import org.springframework.stereotype.Service;
+import szymanski.jakub.backend.domain.dto.IngredientDto;
 import szymanski.jakub.backend.domain.entities.IngredientEntity;
+import szymanski.jakub.backend.mappers.Mapper;
 import szymanski.jakub.backend.repositories.IngredientRepository;
 import szymanski.jakub.backend.services.IngredientService;
 
@@ -12,34 +14,41 @@ import java.util.Optional;
 public class IngredientServiceImpl implements IngredientService {
 
     private final IngredientRepository ingredientRepository;
+    private final Mapper<IngredientEntity, IngredientDto> ingredientMapper;
 
-    public IngredientServiceImpl(IngredientRepository ingredientRepository) {
+    public IngredientServiceImpl(IngredientRepository ingredientRepository, Mapper<IngredientEntity, IngredientDto> ingredientMapper) {
         this.ingredientRepository = ingredientRepository;
+        this.ingredientMapper = ingredientMapper;
     }
 
-    public List<IngredientEntity> findAll() {
-        return (List<IngredientEntity>) ingredientRepository.findAll();
+    public List<IngredientDto> findAll() {
+        return ingredientRepository.findAll().stream().map(ingredientMapper::mapTo).toList();
     }
 
-    public Optional<IngredientEntity> find(Long id) {
-        return ingredientRepository.findById(id);
+    public Optional<IngredientDto> find(Long id) {
+        return ingredientRepository.findById(id).map(ingredientMapper::mapTo);
     }
 
-    public Optional<IngredientEntity> find(String name) {
-        return ingredientRepository.findByName(name);
+    public Optional<IngredientDto> find(String name) {
+        return ingredientRepository.findByName(name).map(ingredientMapper::mapTo);
     }
 
-    public IngredientEntity save(IngredientEntity ingredientEntity) {
-        return ingredientRepository.save(ingredientEntity);
+    public IngredientDto save(IngredientDto ingredient) {
+        IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
+        return ingredientMapper.mapTo(ingredientRepository.save(ingredientEntity));
     }
 
-    public IngredientEntity partialUpdate(Long id, IngredientEntity ingredientEntity) {
-        ingredientEntity.setId(id);
+    public IngredientDto partialUpdate(Long id, IngredientDto ingredient) {
+        ingredient.setId(id);
 
-        return ingredientRepository.findById(id).map(existingIngredient -> {
+        IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
+
+        IngredientEntity updatedIngredient = ingredientRepository.findById(id).map(existingIngredient -> {
             Optional.ofNullable(ingredientEntity.getName()).ifPresent(existingIngredient::setName);
             return ingredientRepository.save(existingIngredient);
         }).orElseThrow(() -> new RuntimeException("Ingredient not found"));
+
+        return ingredientMapper.mapTo(updatedIngredient);
     }
 
     public void delete(Long id) {
@@ -47,11 +56,11 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     public void delete(String name) {
-        Optional<IngredientEntity> ingredientEntity = find(name);
-        ingredientEntity.ifPresent(ingredient -> ingredientRepository.deleteById(ingredient.getId()));
+        ingredientRepository.deleteByName(name);
     }
 
-    public void delete(IngredientEntity ingredientEntity) {
+    public void delete(IngredientDto ingredient) {
+        IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
         ingredientRepository.delete(ingredientEntity);
     }
 

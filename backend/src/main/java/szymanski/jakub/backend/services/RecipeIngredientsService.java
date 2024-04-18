@@ -1,23 +1,23 @@
 package szymanski.jakub.backend.services;
 
-import szymanski.jakub.backend.domain.entities.RecipeIngredientEntity;
+import szymanski.jakub.backend.domain.dto.RecipeIngredientDto;
 import szymanski.jakub.backend.domain.entities.RecipeIngredientKey;
 
 import java.util.List;
 
 public interface RecipeIngredientsService {
 
-    List<RecipeIngredientEntity> findRecipeIngredients(Long recipeId);
+    List<RecipeIngredientDto> findRecipeIngredients(Long recipeId);
 
-    List<RecipeIngredientEntity> findIngredientRecipes(Long ingredientId);
+    List<RecipeIngredientDto> findIngredientRecipes(Long ingredientId);
 
-    RecipeIngredientEntity save(RecipeIngredientEntity recipeIngredientEntity);
+    RecipeIngredientDto save(RecipeIngredientDto recipeIngredient);
 
-    RecipeIngredientEntity partialUpdate(RecipeIngredientKey id, RecipeIngredientEntity recipeIngredientEntity);
+    RecipeIngredientDto partialUpdate(RecipeIngredientKey id, RecipeIngredientDto recipeIngredient);
 
     void delete(Long recipeId, Long ingredientId);
 
-    void delete(RecipeIngredientEntity recipeIngredientEntity);
+    void delete(RecipeIngredientDto recipeIngredient);
 
     boolean exists(RecipeIngredientKey id);
 }

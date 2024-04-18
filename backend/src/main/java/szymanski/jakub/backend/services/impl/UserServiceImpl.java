@@ -1,7 +1,9 @@
 package szymanski.jakub.backend.services.impl;
 
 import org.springframework.stereotype.Service;
+import szymanski.jakub.backend.domain.dto.UserDto;
 import szymanski.jakub.backend.domain.entities.UserEntity;
+import szymanski.jakub.backend.mappers.Mapper;
 import szymanski.jakub.backend.repositories.UserRepository;
 import szymanski.jakub.backend.services.UserService;
 
@@ -12,43 +14,52 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final Mapper<UserEntity, UserDto> userMapper;
 
-    public UserServiceImpl(UserRepository userRepository) {
+
+    public UserServiceImpl(UserRepository userRepository, Mapper<UserEntity, UserDto> userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
-    public List<UserEntity> findAll() {
-        return (List<UserEntity>) userRepository.findAll();
+    public List<UserDto> findAll() {
+        return userRepository.findAll().stream().map(userMapper::mapTo).toList();
     }
 
-    public Optional<UserEntity> find(Long id) {
-        return userRepository.findById(id);
+    public Optional<UserDto> find(Long id) {
+        return userRepository.findById(id).map(userMapper::mapTo);
     }
 
-    public Optional<UserEntity> find(String username) {
-        return userRepository.findByUsername(username);
+    public Optional<UserDto> find(String username) {
+        return userRepository.findByUsername(username).map(userMapper::mapTo);
     }
 
-    public UserEntity save(UserEntity userEntity) {
-        return userRepository.save(userEntity);
+    public UserDto save(UserDto user) {
+        UserEntity userEntity = userMapper.mapFrom(user);
+        return userMapper.mapTo(userRepository.save(userEntity));
     }
 
-    public UserEntity partialUpdate(Long id, UserEntity userEntity){
-        userEntity.setId(id);
+    public UserDto partialUpdate(Long id, UserDto user){
+        user.setId(id);
 
-        return userRepository.findById(id).map(existingUser -> {
+        UserEntity userEntity = userMapper.mapFrom(user);
+
+        UserEntity updatedUser = userRepository.findById(id).map(existingUser -> {
            Optional.ofNullable(userEntity.getUsername()).ifPresent(existingUser::setUsername);
            Optional.ofNullable(userEntity.getPassword()).ifPresent(existingUser::setPassword);
            Optional.ofNullable(userEntity.getEmail()).ifPresent(existingUser::setEmail);
            return userRepository.save(existingUser);
         }).orElseThrow(() -> new RuntimeException("User not found"));
+
+        return userMapper.mapTo(updatedUser);
     }
 
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
-    public void delete(UserEntity userEntity) {
+    public void delete(UserDto user) {
+        UserEntity userEntity = userMapper.mapFrom(user);
         userRepository.delete(userEntity);
     }
 
