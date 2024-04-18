@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import szymanski.jakub.backend.TestDataUtil;
+import szymanski.jakub.backend.domain.dto.IngredientDto;
 import szymanski.jakub.backend.domain.entities.IngredientEntity;
 import szymanski.jakub.backend.services.IngredientService;
 
@@ -37,11 +38,11 @@ public class IngredientControllerIntegrationTests {
 
     @Test
     public void testThatGetIngredientsReturnsStatus200AndAllIngredients() throws Exception {
-        IngredientEntity testIngredientA = TestDataUtil.createTestIngredientA();
-        IngredientEntity testIngredientB = TestDataUtil.createTestIngredientB();
+        IngredientDto testIngredientA = TestDataUtil.createTestIngredientA();
+        IngredientDto testIngredientB = TestDataUtil.createTestIngredientB();
 
-        IngredientEntity savedIngredientA = ingredientService.save(testIngredientA);
-        IngredientEntity savedIngredientB = ingredientService.save(testIngredientB);
+        IngredientDto savedIngredientA = ingredientService.save(testIngredientA);
+        IngredientDto savedIngredientB = ingredientService.save(testIngredientB);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/ingredients")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -60,8 +61,8 @@ public class IngredientControllerIntegrationTests {
 
     @Test
     public void testThatGetExistingIngredientReturnsStatus200AndIngredientWithGivenId() throws Exception {
-        IngredientEntity testIngredient = TestDataUtil.createTestIngredientA();
-        IngredientEntity savedIngredient = ingredientService.save(testIngredient);
+        IngredientDto testIngredient = TestDataUtil.createTestIngredientA();
+        IngredientDto savedIngredient = ingredientService.save(testIngredient);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/ingredients/" + testIngredient.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -85,7 +86,7 @@ public class IngredientControllerIntegrationTests {
 
     @Test
     public void testThatCreateIngredientReturnsStatus201AndSavedIngredient() throws Exception {
-        IngredientEntity testIngredient = TestDataUtil.createTestIngredientA();
+        IngredientDto testIngredient = TestDataUtil.createTestIngredientA();
         String ingredientJson = objectMapper.writeValueAsString(testIngredient);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/ingredients")
@@ -102,10 +103,10 @@ public class IngredientControllerIntegrationTests {
 
     @Test
     public void testThatFullUpdateIngredientReturnsStatus200AndUpdatedIngredientIfIngredientExists() throws Exception {
-        IngredientEntity testIngredient = TestDataUtil.createTestIngredientA();
+        IngredientDto testIngredient = TestDataUtil.createTestIngredientA();
         String newName = "Changed name";
 
-        IngredientEntity savedIngredient = ingredientService.save(testIngredient);
+        IngredientDto savedIngredient = ingredientService.save(testIngredient);
         savedIngredient.setName(newName);
         String ingredientJson = objectMapper.writeValueAsString(savedIngredient);
 
@@ -123,10 +124,10 @@ public class IngredientControllerIntegrationTests {
 
     @Test
     public void testThatFullUpdateReturnsStatus404IfIngredientDoesNotExist() throws Exception {
-        IngredientEntity testIngredient = TestDataUtil.createTestIngredientA();
+        IngredientDto testIngredient = TestDataUtil.createTestIngredientA();
         String newName = "Changed name";
 
-        IngredientEntity savedIngredient = ingredientService.save(testIngredient);
+        IngredientDto savedIngredient = ingredientService.save(testIngredient);
         savedIngredient.setName(newName);
         String ingredientJson = objectMapper.writeValueAsString(savedIngredient);
 
@@ -140,10 +141,10 @@ public class IngredientControllerIntegrationTests {
 
     @Test
     public void testThatPartialUpdateReturnsStatus200AndUpdatedIngredientIfIngredientExists() throws Exception {
-        IngredientEntity testIngredient = TestDataUtil.createTestIngredientA();
+        IngredientDto testIngredient = TestDataUtil.createTestIngredientA();
         String newName = "Changed name";
 
-        IngredientEntity savedIngredient = ingredientService.save(testIngredient);
+        IngredientDto savedIngredient = ingredientService.save(testIngredient);
 
         String contentJson = objectMapper.writeValueAsString(IngredientEntity.builder().name(newName).build());
 
@@ -161,7 +162,7 @@ public class IngredientControllerIntegrationTests {
 
     @Test
     public void testThatPartialUpdateReturnsStatus404IfIngredientDoesNotExist() throws Exception {
-        IngredientEntity testIngredient = TestDataUtil.createTestIngredientA();
+        IngredientDto testIngredient = TestDataUtil.createTestIngredientA();
         String newName = "Changed name";
 
         ingredientService.save(testIngredient);
@@ -178,8 +179,8 @@ public class IngredientControllerIntegrationTests {
 
     @Test
     public void testThatDeleteIngredientReturnsStatus204AndRemovesIngredientFromDb() throws Exception {
-        IngredientEntity testIngredient = TestDataUtil.createTestIngredientA();
-        IngredientEntity savedIngredient = ingredientService.save(testIngredient);
+        IngredientDto testIngredient = TestDataUtil.createTestIngredientA();
+        IngredientDto savedIngredient = ingredientService.save(testIngredient);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/ingredients/" + savedIngredient.getId())
                 .contentType(MediaType.APPLICATION_JSON)

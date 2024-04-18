@@ -14,8 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import szymanski.jakub.backend.TestDataUtil;
-import szymanski.jakub.backend.domain.entities.RecipeEntity;
-import szymanski.jakub.backend.domain.entities.UserEntity;
+import szymanski.jakub.backend.domain.dto.RecipeDto;
+import szymanski.jakub.backend.domain.dto.UserDto;
 import szymanski.jakub.backend.services.RecipeService;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,11 +40,11 @@ public class RecipeControllerIntegrationTests {
 
     @Test
     public void testThatGetRecipesReturnsStatus200AndAllRecipes() throws Exception {
-        UserEntity testUser = TestDataUtil.createTestUserA();
-        RecipeEntity testRecipeA = TestDataUtil.createTestRecipeA(testUser);
-        RecipeEntity testRecipeB = TestDataUtil.createTestRecipeB(testUser);
-        RecipeEntity savedRecipeA = recipeService.save(testRecipeA);
-        RecipeEntity savedRecipeB = recipeService.save(testRecipeB);
+        UserDto testUser = TestDataUtil.createTestUserA();
+        RecipeDto testRecipeA = TestDataUtil.createTestRecipeA(testUser);
+        RecipeDto testRecipeB = TestDataUtil.createTestRecipeB(testUser);
+        RecipeDto savedRecipeA = recipeService.save(testRecipeA);
+        RecipeDto savedRecipeB = recipeService.save(testRecipeB);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/recipes")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -61,7 +61,7 @@ public class RecipeControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.[0].recipeURL").value(savedRecipeA.getRecipeURL())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.[0].user.id").value(savedRecipeA.getUserEntity().getId())
+                MockMvcResultMatchers.jsonPath("$.[0].user.id").value(savedRecipeA.getUser().getId())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.[1].id").isNumber()
         ).andExpect(
@@ -73,16 +73,16 @@ public class RecipeControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.[1].recipeURL").value(savedRecipeB.getRecipeURL())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.[1].user.id").value(savedRecipeB.getUserEntity().getId())
+                MockMvcResultMatchers.jsonPath("$.[1].user.id").value(savedRecipeB.getUser().getId())
         );
     }
 
     @Test
     public void testThatGetExistingRecipeReturnsStatus200AndRecipeWithGivenId() throws Exception {
-        UserEntity testUser = TestDataUtil.createTestUserA();
+        UserDto testUser = TestDataUtil.createTestUserA();
 
-        RecipeEntity testRecipe = TestDataUtil.createTestRecipeA(testUser);
-        RecipeEntity savedRecipe = recipeService.save(testRecipe);
+        RecipeDto testRecipe = TestDataUtil.createTestRecipeA(testUser);
+        RecipeDto savedRecipe = recipeService.save(testRecipe);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/recipes/" + savedRecipe.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -99,7 +99,7 @@ public class RecipeControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.recipeURL").value(savedRecipe.getRecipeURL())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.user.id").value(savedRecipe.getUserEntity().getId())
+                MockMvcResultMatchers.jsonPath("$.user.id").value(savedRecipe.getUser().getId())
         );
     }
 
@@ -114,8 +114,8 @@ public class RecipeControllerIntegrationTests {
 
     @Test
     public void testThatCreateRecipeReturnsStatus201AndSavedRecipe() throws Exception {
-        UserEntity testUser = TestDataUtil.createTestUserA();
-        RecipeEntity testRecipe = TestDataUtil.createTestRecipeA(testUser);
+        UserDto testUser = TestDataUtil.createTestUserA();
+        RecipeDto testRecipe = TestDataUtil.createTestRecipeA(testUser);
         String recipeJson = objectMapper.writeValueAsString(testRecipe);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/recipes")
@@ -134,17 +134,17 @@ public class RecipeControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.recipeURL").value(testRecipe.getRecipeURL())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.user.id").value(testRecipe.getUserEntity().getId())
+                MockMvcResultMatchers.jsonPath("$.user.id").value(testRecipe.getUser().getId())
         );
     }
 
     @Test
     public void testThatFullUpdateRecipeReturnsStatus200AndUpdatedRecipeIfRecipeExists() throws Exception {
-        UserEntity testUser = TestDataUtil.createTestUserA();
-        RecipeEntity testRecipe = TestDataUtil.createTestRecipeA(testUser);
+        UserDto testUser = TestDataUtil.createTestUserA();
+        RecipeDto testRecipe = TestDataUtil.createTestRecipeA(testUser);
         String newTitle = "Changed title";
 
-        RecipeEntity savedRecipe = recipeService.save(testRecipe);
+        RecipeDto savedRecipe = recipeService.save(testRecipe);
         savedRecipe.setTitle(newTitle);
         String recipeJson = objectMapper.writeValueAsString(savedRecipe);
 
@@ -164,17 +164,17 @@ public class RecipeControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.recipeURL").value(savedRecipe.getRecipeURL())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.user.id").value(savedRecipe.getUserEntity().getId())
+                MockMvcResultMatchers.jsonPath("$.user.id").value(savedRecipe.getUser().getId())
         );
     }
 
     @Test
     public void testThatFullUpdateReturnsStatus404IfRecipeDoesNotExist() throws Exception {
-        UserEntity testUser = TestDataUtil.createTestUserA();
-        RecipeEntity testRecipe = TestDataUtil.createTestRecipeA(testUser);
+        UserDto testUser = TestDataUtil.createTestUserA();
+        RecipeDto testRecipe = TestDataUtil.createTestRecipeA(testUser);
         String newTitle = "Changed title";
 
-        RecipeEntity savedRecipe = recipeService.save(testRecipe);
+        RecipeDto savedRecipe = recipeService.save(testRecipe);
         savedRecipe.setTitle(newTitle);
         String recipeJson = objectMapper.writeValueAsString(savedRecipe);
 
@@ -188,13 +188,13 @@ public class RecipeControllerIntegrationTests {
 
     @Test
     public void testThatPartialUpdateReturnsStatus200AndUpdatedRecipeIfRecipeExists() throws Exception {
-        UserEntity testUser = TestDataUtil.createTestUserA();
-        RecipeEntity testRecipe = TestDataUtil.createTestRecipeA(testUser);
+        UserDto testUser = TestDataUtil.createTestUserA();
+        RecipeDto testRecipe = TestDataUtil.createTestRecipeA(testUser);
         String newTitle = "Changed title";
 
-        RecipeEntity savedRecipe = recipeService.save(testRecipe);
+        RecipeDto savedRecipe = recipeService.save(testRecipe);
 
-        String contentJson = objectMapper.writeValueAsString(RecipeEntity.builder().title(newTitle).build());
+        String contentJson = objectMapper.writeValueAsString(RecipeDto.builder().title(newTitle).build());
 
         mockMvc.perform(MockMvcRequestBuilders.patch("/api/recipes/" + savedRecipe.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -212,19 +212,19 @@ public class RecipeControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.recipeURL").value(savedRecipe.getRecipeURL())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.user.id").value(savedRecipe.getUserEntity().getId())
+                MockMvcResultMatchers.jsonPath("$.user.id").value(savedRecipe.getUser().getId())
         );
     }
 
     @Test
     public void testThatPartialUpdateReturnsStatus404IfRecipeDoesNotExist() throws Exception {
-        UserEntity testUser = TestDataUtil.createTestUserA();
-        RecipeEntity testRecipe = TestDataUtil.createTestRecipeA(testUser);
+        UserDto testUser = TestDataUtil.createTestUserA();
+        RecipeDto testRecipe = TestDataUtil.createTestRecipeA(testUser);
         String newTitle = "Changed title";
 
         recipeService.save(testRecipe);
 
-        String contentJson = objectMapper.writeValueAsString(RecipeEntity.builder().title(newTitle).build());
+        String contentJson = objectMapper.writeValueAsString(RecipeDto.builder().title(newTitle).build());
 
         mockMvc.perform(MockMvcRequestBuilders.patch("/api/recipes/123")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -236,9 +236,9 @@ public class RecipeControllerIntegrationTests {
 
     @Test
     public void testThatDeleteRecipeReturnsStatus204AndRemovesRecipeFromDb() throws Exception {
-        UserEntity testUser = TestDataUtil.createTestUserA();
-        RecipeEntity testRecipe = TestDataUtil.createTestRecipeA(testUser);
-        RecipeEntity savedRecipe = recipeService.save(testRecipe);
+        UserDto testUser = TestDataUtil.createTestUserA();
+        RecipeDto testRecipe = TestDataUtil.createTestRecipeA(testUser);
+        RecipeDto savedRecipe = recipeService.save(testRecipe);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/recipes/" + savedRecipe.getId())
                 .contentType(MediaType.APPLICATION_JSON)

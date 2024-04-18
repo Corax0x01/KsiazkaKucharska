@@ -30,13 +30,13 @@ public class RecipeIngredientsRepositoryIntegrationTests {
 
     @Test
     public void testThatRecipeIngredientsCanBeCreatedAndRecalled() {
-        UserEntity author = TestDataUtil.createTestUserA();
-        RecipeEntity recipeEntity = TestDataUtil.createTestRecipeA(author);
-        IngredientEntity ingredientEntityA = TestDataUtil.createTestIngredientA();
-        IngredientEntity ingredientEntityB = TestDataUtil.createTestIngredientB();
+        UserEntity author = TestDataUtil.createTestUserEntityA();
+        RecipeEntity recipeEntity = TestDataUtil.createTestRecipeEntityA(author);
+        IngredientEntity ingredientEntityA = TestDataUtil.createTestIngredientEntityA();
+        IngredientEntity ingredientEntityB = TestDataUtil.createTestIngredientEntityB();
 
-        RecipeIngredientEntity recipeIngredientEntityA = TestDataUtil.createTestRecipeIngredient(recipeEntity, ingredientEntityA);
-        RecipeIngredientEntity recipeIngredientEntityB = TestDataUtil.createTestRecipeIngredient(recipeEntity, ingredientEntityB);
+        RecipeIngredientEntity recipeIngredientEntityA = TestDataUtil.createTestRecipeIngredientEntity(recipeEntity, ingredientEntityA);
+        RecipeIngredientEntity recipeIngredientEntityB = TestDataUtil.createTestRecipeIngredientEntity(recipeEntity, ingredientEntityB);
 
         underTest.save(recipeIngredientEntityA);
         underTest.save(recipeIngredientEntityB);

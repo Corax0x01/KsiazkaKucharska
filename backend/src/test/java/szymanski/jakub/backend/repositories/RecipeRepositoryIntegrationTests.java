@@ -20,17 +20,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RecipeRepositoryIntegrationTests {
 
     private final RecipeRepository underTest;
+    private final UserRepository userRepository;
 
     @Autowired
-    public RecipeRepositoryIntegrationTests(RecipeRepository underTest) {
+    public RecipeRepositoryIntegrationTests(RecipeRepository underTest, UserRepository userRepository) {
         this.underTest = underTest;
+        this.userRepository = userRepository;
     }
 
     @Test
     public void testThatRecipeCanBeCreatedAndRecalled() {
-        UserEntity author = TestDataUtil.createTestUserA();
+        UserEntity author = TestDataUtil.createTestUserEntityA();
 
-        RecipeEntity testRecipe = TestDataUtil.createTestRecipeA(author);
+        RecipeEntity testRecipe = TestDataUtil.createTestRecipeEntityA(author);
 
         underTest.save(testRecipe);
         Optional<RecipeEntity> result = underTest.findById(testRecipe.getId());
@@ -41,8 +43,8 @@ public class RecipeRepositoryIntegrationTests {
 
     @Test
     public void testThatRecipeCanBeUpdated() {
-        UserEntity author = TestDataUtil.createTestUserA();
-        RecipeEntity testRecipe = TestDataUtil.createTestRecipeA(author);
+        UserEntity author = TestDataUtil.createTestUserEntityA();
+        RecipeEntity testRecipe = TestDataUtil.createTestRecipeEntityA(author);
         String newTitle = "Changed title";
 
         RecipeEntity savedRecipe = underTest.save(testRecipe);
@@ -58,8 +60,8 @@ public class RecipeRepositoryIntegrationTests {
 
     @Test
     public void testThatRecipeCanBeDeleted() {
-        UserEntity author = TestDataUtil.createTestUserA();
-        RecipeEntity testRecipe = TestDataUtil.createTestRecipeA(author);
+        UserEntity author = TestDataUtil.createTestUserEntityA();
+        RecipeEntity testRecipe = TestDataUtil.createTestRecipeEntityA(author);
 
         RecipeEntity savedRecipe = underTest.save(testRecipe);
 

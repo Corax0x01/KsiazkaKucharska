@@ -8,7 +8,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import szymanski.jakub.backend.TestDataUtil;
 import szymanski.jakub.backend.domain.entities.IngredientEntity;
-import szymanski.jakub.backend.domain.entities.UserEntity;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class IngredientRepositoryIntegrationTests {
 
-    private IngredientRepository underTest;
+    private final IngredientRepository underTest;
 
     @Autowired
     public IngredientRepositoryIntegrationTests(IngredientRepository ingredientRepository) {
@@ -29,7 +29,7 @@ public class IngredientRepositoryIntegrationTests {
 
     @Test
     public void testThatIngredientCanBeCreatedAndRecalled() {
-        IngredientEntity testIngredient = TestDataUtil.createTestIngredientA();
+        IngredientEntity testIngredient = TestDataUtil.createTestIngredientEntityA();
 
         IngredientEntity savedIngredient = underTest.save(testIngredient);
         Optional<IngredientEntity> result = underTest.findById(savedIngredient.getId());
@@ -40,7 +40,7 @@ public class IngredientRepositoryIntegrationTests {
 
     @Test
     public void testThatIngredientCanBeFoundByName() {
-        IngredientEntity testIngredient = TestDataUtil.createTestIngredientA();
+        IngredientEntity testIngredient = TestDataUtil.createTestIngredientEntityA();
 
         IngredientEntity savedIngredient = underTest.save(testIngredient);
         Optional<IngredientEntity> result = underTest.findByName(savedIngredient.getName());
@@ -51,8 +51,8 @@ public class IngredientRepositoryIntegrationTests {
 
     @Test
     public void testThatMultipleIngredientsCanBeCreatedAndRecalled() {
-        IngredientEntity testIngredientA = TestDataUtil.createTestIngredientA();
-        IngredientEntity testIngredientB = TestDataUtil.createTestIngredientB();
+        IngredientEntity testIngredientA = TestDataUtil.createTestIngredientEntityA();
+        IngredientEntity testIngredientB = TestDataUtil.createTestIngredientEntityB();
 
         underTest.saveAll(List.of(testIngredientA, testIngredientB));
 
@@ -63,7 +63,7 @@ public class IngredientRepositoryIntegrationTests {
 
     @Test
     public void testThatIngredientCanBeUpdated() {
-        IngredientEntity testIngredient = TestDataUtil.createTestIngredientA();
+        IngredientEntity testIngredient = TestDataUtil.createTestIngredientEntityA();
         String newName = "Changed name";
 
         IngredientEntity savedIngredient = underTest.save(testIngredient);
@@ -79,7 +79,7 @@ public class IngredientRepositoryIntegrationTests {
 
     @Test
     public void testThatIngredientCanBeDeleted() {
-        IngredientEntity testIngredient = TestDataUtil.createTestIngredientA();
+        IngredientEntity testIngredient = TestDataUtil.createTestIngredientEntityA();
 
         IngredientEntity savedIngredient = underTest.save(testIngredient);
 

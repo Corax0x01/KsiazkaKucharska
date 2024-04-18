@@ -29,7 +29,7 @@ public class UserRepositoryIntegrationTests {
 
     @Test
     public void testThatUserCanBeCreatedAndRecalled() {
-        UserEntity userEntity = TestDataUtil.createTestUserA();
+        UserEntity userEntity = TestDataUtil.createTestUserEntityA();
 
         underTest.save(userEntity);
         Optional<UserEntity> result = underTest.findById(userEntity.getId());
@@ -40,7 +40,7 @@ public class UserRepositoryIntegrationTests {
 
     @Test
     public void testThatUserCanBeFoundByUsername() {
-        UserEntity testUser = TestDataUtil.createTestUserA();
+        UserEntity testUser = TestDataUtil.createTestUserEntityA();
         UserEntity savedUser = underTest.save(testUser);
 
         Optional<UserEntity> result = underTest.findByUsername(savedUser.getUsername());
@@ -51,9 +51,9 @@ public class UserRepositoryIntegrationTests {
 
     @Test
     public void testThatMultipleUsersCanBeCreatedAndRecalled() {
-        UserEntity testUserA = TestDataUtil.createTestUserA();
-        UserEntity testUserB = TestDataUtil.createTestUserB();
-        UserEntity testUserC = TestDataUtil.createTestUserC();
+        UserEntity testUserA = TestDataUtil.createTestUserEntityA();
+        UserEntity testUserB = TestDataUtil.createTestUserEntityB();
+        UserEntity testUserC = TestDataUtil.createTestUserEntityC();
 
         underTest.saveAll(List.of(testUserA, testUserB, testUserC));
 
@@ -64,7 +64,7 @@ public class UserRepositoryIntegrationTests {
 
     @Test
     public void testThatUserCanBeUpdated() {
-        UserEntity testUser = TestDataUtil.createTestUserA();
+        UserEntity testUser = TestDataUtil.createTestUserEntityA();
         UserEntity savedUser = underTest.save(testUser);
 
         savedUser.setUsername("updatedUsername");
@@ -78,7 +78,7 @@ public class UserRepositoryIntegrationTests {
 
     @Test
     public void testThatUserCanBeDeleted() {
-        UserEntity testUser = TestDataUtil.createTestUserA();
+        UserEntity testUser = TestDataUtil.createTestUserEntityA();
         UserEntity savedUser = underTest.save(testUser);
 
         underTest.deleteById(savedUser.getId());
