@@ -1,8 +1,20 @@
 <script setup>
-  import UserList from './components/UserList.vue'
-
+  import Navbar from "@/components/Navbar.vue";
 </script>
 
 <template>
-  <user-list/>
+  <header>
+    <Navbar/>
+  </header>
+  <main>
+    <RouterView />
+  </main>
 </template>
+
+<style scoped>
+  main {
+    width: 100vw;
+    min-height: 100vh;
+    background-color: darkslategray;
+  }
+</style>
