@@ -2,6 +2,8 @@ package szymanski.jakub.backend.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Data
 @AllArgsConstructor
@@ -16,11 +18,13 @@ public class RecipeIngredientEntity {
     private RecipeIngredientKey id;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @MapsId("recipeId")
     @JoinColumn(name = "recipe_id")
     private RecipeEntity recipeEntity;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @MapsId("ingredientId")
     @JoinColumn(name = "ingredient_id")
     private IngredientEntity ingredientEntity;
