@@ -16,4 +16,5 @@ public interface IngredientService {
     void delete(String name);
     void delete(IngredientDto ingredient);
     boolean exists(Long id);
+    boolean exists(String name);
 }

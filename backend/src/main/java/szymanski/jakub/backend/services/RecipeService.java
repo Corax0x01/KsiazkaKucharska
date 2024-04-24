@@ -1,5 +1,6 @@
 package szymanski.jakub.backend.services;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import szymanski.jakub.backend.domain.TagsEnum;
 import szymanski.jakub.backend.domain.dto.RecipeDto;
 
@@ -11,8 +12,8 @@ public interface RecipeService {
     List<RecipeDto> findAll();
     List<RecipeDto> findRecipeByTags(List<TagsEnum> tagsEnumList);
     Optional<RecipeDto> find(Long id);
-    RecipeDto save(RecipeDto recipeE);
-
+    RecipeDto create(RecipeDto recipe, JsonNode ingredients);
+    RecipeDto save(RecipeDto recipe);
     RecipeDto partialUpdate(Long id, RecipeDto recipe);
     void delete(Long id);
     void delete(RecipeDto recipe);

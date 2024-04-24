@@ -1,5 +1,10 @@
 package szymanski.jakub.backend.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,11 +12,13 @@ import szymanski.jakub.backend.domain.TagsEnum;
 import szymanski.jakub.backend.domain.dto.RecipeDto;
 import szymanski.jakub.backend.services.RecipeService;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/api/recipes")
 @RestController
+@Log
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -42,11 +49,17 @@ public class RecipeController {
 
     @PostMapping
     public ResponseEntity<RecipeDto> createRecipe(
-            @RequestBody RecipeDto recipe) {
+            @RequestBody ObjectNode node) throws JsonProcessingException {
 
-        RecipeDto savedRecipe = recipeService.save(recipe);
+        ObjectMapper mapper = new ObjectMapper();
 
-        return new ResponseEntity<>(savedRecipe, HttpStatus.CREATED);
+        RecipeDto recipe = mapper.readValue(node.get("recipe").toString(), RecipeDto.class);
+
+        JsonNode ingredients = node.get("ingredients");
+
+        RecipeDto savedRecipe = recipeService.create(recipe, ingredients);
+
+        return ResponseEntity.ok(savedRecipe);
     }
 
     @PutMapping("/{id}")
@@ -82,6 +95,11 @@ public class RecipeController {
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteRecipe(@PathVariable("id") Long id) {
         recipeService.delete(id);
+    }
+
+    @GetMapping("/tags")
+    public ResponseEntity<List<TagsEnum>> getAllTags() {
+        return ResponseEntity.ok(Arrays.stream(TagsEnum.values()).toList());
     }
 
 }
