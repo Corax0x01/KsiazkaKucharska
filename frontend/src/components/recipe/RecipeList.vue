@@ -14,9 +14,7 @@ import {onMounted, ref} from "vue";
 </script>
 
 <template>
-  <div v-if="recipes" v-for="recipe in recipes">
-    <recipe-item :recipe="recipe"/>
-  </div>
+  <recipe-item v-if="recipes" v-for="recipe in recipes" :recipe="recipe"/>
   <div v-else>
     <h1 class="text-white-50 text-center align-content-center">There are no recipes in database</h1>
   </div>

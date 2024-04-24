@@ -20,8 +20,8 @@
         <th scope="col">Email</th>
       </tr>
     </thead>
-    <tbody v-for="user in users">
-      <user-item :user="user"/>
+    <tbody>
+      <user-item v-for="user in users" :user="user"/>
     </tbody>
   </table>
   <div v-else class="text-center">
