@@ -33,7 +33,7 @@ public class RecipeEntity {
     private List<TagsEnum> tags;
 
     //Author
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
     @JsonProperty("user")
