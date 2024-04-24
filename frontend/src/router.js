@@ -3,6 +3,7 @@ import HomeView from "@/views/HomeView.vue";
 import UsersView from "@/views/user/UsersView.vue";
 import RecipesView from "@/views/recipe/RecipesView.vue";
 import RecipeView from "@/views/recipe/RecipeView.vue";
+import CreateRecipeView from "@/views/recipe/CreateRecipeView.vue";
 import CreateUserView from "@/views/user/CreateUserView.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
 
@@ -13,7 +14,8 @@ const routes = [
     {path: '/create-user', name: 'create user', component: CreateUserView},
     {path: '/recipes', name: 'recipes', component: RecipesView},
     {path: '/recipes/:id', name: 'recipe', component: RecipeView},
-    {path: "/:catchall(.*)*", name: "Not found", component: NotFoundView}
+    {path: '/create-recipe', name: 'create recipe', component: CreateRecipeView},
+    {path: "/:catchall(.*)*", name: "not found", component: NotFoundView}
 ]
 
 const router = createRouter({
