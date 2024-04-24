@@ -1,3 +1,15 @@
+<script setup>
+  import {useRoute} from "vue-router";
+  import {ref, watch} from "vue";
+
+  const route = useRoute();
+  const allowCreateRecipe = ref(false);
+
+  watch(route, () => {
+    allowCreateRecipe.value = route.path ==='/recipes';
+  });
+</script>
+
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -9,8 +21,10 @@
           <RouterLink class="nav-link" active-class="active" to="/">Home</RouterLink>
           <RouterLink class="nav-link" active-class="active" to="/users">Users</RouterLink>
           <RouterLink class="nav-link" active-class="active" to="/recipes">Recipes</RouterLink>
-          <RouterLink class="nav-link" active-class="active" to="/test">Test</RouterLink>
           <RouterLink class="nav-link" active-class="active" to="/create-user">Create User</RouterLink>
+        </div>
+        <div class="d-flex">
+          <RouterLink v-if="allowCreateRecipe" class="nav-link" to="/create-recipe">Create Recipe</RouterLink>
         </div>
       </div>
     </div>
