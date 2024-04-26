@@ -62,8 +62,7 @@ public final class TestDataUtil {
                 .userEntity(author)
                 .title("testRecipeA")
                 .description("testDescription")
-                .imageURL("testImageURL")
-                .recipeURL("testRecipeURL")
+                .imageName("testImage")
                 .build();
     }
 
@@ -74,8 +73,7 @@ public final class TestDataUtil {
                 .userEntity(author)
                 .title("testRecipeB")
                 .description("testDescription")
-                .imageURL("testImageURL")
-                .recipeURL("testRecipeURL")
+                .imageName("testImage")
                 .build();
     }
 
@@ -140,8 +138,7 @@ public final class TestDataUtil {
                 .user(author)
                 .title("testRecipeA")
                 .description("testDescription")
-                .imageURL("testImageURL")
-                .recipeURL("testRecipeURL")
+                .imageName("testImageURL")
                 .build();
     }
 
@@ -152,8 +149,7 @@ public final class TestDataUtil {
                 .user(author)
                 .title("testRecipeB")
                 .description("testDescription")
-                .imageURL("testImageURL")
-                .recipeURL("testRecipeURL")
+                .imageName("testImageURL")
                 .build();
     }
 

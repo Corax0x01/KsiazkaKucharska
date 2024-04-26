@@ -18,8 +18,7 @@ public class RecipeDto {
     private Long id;
     private String title;
     private String description;
-    private String imageURL;
-    private String recipeURL;
+    private String imageName;
     private List<TagsEnum> tags;
     private UserDto user;
 

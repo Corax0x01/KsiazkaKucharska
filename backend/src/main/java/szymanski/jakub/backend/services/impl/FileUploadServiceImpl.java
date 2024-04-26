@@ -13,7 +13,6 @@ import szymanski.jakub.backend.exceptions.UploadedFileNotFoundException;
 import szymanski.jakub.backend.services.FileUploadService;
 import szymanski.jakub.backend.services.RecipeService;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -75,7 +74,7 @@ public class FileUploadServiceImpl implements FileUploadService {
             String newFilename = UUID.randomUUID() + "." + fileExtension;
             Path newFilePath = Paths.get(destinationFile.getParent() + "/" + newFilename);
 
-            recipeService.partialUpdate(recipeId, RecipeDto.builder().imageURL(newFilename).build());
+            recipeService.partialUpdate(recipeId, RecipeDto.builder().imageName(newFilename).build());
 
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, newFilePath, StandardCopyOption.REPLACE_EXISTING);

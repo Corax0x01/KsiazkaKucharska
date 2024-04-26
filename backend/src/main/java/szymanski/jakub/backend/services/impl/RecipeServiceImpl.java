@@ -108,8 +108,7 @@ public class RecipeServiceImpl implements RecipeService {
         RecipeEntity updatedRecipe = recipeRepository.findById(id).map(existingRecipe -> {
             Optional.ofNullable(recipeEntity.getTitle()).ifPresent(existingRecipe::setTitle);
             Optional.ofNullable(recipeEntity.getDescription()).ifPresent(existingRecipe::setDescription);
-            Optional.ofNullable(recipeEntity.getImageURL()).ifPresent(existingRecipe::setImageURL);
-            Optional.ofNullable(recipeEntity.getRecipeURL()).ifPresent(existingRecipe::setRecipeURL);
+            Optional.ofNullable(recipeEntity.getImageName()).ifPresent(existingRecipe::setImageName);
             return recipeRepository.save(existingRecipe);
         }).orElseThrow(() -> new RuntimeException("Recipe not found"));
 

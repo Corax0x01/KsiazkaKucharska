@@ -57,9 +57,7 @@ public class RecipeControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.[0].description").value(savedRecipeA.getDescription())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.[0].imageURL").value(savedRecipeA.getImageURL())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.[0].recipeURL").value(savedRecipeA.getRecipeURL())
+                MockMvcResultMatchers.jsonPath("$.[0].imageURL").value(savedRecipeA.getImageName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.[0].user.id").value(savedRecipeA.getUser().getId())
         ).andExpect(
@@ -69,9 +67,7 @@ public class RecipeControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.[1].description").value(savedRecipeB.getDescription())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.[1].imageURL").value(savedRecipeB.getImageURL())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.[1].recipeURL").value(savedRecipeB.getRecipeURL())
+                MockMvcResultMatchers.jsonPath("$.[1].imageURL").value(savedRecipeB.getImageName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.[1].user.id").value(savedRecipeB.getUser().getId())
         );
@@ -95,9 +91,7 @@ public class RecipeControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.description").value(savedRecipe.getDescription())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.imageURL").value(savedRecipe.getImageURL())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.recipeURL").value(savedRecipe.getRecipeURL())
+                MockMvcResultMatchers.jsonPath("$.imageURL").value(savedRecipe.getImageName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.user.id").value(savedRecipe.getUser().getId())
         );
@@ -130,9 +124,7 @@ public class RecipeControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.description").value(testRecipe.getDescription())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.imageURL").value(testRecipe.getImageURL())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.recipeURL").value(testRecipe.getRecipeURL())
+                MockMvcResultMatchers.jsonPath("$.imageURL").value(testRecipe.getImageName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.user.id").value(testRecipe.getUser().getId())
         );
@@ -160,9 +152,7 @@ public class RecipeControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.description").value(savedRecipe.getDescription())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.imageURL").value(savedRecipe.getImageURL())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.recipeURL").value(savedRecipe.getRecipeURL())
+                MockMvcResultMatchers.jsonPath("$.imageURL").value(savedRecipe.getImageName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.user.id").value(savedRecipe.getUser().getId())
         );
@@ -208,9 +198,7 @@ public class RecipeControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.description").value(savedRecipe.getDescription())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.imageURL").value(savedRecipe.getImageURL())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.recipeURL").value(savedRecipe.getRecipeURL())
+                MockMvcResultMatchers.jsonPath("$.imageURL").value(savedRecipe.getImageName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.user.id").value(savedRecipe.getUser().getId())
         );

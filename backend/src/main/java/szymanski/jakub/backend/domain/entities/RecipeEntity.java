@@ -27,8 +27,7 @@ public class RecipeEntity {
     private String title;
     @Column(columnDefinition = "varchar(32768)")
     private String description;
-    private String imageURL;
-    private String recipeURL;
+    private String imageName;
     @Column(columnDefinition = "smallint array")
     private List<TagsEnum> tags;
 
