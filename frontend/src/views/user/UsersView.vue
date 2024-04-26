@@ -3,5 +3,7 @@
 </script>
 
 <template>
-  <user-list/>
+  <div class="users-list p-3">
+    <user-list/>
+  </div>
 </template>
