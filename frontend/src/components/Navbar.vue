@@ -4,9 +4,11 @@
 
   const route = useRoute();
   const allowCreateRecipe = ref(false);
+  const allowCreateUser = ref(false);
 
   watch(route, () => {
-    allowCreateRecipe.value = route.path ==='/recipes';
+    allowCreateRecipe.value = route.path === '/recipes';
+    allowCreateUser.value = route.path === '/users';
   });
 </script>
 
@@ -21,9 +23,7 @@
           <RouterLink class="nav-link" active-class="active" to="/">Home</RouterLink>
           <RouterLink class="nav-link" active-class="active" to="/users">Users</RouterLink>
           <RouterLink class="nav-link" active-class="active" to="/recipes">Recipes</RouterLink>
-          <RouterLink class="nav-link" active-class="active" to="/create-user">Create User</RouterLink>
-        </div>
-        <div class="d-flex">
+          <RouterLink v-if="allowCreateUser" class="nav-link" active-class="active" to="/create-user">Create User</RouterLink>
           <RouterLink v-if="allowCreateRecipe" class="nav-link" to="/create-recipe">Create Recipe</RouterLink>
         </div>
       </div>
