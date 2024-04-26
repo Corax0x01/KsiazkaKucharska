@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import szymanski.jakub.backend.domain.TagsEnum;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

@@ -3,7 +3,6 @@ package szymanski.jakub.backend.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import szymanski.jakub.backend.domain.dto.IngredientDto;
 import szymanski.jakub.backend.domain.dto.RecipeDto;
 import szymanski.jakub.backend.domain.dto.RecipeIngredientDto;
 import szymanski.jakub.backend.services.IngredientService;

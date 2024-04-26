@@ -4,8 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import szymanski.jakub.backend.domain.dto.IngredientDto;
-import szymanski.jakub.backend.domain.entities.IngredientEntity;
-import szymanski.jakub.backend.mappers.Mapper;
 import szymanski.jakub.backend.services.IngredientService;
 
 import java.util.List;

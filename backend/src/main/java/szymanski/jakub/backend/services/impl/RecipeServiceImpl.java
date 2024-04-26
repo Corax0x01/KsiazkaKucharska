@@ -1,6 +1,5 @@
 package szymanski.jakub.backend.services.impl;
 
-
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Service;
 import szymanski.jakub.backend.domain.TagsEnum;

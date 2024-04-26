@@ -1,8 +1,6 @@
 package szymanski.jakub.backend.repositories;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import szymanski.jakub.backend.domain.entities.RecipeIngredientEntity;
 import szymanski.jakub.backend.domain.entities.RecipeIngredientKey;
