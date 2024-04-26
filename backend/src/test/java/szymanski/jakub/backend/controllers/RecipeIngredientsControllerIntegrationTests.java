@@ -16,6 +16,7 @@ import szymanski.jakub.backend.TestDataUtil;
 import szymanski.jakub.backend.domain.dto.IngredientDto;
 import szymanski.jakub.backend.domain.dto.RecipeIngredientDto;
 import szymanski.jakub.backend.domain.dto.RecipeDto;
+import szymanski.jakub.backend.domain.entities.RecipeIngredientKey;
 import szymanski.jakub.backend.services.IngredientService;
 import szymanski.jakub.backend.services.RecipeIngredientsService;
 import szymanski.jakub.backend.services.RecipeService;
@@ -66,17 +67,14 @@ public class RecipeIngredientsControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.[0].id").value(savedIngredientA.getId())
+                MockMvcResultMatchers.jsonPath("$.[0].id").value(savedRecipeIngredientA.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.[0].quantity").value(savedRecipeIngredientA.getQuantity())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.[1].id").value(savedRecipeIngredientB.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.[1].quantity").value(savedRecipeIngredientB.getQuantity())
         )
-//                .andExpect(
-//                MockMvcResultMatchers.jsonPath("$.[0].quantity").value(savedRecipeIngredientA.getQuantity())
-//        )
-                .andExpect(
-                MockMvcResultMatchers.jsonPath("$.[1].id").value(savedIngredientB.getId())
-        )
-//                .andExpect(
-//                MockMvcResultMatchers.jsonPath("$.[1].quantity").value(savedRecipeIngredientB.getQuantity())
-//        )
         ;
     }
 

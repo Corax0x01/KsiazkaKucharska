@@ -11,6 +11,7 @@ import szymanski.jakub.backend.domain.entities.IngredientEntity;
 import szymanski.jakub.backend.domain.entities.RecipeEntity;
 import szymanski.jakub.backend.domain.entities.RecipeIngredientEntity;
 import szymanski.jakub.backend.domain.entities.UserEntity;
+import szymanski.jakub.backend.services.UserService;
 
 import java.util.Optional;
 
@@ -22,15 +23,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RecipeIngredientsRepositoryIntegrationTests {
 
     private final RecipeIngredientsRepository underTest;
+    private final UserRepository userRepository;
 
     @Autowired
-    public RecipeIngredientsRepositoryIntegrationTests(RecipeIngredientsRepository underTest) {
+    public RecipeIngredientsRepositoryIntegrationTests(RecipeIngredientsRepository underTest, UserRepository userRepository) {
         this.underTest = underTest;
+        this.userRepository = userRepository;
     }
 
     @Test
     public void testThatRecipeIngredientsCanBeCreatedAndRecalled() {
         UserEntity author = TestDataUtil.createTestUserEntityA();
+        userRepository.save(author);
+
         RecipeEntity recipeEntity = TestDataUtil.createTestRecipeEntityA(author);
         IngredientEntity ingredientEntityA = TestDataUtil.createTestIngredientEntityA();
         IngredientEntity ingredientEntityB = TestDataUtil.createTestIngredientEntityB();

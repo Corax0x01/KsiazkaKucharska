@@ -31,6 +31,7 @@ public class RecipeRepositoryIntegrationTests {
     @Test
     public void testThatRecipeCanBeCreatedAndRecalled() {
         UserEntity author = TestDataUtil.createTestUserEntityA();
+        userRepository.save(author);
 
         RecipeEntity testRecipe = TestDataUtil.createTestRecipeEntityA(author);
 
@@ -44,6 +45,8 @@ public class RecipeRepositoryIntegrationTests {
     @Test
     public void testThatRecipeCanBeUpdated() {
         UserEntity author = TestDataUtil.createTestUserEntityA();
+        userRepository.save(author);
+
         RecipeEntity testRecipe = TestDataUtil.createTestRecipeEntityA(author);
         String newTitle = "Changed title";
 
@@ -61,6 +64,8 @@ public class RecipeRepositoryIntegrationTests {
     @Test
     public void testThatRecipeCanBeDeleted() {
         UserEntity author = TestDataUtil.createTestUserEntityA();
+        userRepository.save(author);
+
         RecipeEntity testRecipe = TestDataUtil.createTestRecipeEntityA(author);
 
         RecipeEntity savedRecipe = underTest.save(testRecipe);
