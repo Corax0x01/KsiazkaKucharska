@@ -10,6 +10,22 @@ const RecipeService = {
             throw new Error(e);
         }
     },
+    getRecipeData: async function (recipeId) {
+      try {
+          const response = await fetch(`${API_URL}:${API_PORT}/api/recipes/${recipeId}`);
+          return await response.json();
+      }  catch (e) {
+          throw new Error(e);
+      }
+    },
+    getRecipeIngredients: async function (recipeId) {
+      try {
+          const response = await fetch(`${API_URL}:${API_PORT}/api/recipes/${recipeId}/ingredients`);
+          return await response.json();
+      }  catch (e) {
+          throw new Error(e);
+      }
+    },
     createRecipe: async function (recipe, ingredients) {
         try {
             let recipeBody = {...recipe};
