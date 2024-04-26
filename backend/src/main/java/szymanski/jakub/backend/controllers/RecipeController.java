@@ -59,7 +59,7 @@ public class RecipeController {
 
         RecipeDto savedRecipe = recipeService.create(recipe, ingredients);
 
-        return ResponseEntity.ok(savedRecipe);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedRecipe);
     }
 
     @PutMapping("/{id}")
