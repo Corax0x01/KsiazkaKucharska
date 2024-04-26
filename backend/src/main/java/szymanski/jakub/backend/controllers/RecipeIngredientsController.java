@@ -30,16 +30,26 @@ public class RecipeIngredientsController {
         this.ingredientService = ingredientService;
     }
 
+//    @GetMapping("/recipes/{id}/ingredients")
+//    public ResponseEntity<List<IngredientDto>> getRecipeIngredients(
+//            @PathVariable("id") Long recipeId) {
+//        if(!recipeService.exists(recipeId)) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//
+//        List<RecipeIngredientDto> recipeIngredients = recipeIngredientsService.findRecipeIngredients(recipeId);
+//
+//        return ResponseEntity.ok(recipeIngredients.stream().map(RecipeIngredientDto::getIngredient).toList());
+//    }
+
     @GetMapping("/recipes/{id}/ingredients")
-    public ResponseEntity<List<IngredientDto>> getRecipeIngredients(
-            @PathVariable("id") Long recipeId) {
+    public ResponseEntity<List<RecipeIngredientDto>> getRecipeIngredients(
+            @PathVariable("id") Long recipeId)  {
         if(!recipeService.exists(recipeId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        List<RecipeIngredientDto> recipeIngredients = recipeIngredientsService.findRecipeIngredients(recipeId);
-
-        return ResponseEntity.ok(recipeIngredients.stream().map(RecipeIngredientDto::getIngredient).toList());
+        return ResponseEntity.ok(recipeIngredientsService.findRecipeIngredients(recipeId));
     }
 
     @GetMapping("/ingredients/{id}/recipes")
