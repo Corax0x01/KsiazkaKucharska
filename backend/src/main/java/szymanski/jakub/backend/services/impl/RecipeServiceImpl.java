@@ -1,6 +1,9 @@
 package szymanski.jakub.backend.services.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import szymanski.jakub.backend.domain.TagsEnum;
 import szymanski.jakub.backend.domain.dto.IngredientDto;
@@ -19,7 +22,6 @@ import szymanski.jakub.backend.services.UserService;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -48,11 +50,25 @@ public class RecipeServiceImpl implements RecipeService {
         return recipes.stream().map(recipeMapper::mapTo).toList();
     }
 
+    public Page<RecipeDto> findAllWithPagination(Pageable pageable) {
+        return recipeRepository.findAll(pageable).map(recipeMapper::mapTo);
+    }
+
     public List<RecipeDto> findRecipeByTags(List<TagsEnum> tagsEnumList) {
 
         return findAll().stream().filter(recipe -> (
                 new HashSet<>(recipe.getTags()).containsAll(tagsEnumList)
-        )).collect(Collectors.toList());
+        )).toList();
+    }
+
+    public Page<RecipeDto> findRecipeByTagsWithPagination(List<TagsEnum> tagsEnumList, Pageable pageable) {
+        List<RecipeDto> recipes = recipeRepository.findAll(pageable).stream().map(recipeMapper::mapTo).toList();
+
+        List<RecipeDto> filteredRecipes = recipes.stream().filter(recipe -> (
+                new HashSet<>(recipe.getTags()).containsAll(tagsEnumList)
+                )).toList();
+
+        return new PageImpl<>(filteredRecipes);
     }
 
     public Optional<RecipeDto> find(Long id) {

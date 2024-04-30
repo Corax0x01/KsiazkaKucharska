@@ -1,11 +1,17 @@
 <script setup>
   import RecipeList from "@/components/recipe/RecipeList.vue";
+  import Pagination from "@/components/Pagination.vue";
+  import {ref} from "vue";
+
+  const currentPage = ref(1);
+
 </script>
 
 <template>
   <div class="recipe-container align-top">
-    <recipe-list/>
+    <recipe-list :pageProp="currentPage"/>
   </div>
+  <pagination @page="page => currentPage = page"/>
 </template>
 
 <style scoped>

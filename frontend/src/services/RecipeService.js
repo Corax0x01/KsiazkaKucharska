@@ -1,11 +1,13 @@
 const API_URL = import.meta.env.VITE_API_URL;
 const API_PORT = import.meta.env.VITE_API_PORT;
+const ITEMS_ON_PAGE = 4;
 
 const RecipeService = {
-    getRecipesData: async function () {
+    getRecipesData: async function (page) {
         try {
-            const response = await fetch(`${API_URL}:${API_PORT}/api/recipes`);
-            return await response.json();
+            const response = await fetch(`${API_URL}:${API_PORT}/api/recipes?size=${ITEMS_ON_PAGE}&page=${page}`);
+            const json = await response.json();
+            return json["content"];
         } catch (e) {
             throw new Error(e);
         }
@@ -54,6 +56,15 @@ const RecipeService = {
         try {
             const response = await fetch(`${API_URL}:${API_PORT}/api/recipes/tags`);
             return await response.json();
+        } catch (e) {
+            throw new Error(e);
+        }
+    },
+    getNumberOfPages: async function () {
+        try {
+            const response = await fetch(`${API_URL}:${API_PORT}/api/recipes?size=${ITEMS_ON_PAGE}`);
+            const json = await response.json();
+            return await json["totalPages"];
         } catch (e) {
             throw new Error(e);
         }

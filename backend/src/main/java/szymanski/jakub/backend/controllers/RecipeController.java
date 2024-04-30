@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.java.Log;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,16 +29,37 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
+//    Get all recipes without pagination
+//    @GetMapping
+//    public ResponseEntity<List<RecipeDto>> getRecipes(@RequestBody(required = false) List<TagsEnum> tagsEnumList) {
+//        List<RecipeDto> recipes;
+//        if(tagsEnumList == null || tagsEnumList.isEmpty())  {
+//            recipes = recipeService.findAll();
+//        } else {
+//            recipes = recipeService.findRecipeByTags(tagsEnumList);
+//        }
+//        return ResponseEntity.ok(recipes);
+//    }
+
+//  Get all recipes with pagination
+//    @GetMapping
+//    public ResponseEntity<Page<RecipeDto>> getRecipes(
+//            @RequestBody(required = false) List<TagsEnum> tagsEnumList,
+//            Pageable pageable) {
+//
+//        Page<RecipeDto> recipes;
+//        if(tagsEnumList == null || tagsEnumList.isEmpty()) {
+//            recipes = recipeService.findAllWithPagination(pageable);
+//        } else {
+//            recipes = recipeService.findRecipeByTagsWithPagination(tagsEnumList, pageable);
+//        }
+//
+//        return ResponseEntity.ok(recipes);
+//    }
+
     @GetMapping
-    public ResponseEntity<List<RecipeDto>> getRecipes(@RequestBody(required = false) List<TagsEnum> tagsEnumList) {
-        List<RecipeDto> recipes;
-        if(tagsEnumList == null || tagsEnumList.isEmpty())  {
-            recipes = recipeService.findAll();
-        }
-        else {
-            recipes = recipeService.findRecipeByTags(tagsEnumList);
-        }
-        return ResponseEntity.ok(recipes);
+    public ResponseEntity<Page<RecipeDto>> getRecipes(Pageable pageable) {
+        return ResponseEntity.ok(recipeService.findAllWithPagination(pageable));
     }
 
     @GetMapping("/{id}")
