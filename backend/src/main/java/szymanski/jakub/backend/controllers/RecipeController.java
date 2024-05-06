@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api/recipes")
+@RequestMapping("/api/v1/recipes")
 @RestController
 @Log
 public class RecipeController {

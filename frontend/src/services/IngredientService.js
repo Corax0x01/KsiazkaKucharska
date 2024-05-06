@@ -4,7 +4,7 @@ const API_PORT = import.meta.env.VITE_API_PORT;
 const IngredientService = {
     getAllIngredients: async function (){
         try {
-            const response = await fetch(`${API_URL}:${API_PORT}/api/ingredients`);
+            const response = await fetch(`${API_URL}:${API_PORT}/api/v1/ingredients`);
             return await response.json();
         } catch (e) {
             throw new Error(e);

@@ -13,7 +13,7 @@ import java.util.List;
 
 
 // TODO: endpoint returning recipe name and its quantity
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 @RestController
 public class RecipeIngredientsController {
 

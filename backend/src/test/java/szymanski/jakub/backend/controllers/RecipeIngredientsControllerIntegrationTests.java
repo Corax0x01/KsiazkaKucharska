@@ -16,7 +16,6 @@ import szymanski.jakub.backend.TestDataUtil;
 import szymanski.jakub.backend.domain.dto.IngredientDto;
 import szymanski.jakub.backend.domain.dto.RecipeIngredientDto;
 import szymanski.jakub.backend.domain.dto.RecipeDto;
-import szymanski.jakub.backend.domain.entities.RecipeIngredientKey;
 import szymanski.jakub.backend.services.IngredientService;
 import szymanski.jakub.backend.services.RecipeIngredientsService;
 import szymanski.jakub.backend.services.RecipeService;
@@ -62,7 +61,7 @@ public class RecipeIngredientsControllerIntegrationTests {
         RecipeIngredientDto savedRecipeIngredientA = recipeIngredientsService.save(recipeIngredientA);
         RecipeIngredientDto savedRecipeIngredientB = recipeIngredientsService.save(recipeIngredientB);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/recipes/" + savedRecipe.getId() + "/ingredients")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recipes/" + savedRecipe.getId() + "/ingredients")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()

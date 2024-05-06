@@ -41,7 +41,7 @@ public class UserControllerIntegrationTests {
         UserDto savedUserA = userService.save(testUserA);
         UserDto savedUserB = userService.save(testUserB);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/users")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
@@ -66,7 +66,7 @@ public class UserControllerIntegrationTests {
 
         UserDto savedUser = userService.save(testUser);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/" + savedUser.getId())
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/" + savedUser.getId())
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
@@ -81,7 +81,7 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testThatGetNonExistingUserReturnsStatus404() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/123")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/123")
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isNotFound()
@@ -94,7 +94,7 @@ public class UserControllerIntegrationTests {
         testUser.setId(null);
         String userJson = objectMapper.writeValueAsString(testUser);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(userJson)
         ).andExpect(
@@ -119,7 +119,7 @@ public class UserControllerIntegrationTests {
 
         String userJson = objectMapper.writeValueAsString(savedUser);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/users/" + savedUser.getId())
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/users/" + savedUser.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(userJson)
         ).andExpect(
@@ -143,7 +143,7 @@ public class UserControllerIntegrationTests {
         String userJson = objectMapper.writeValueAsString(savedUser);
 
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/users/2137")
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/users/2137")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(userJson)
         ).andExpect(
@@ -160,7 +160,7 @@ public class UserControllerIntegrationTests {
 
         String contentJson = objectMapper.writeValueAsString(UserDto.builder().username(newUsername).build());
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/users/" + savedUser.getId())
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/users/" + savedUser.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(contentJson)
         ).andExpect(
@@ -183,7 +183,7 @@ public class UserControllerIntegrationTests {
 
         String contentJson = objectMapper.writeValueAsString(UserDto.builder().username(newUsername).build());
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/users/2137")
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/users/2137")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(contentJson)
         ).andExpect(
@@ -196,7 +196,7 @@ public class UserControllerIntegrationTests {
         UserDto testUser = TestDataUtil.createTestUserA();
         UserDto savedUser = userService.save(testUser);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/" + savedUser.getId())
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/users/" + savedUser.getId())
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isNoContent()

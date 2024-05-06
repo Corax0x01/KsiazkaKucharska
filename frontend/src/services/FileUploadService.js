@@ -4,7 +4,7 @@ const API_PORT = import.meta.env.VITE_API_PORT;
 const FileUploadService = {
     getFile: async function (filename) {
         try {
-            const response = await fetch(`${API_URL}:${API_PORT}/api/files/${filename}`);
+            const response = await fetch(`${API_URL}:${API_PORT}/api/v1/files/${filename}`);
             const blob = await response.blob();
             return URL.createObjectURL(blob);
         } catch (e) {
@@ -21,7 +21,7 @@ const FileUploadService = {
                 method: "POST",
                 body: body
             }
-            await fetch(`${API_URL}:${API_PORT}/api/files`, requestOptions);
+            await fetch(`${API_URL}:${API_PORT}/api/v1/files`, requestOptions);
         } catch (e) {
             throw new Error(e);
         }

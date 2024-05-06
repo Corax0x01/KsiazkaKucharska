@@ -9,7 +9,7 @@ import szymanski.jakub.backend.services.UserService;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 @RestController
 public class UserController {
 

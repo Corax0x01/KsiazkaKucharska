@@ -5,7 +5,7 @@ const ITEMS_ON_PAGE = 4;
 const RecipeService = {
     getRecipesData: async function (page) {
         try {
-            const response = await fetch(`${API_URL}:${API_PORT}/api/recipes?size=${ITEMS_ON_PAGE}&page=${page}`);
+            const response = await fetch(`${API_URL}:${API_PORT}/api/v1/recipes?size=${ITEMS_ON_PAGE}&page=${page}`);
             const json = await response.json();
             return json["content"];
         } catch (e) {
@@ -14,7 +14,7 @@ const RecipeService = {
     },
     getRecipeData: async function (recipeId) {
       try {
-          const response = await fetch(`${API_URL}:${API_PORT}/api/recipes/${recipeId}`);
+          const response = await fetch(`${API_URL}:${API_PORT}/api/v1/recipes/${recipeId}`);
           return await response.json();
       }  catch (e) {
           throw new Error(e);
@@ -22,7 +22,7 @@ const RecipeService = {
     },
     getRecipeIngredients: async function (recipeId) {
       try {
-          const response = await fetch(`${API_URL}:${API_PORT}/api/recipes/${recipeId}/ingredients`);
+          const response = await fetch(`${API_URL}:${API_PORT}/api/v1/recipes/${recipeId}/ingredients`);
           return await response.json();
       }  catch (e) {
           throw new Error(e);
@@ -46,7 +46,7 @@ const RecipeService = {
                 }
             }
 
-            const response = await fetch(`${API_URL}:${API_PORT}/api/recipes`, requestOptions);
+            const response = await fetch(`${API_URL}:${API_PORT}/api/v1/recipes`, requestOptions);
             return response.json();
         } catch (e) {
             throw new Error(e);
@@ -54,7 +54,7 @@ const RecipeService = {
     },
     getAllTags: async function () {
         try {
-            const response = await fetch(`${API_URL}:${API_PORT}/api/recipes/tags`);
+            const response = await fetch(`${API_URL}:${API_PORT}/api/v1/recipes/tags`);
             return await response.json();
         } catch (e) {
             throw new Error(e);
@@ -62,7 +62,7 @@ const RecipeService = {
     },
     getNumberOfPages: async function () {
         try {
-            const response = await fetch(`${API_URL}:${API_PORT}/api/recipes?size=${ITEMS_ON_PAGE}`);
+            const response = await fetch(`${API_URL}:${API_PORT}/api/v1/recipes?size=${ITEMS_ON_PAGE}`);
             const json = await response.json();
             return await json["totalPages"];
         } catch (e) {
