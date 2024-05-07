@@ -1,15 +1,13 @@
 package szymanski.jakub.backend.domain.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Entity
 @Table(name = "users")
 public class UserEntity {
@@ -21,7 +19,5 @@ public class UserEntity {
     private String username;
     private String password;
     private String email;
-    @Column(name = "isadmin")
-    private Boolean isAdmin;
 
 }
