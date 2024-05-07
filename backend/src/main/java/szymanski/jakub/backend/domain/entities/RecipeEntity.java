@@ -28,7 +28,7 @@ public class RecipeEntity {
     @Column(columnDefinition = "varchar(32768)")
     private String description;
     private String imageName;
-    @Column(columnDefinition = "smallint array")
+    @Enumerated(EnumType.STRING)
     private List<TagsEnum> tags;
 
     //Author
