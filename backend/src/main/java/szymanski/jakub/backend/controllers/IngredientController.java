@@ -9,7 +9,7 @@ import szymanski.jakub.backend.services.IngredientService;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api/v1/ingredients")
+@RequestMapping("ingredients")
 @RestController
 public class IngredientController {
 

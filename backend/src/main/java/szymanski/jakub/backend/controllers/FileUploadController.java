@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import szymanski.jakub.backend.services.FileUploadService;
 
-@RequestMapping("/api/v1/files")
+@RequestMapping("files")
 @RestController
 public class FileUploadController {
 
