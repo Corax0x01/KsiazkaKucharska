@@ -40,7 +40,7 @@ services:
     image: postgres
     ports:
       - "5432:5432"
-    restart: always
+    restart: unless-stopped
     networks:
       - backend
     deploy:
@@ -50,6 +50,20 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: P@ssw0rd
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: ksiazka_kucharska
+    volumes:
+      - postgres:/data/postgres
+  mail-dev:
+    container_name: 'mail-dev-server'
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+
+volumes:
+  postgres:
+    driver: local
 
 networks:
   backend:
