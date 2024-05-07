@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import szymanski.jakub.backend.config.FileUploadProperties;
-import szymanski.jakub.backend.services.FileUploadService;
+import szymanski.jakub.backend.fileupload.services.FileUploadService;
 
 @SpringBootApplication
 @EnableConfigurationProperties(FileUploadProperties.class)

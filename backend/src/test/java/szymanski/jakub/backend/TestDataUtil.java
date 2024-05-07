@@ -1,10 +1,14 @@
 package szymanski.jakub.backend;
 
-import szymanski.jakub.backend.domain.dto.IngredientDto;
-import szymanski.jakub.backend.domain.dto.RecipeDto;
-import szymanski.jakub.backend.domain.dto.RecipeIngredientDto;
-import szymanski.jakub.backend.domain.dto.UserDto;
-import szymanski.jakub.backend.domain.entities.*;
+import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
+import szymanski.jakub.backend.recipe.dtos.RecipeDto;
+import szymanski.jakub.backend.recipeingredients.dtos.RecipeIngredientDto;
+import szymanski.jakub.backend.user.dtos.UserDto;
+import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
+import szymanski.jakub.backend.recipe.entities.RecipeEntity;
+import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientEntity;
+import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientKey;
+import szymanski.jakub.backend.user.entities.UserEntity;
 
 public final class TestDataUtil {
 
