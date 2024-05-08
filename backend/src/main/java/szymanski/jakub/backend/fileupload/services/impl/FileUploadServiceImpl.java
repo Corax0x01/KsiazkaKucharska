@@ -8,8 +8,8 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 import szymanski.jakub.backend.config.FileUploadProperties;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
-import szymanski.jakub.backend.exceptions.FileUploadException;
-import szymanski.jakub.backend.exceptions.UploadedFileNotFoundException;
+import szymanski.jakub.backend.fileupload.exceptions.FileUploadException;
+import szymanski.jakub.backend.fileupload.exceptions.UploadedFileNotFoundException;
 import szymanski.jakub.backend.fileupload.services.FileUploadService;
 import szymanski.jakub.backend.recipe.services.RecipeService;
 

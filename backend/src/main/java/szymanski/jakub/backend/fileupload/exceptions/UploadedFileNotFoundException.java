@@ -1,4 +1,4 @@
-package szymanski.jakub.backend.exceptions;
+package szymanski.jakub.backend.fileupload.exceptions;
 
 public class UploadedFileNotFoundException extends FileUploadException {
 

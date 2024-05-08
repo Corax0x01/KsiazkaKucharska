@@ -1,5 +1,3 @@
-INSERT INTO users (id, username, password, email) VALUES (1, 'Corax01', 'P@ssw0rd', 'Corax01@wp.pl');
-
 INSERT INTO ingredients (id, name) VALUES (1, 'Mąka');
 INSERT INTO ingredients (id, name) VALUES (2, 'Sól');
 INSERT INTO ingredients (id, name) VALUES (3, 'Jajka');

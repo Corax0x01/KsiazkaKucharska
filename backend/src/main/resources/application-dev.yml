@@ -12,7 +12,6 @@ spring:
       ddl-auto: create
     defer-datasource-initialization: true
     database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
   mail:
     host: localhost
     port: 1025
@@ -28,3 +27,11 @@ spring:
         connectiontimeout: 5000
         timeout: 3000
         writetimeout: 5000
+application:
+  security:
+    jwt:
+      secret-key: 7ae81f1f2e3b87755c6716f8ff93c7da45374bcdbabe45e7ad81c81e85
+      expiration: 86400000
+  mailing:
+    frontend:
+      activation-url: http://localhost:8080/activate-account

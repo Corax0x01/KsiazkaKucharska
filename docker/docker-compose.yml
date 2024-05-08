@@ -34,7 +34,7 @@ services:
 #        limits:
 #          memory: 1G
 #    environment:
-#      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/ksiazka_kucharska
   db:
     container_name: 'db'
     image: postgres
