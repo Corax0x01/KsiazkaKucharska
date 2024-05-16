@@ -2,6 +2,8 @@ package szymanski.jakub.backend.recipeingredients.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import szymanski.jakub.backend.ingredient.exceptions.IngredientNotFoundException;
+import szymanski.jakub.backend.recipe.exceptions.RecipeNotFoundException;
 import szymanski.jakub.backend.recipeingredients.dtos.RecipeIngredientDto;
 import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientEntity;
 import szymanski.jakub.backend.recipeingredients.exceptions.RecipeIngredientNotFoundException;
@@ -21,21 +23,30 @@ public class RecipeIngredientsServiceImpl implements RecipeIngredientsService {
 
     public List<RecipeIngredientDto> findRecipeIngredients(Long recipeId) {
         return recipeIngredientsRepository.findAllByRecipeEntityId(recipeId)
+                .orElseThrow(
+                        () -> new RecipeNotFoundException("Recipe with id: " + recipeId + " not found")
+                )
                 .stream()
                 .map(recipeIngredientMapper::mapTo)
                 .toList();
     }
 
     public List<RecipeIngredientDto> findIngredientRecipes(Long ingredientId) {
-        return recipeIngredientsRepository.findAllByIngredientEntityId(ingredientId).stream().map(recipeIngredientMapper::mapTo).toList();
+        return recipeIngredientsRepository.findAllByIngredientEntityId(ingredientId)
+                .orElseThrow(
+                        () -> new IngredientNotFoundException("Ingredient with id: " + ingredientId + " not found")
+                )
+                .stream()
+                .map(recipeIngredientMapper::mapTo)
+                .toList();
     }
 
-    public RecipeIngredientDto save(RecipeIngredientDto recipeIngredient) {
+    public Long save(RecipeIngredientDto recipeIngredient) {
         RecipeIngredientEntity recipeIngredientEntity = recipeIngredientMapper.mapFrom(recipeIngredient);
-        return recipeIngredientMapper.mapTo(recipeIngredientsRepository.save(recipeIngredientEntity));
+        return recipeIngredientsRepository.save(recipeIngredientEntity).getId();
     }
 
-    public RecipeIngredientDto partialUpdate(Long id, RecipeIngredientDto recipeIngredient) {
+    public Long partialUpdate(Long id, RecipeIngredientDto recipeIngredient) {
         recipeIngredient.setId(id);
 
         RecipeIngredientEntity recipeIngredientEntity = recipeIngredientMapper.mapFrom(recipeIngredient);
@@ -45,7 +56,7 @@ public class RecipeIngredientsServiceImpl implements RecipeIngredientsService {
             return recipeIngredientsRepository.save(existingRecipeIngredient);
         }).orElseThrow(() -> new RuntimeException("RecipeIngredient not found"));
 
-        return recipeIngredientMapper.mapTo(updatedRecipeIngredient);
+        return updatedRecipeIngredient.getId();
     }
 
     public void delete(Long recipeId, Long ingredientId) {

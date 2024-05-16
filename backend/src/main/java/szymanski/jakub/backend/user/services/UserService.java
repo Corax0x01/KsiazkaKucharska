@@ -9,13 +9,13 @@ public interface UserService {
 
     List<UserDto> findAll();
 
-    Optional<UserDto> find(Long id);
+    UserDto find(Long id);
 
-    Optional<UserDto> find(String username);
+    UserDto find(String username);
 
-    UserDto save(UserDto user);
+    Long save(UserDto user);
 
-    UserDto partialUpdate(Long id, UserDto user);
+    Long partialUpdate(Long id, UserDto user);
 
     void delete(Long id);
 

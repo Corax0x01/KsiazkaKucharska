@@ -17,7 +17,6 @@ import szymanski.jakub.backend.recipe.services.RecipeService;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Log
 @RequestMapping("recipes")
@@ -57,8 +56,8 @@ public class RecipeController {
     public ResponseEntity<RecipeDto> getRecipe(
             @PathVariable("id") Long id) {
 
-        Optional<RecipeDto> recipe = recipeService.find(id);
-        return recipe.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        RecipeDto recipe = recipeService.find(id);
+        return ResponseEntity.ok(recipe);
     }
 
     @PostMapping
@@ -72,7 +71,7 @@ public class RecipeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RecipeDto> fullUpdateRecipe(
+    public ResponseEntity<Long> fullUpdateRecipe(
             @PathVariable("id") Long id,
             @RequestBody RecipeDto recipe) {
 
@@ -81,13 +80,13 @@ public class RecipeController {
         }
 
         recipe.setId(id);
-        RecipeDto updatedRecipe = recipeService.save(recipe);
+        Long updatedRecipeId = recipeService.save(recipe);
 
-        return ResponseEntity.ok(updatedRecipe);
+        return ResponseEntity.ok(updatedRecipeId);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<RecipeDto> partialUpdateRecipe(
+    public ResponseEntity<Long> partialUpdateRecipe(
             @PathVariable("id") Long id,
             @RequestBody RecipeDto recipe) {
 
@@ -95,9 +94,9 @@ public class RecipeController {
             return ResponseEntity.notFound().build();
         }
 
-        RecipeDto updatedRecipe = recipeService.partialUpdate(id, recipe);
+        Long updatedRecipeId = recipeService.partialUpdate(id, recipe);
 
-        return ResponseEntity.ok(updatedRecipe);
+        return ResponseEntity.ok(updatedRecipeId);
     }
 
     @DeleteMapping("/{id}")

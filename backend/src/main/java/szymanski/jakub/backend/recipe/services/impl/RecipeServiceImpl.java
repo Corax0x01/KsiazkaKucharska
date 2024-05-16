@@ -10,6 +10,7 @@ import szymanski.jakub.backend.recipe.TagsEnum;
 import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.recipe.dtos.IngredientQuantityDto;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
+import szymanski.jakub.backend.recipe.exceptions.RecipeNotFoundException;
 import szymanski.jakub.backend.recipe.requests.CreateRecipeRequest;
 import szymanski.jakub.backend.recipeingredients.dtos.RecipeIngredientDto;
 import szymanski.jakub.backend.recipe.entities.RecipeEntity;
@@ -19,7 +20,6 @@ import szymanski.jakub.backend.ingredient.services.IngredientService;
 import szymanski.jakub.backend.recipeingredients.services.RecipeIngredientsService;
 import szymanski.jakub.backend.recipe.services.RecipeService;
 import szymanski.jakub.backend.user.entities.UserEntity;
-import szymanski.jakub.backend.user.services.UserService;
 
 import java.util.HashSet;
 import java.util.List;
@@ -31,7 +31,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final Mapper<RecipeEntity, RecipeDto> recipeMapper;
-    private final UserService userService;
     private final IngredientService ingredientService;
     private final RecipeIngredientsService recipeIngredientsService;
 
@@ -70,8 +69,11 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository.findAllByUserEntity(pageable, user).map(recipeMapper::mapTo);
     }
 
-    public Optional<RecipeDto> find(Long id) {
-        return recipeRepository.findById(id).map(recipeMapper::mapTo);
+    public RecipeDto find(Long id) {
+        return recipeRepository.findById(id).map(recipeMapper::mapTo)
+                .orElseThrow(
+                        () -> new RecipeNotFoundException("Recipe with id: " + id + " not found")
+                );
     }
 
     public Long create(CreateRecipeRequest request, Authentication connectedUser) {
@@ -99,9 +101,9 @@ public class RecipeServiceImpl implements RecipeService {
 
             if (!ingredientService.exists(capitalizedIngredientName)) {
                 IngredientDto newIngredient = IngredientDto.builder().name(capitalizedIngredientName).build();
-                ingredient = ingredientService.save(newIngredient);
+                ingredient = ingredientService.find(ingredientService.save(newIngredient));
             } else {
-                ingredient = ingredientService.find(capitalizedIngredientName).orElseThrow();
+                ingredient = ingredientService.find(capitalizedIngredientName);
             }
 
             RecipeIngredientDto newRecipeIngredient = RecipeIngredientDto.builder()
@@ -116,12 +118,12 @@ public class RecipeServiceImpl implements RecipeService {
         return savedRecipe.getId();
     }
 
-    public RecipeDto save(RecipeDto recipe) {
+    public Long save(RecipeDto recipe) {
         RecipeEntity recipeEntity = recipeMapper.mapFrom(recipe);
-        return recipeMapper.mapTo(recipeRepository.save(recipeEntity));
+        return recipeRepository.save(recipeEntity).getId();
     }
 
-    public RecipeDto partialUpdate(Long id, RecipeDto recipe) {
+    public Long partialUpdate(Long id, RecipeDto recipe) {
         recipe.setId(id);
         RecipeEntity recipeEntity = recipeMapper.mapFrom(recipe);
 
@@ -133,7 +135,7 @@ public class RecipeServiceImpl implements RecipeService {
             return recipeRepository.save(existingRecipe);
         }).orElseThrow(() -> new RuntimeException("Recipe not found"));
 
-        return recipeMapper.mapTo(updatedRecipe);
+        return updatedRecipe.getId();
     }
 
     public void delete(Long id) {

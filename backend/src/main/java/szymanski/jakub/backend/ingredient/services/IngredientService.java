@@ -8,10 +8,10 @@ import java.util.Optional;
 public interface IngredientService {
 
     List<IngredientDto> findAll();
-    Optional<IngredientDto> find(Long id);
-    Optional<IngredientDto> find(String name);
-    IngredientDto save(IngredientDto ingredient);
-    IngredientDto partialUpdate(Long id, IngredientDto ingredient);
+    IngredientDto find(Long id);
+    IngredientDto find(String name);
+    Long save(IngredientDto ingredient);
+    Long partialUpdate(Long id, IngredientDto ingredient);
     void delete(Long id);
     void delete(String name);
     void delete(IngredientDto ingredient);

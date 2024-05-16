@@ -10,11 +10,9 @@ public interface RecipeIngredientsService {
 
     List<RecipeIngredientDto> findIngredientRecipes(Long ingredientId);
 
-    RecipeIngredientDto save(RecipeIngredientDto recipeIngredient);
+    Long save(RecipeIngredientDto recipeIngredient);
 
-    RecipeIngredientDto partialUpdate(Long id, RecipeIngredientDto recipeIngredient);
-
-//    void delete(Long recipeId, Long ingredientId);
+    Long partialUpdate(Long id, RecipeIngredientDto recipeIngredient);
 
     void delete(RecipeIngredientDto recipeIngredient);
 

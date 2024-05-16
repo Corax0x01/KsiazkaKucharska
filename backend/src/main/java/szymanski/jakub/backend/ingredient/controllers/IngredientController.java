@@ -7,7 +7,6 @@ import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.ingredient.services.IngredientService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("ingredients")
 @RestController
@@ -28,21 +27,21 @@ public class IngredientController {
     public ResponseEntity<IngredientDto> getIngredient(
             @PathVariable("id") Long id) {
 
-        Optional<IngredientDto> ingredient = ingredientService.find(id);
-        return ingredient.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        IngredientDto ingredient = ingredientService.find(id);
+        return ResponseEntity.ok(ingredient);
     }
 
     @PostMapping
-    public ResponseEntity<IngredientDto> createIngredient(
+    public ResponseEntity<Long> createIngredient(
             @RequestBody IngredientDto ingredient) {
 
-        IngredientDto savedIngredient = ingredientService.save(ingredient);
+        Long savedIngredientId = ingredientService.save(ingredient);
 
-        return new ResponseEntity<>(savedIngredient, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedIngredientId);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<IngredientDto> fullUpdateIngredient(
+    public ResponseEntity<Long> fullUpdateIngredient(
             @PathVariable("id") Long id,
             @RequestBody IngredientDto ingredient) {
 
@@ -50,23 +49,19 @@ public class IngredientController {
             return ResponseEntity.notFound().build();
         }
 
-        IngredientDto updatedIngredient = ingredientService.save(ingredient);
+        Long updatedIngredientId = ingredientService.save(ingredient);
 
-        return ResponseEntity.ok(updatedIngredient);
+        return ResponseEntity.ok(updatedIngredientId);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<IngredientDto> partialUpdateIngredient(
+    public ResponseEntity<Long> partialUpdateIngredient(
             @PathVariable("id") Long id,
             @RequestBody IngredientDto ingredient) {
 
-        if(!ingredientService.exists(id)) {
-            return ResponseEntity.notFound().build();
-        }
+        Long updatedIngredientId = ingredientService.partialUpdate(id, ingredient);
 
-        IngredientDto updatedIngredient = ingredientService.partialUpdate(id, ingredient);
-
-        return ResponseEntity.ok(updatedIngredient);
+        return ResponseEntity.ok(updatedIngredientId);
     }
 
     @DeleteMapping("/{id}")

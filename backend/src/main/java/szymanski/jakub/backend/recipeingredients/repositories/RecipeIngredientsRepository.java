@@ -10,8 +10,8 @@ import java.util.Optional;
 @Repository
 public interface RecipeIngredientsRepository extends JpaRepository<RecipeIngredientEntity, Long> {
 
-    List<RecipeIngredientEntity> findAllByRecipeEntityId(Long recipeId);
-    List<RecipeIngredientEntity> findAllByIngredientEntityId(Long ingredientId);
+    Optional<List<RecipeIngredientEntity>> findAllByRecipeEntityId(Long recipeId);
+    Optional<List<RecipeIngredientEntity>> findAllByIngredientEntityId(Long ingredientId);
     Optional<RecipeIngredientEntity> findByRecipeEntityIdAndIngredientEntityId(Long recipeId, Long ingredientId);
 
 }

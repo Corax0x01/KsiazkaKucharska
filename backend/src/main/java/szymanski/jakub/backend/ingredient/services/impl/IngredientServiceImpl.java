@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
 import szymanski.jakub.backend.common.Mapper;
+import szymanski.jakub.backend.ingredient.exceptions.IngredientNotFoundException;
 import szymanski.jakub.backend.ingredient.repositories.IngredientRepository;
 import szymanski.jakub.backend.ingredient.services.IngredientService;
 
@@ -25,20 +26,26 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredientRepository.findAll().stream().map(ingredientMapper::mapTo).toList();
     }
 
-    public Optional<IngredientDto> find(Long id) {
-        return ingredientRepository.findById(id).map(ingredientMapper::mapTo);
+    public IngredientDto find(Long id) {
+        return ingredientRepository.findById(id).map(ingredientMapper::mapTo)
+                .orElseThrow(
+                        () -> new IngredientNotFoundException("Ingredient with id: " + id + " not found")
+                );
     }
 
-    public Optional<IngredientDto> find(String name) {
-        return ingredientRepository.findByName(name).map(ingredientMapper::mapTo);
+    public IngredientDto find(String name) {
+        return ingredientRepository.findByName(name).map(ingredientMapper::mapTo)
+                .orElseThrow(
+                        () -> new IngredientNotFoundException("Ingredient with name: " + name + " not found")
+                );
     }
 
-    public IngredientDto save(IngredientDto ingredient) {
+    public Long save(IngredientDto ingredient) {
         IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
-        return ingredientMapper.mapTo(ingredientRepository.save(ingredientEntity));
+        return ingredientRepository.save(ingredientEntity).getId();
     }
 
-    public IngredientDto partialUpdate(Long id, IngredientDto ingredient) {
+    public Long partialUpdate(Long id, IngredientDto ingredient) {
         ingredient.setId(id);
 
         IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
@@ -46,9 +53,11 @@ public class IngredientServiceImpl implements IngredientService {
         IngredientEntity updatedIngredient = ingredientRepository.findById(id).map(existingIngredient -> {
             Optional.ofNullable(ingredientEntity.getName()).ifPresent(existingIngredient::setName);
             return ingredientRepository.save(existingIngredient);
-        }).orElseThrow(() -> new RuntimeException("Ingredient not found"));
+        }).orElseThrow(
+                () -> new IngredientNotFoundException("Ingredient with id: " + id + " not found")
+        );
 
-        return ingredientMapper.mapTo(updatedIngredient);
+        return updatedIngredient.getId();
     }
 
     public void delete(Long id) {

@@ -31,12 +31,16 @@ public enum BusinessErrorCodesEnum {
     ACCOUNT_LOCKED(1105, FORBIDDEN, "User account is locked"),
     ACCOUNT_DISABLED(1106, FORBIDDEN, "User accound is disabled"),
 
-
-
     FILE_NOT_UPLOADED(1200, INTERNAL_SERVER_ERROR, "Error when uploading file"),
     FILE_NOT_FOUND(1204, NOT_FOUND, "File not found"),
 
     ROLE_NOT_FOUND(1404, NOT_FOUND, "User role not found"),
+
+    USER_NOT_FOUND(1504, NOT_FOUND, "User not found"),
+
+    RECIPE_NOT_FOUND(1604, NOT_FOUND, "Recipe not found"),
+
+    INGREDIENT_NOT_FOUND(1704, NOT_FOUND, "Ingredient not found"),
 
     RECIPE_INGREDIENT_NOT_FOUND(1804, NOT_FOUND, "Recipe ingredient not found")
     ;

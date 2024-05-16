@@ -28,44 +28,36 @@ public class UserController {
     public ResponseEntity<UserDto> getUser(
             @PathVariable("id") Long id) {
 
-        Optional<UserDto> user = userService.find(id);
-        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        UserDto user = userService.find(id);
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(
+    public ResponseEntity<Long> createUser(
             @RequestBody UserDto user) {
 
-        UserDto savedUser = userService.save(user);
+        Long savedUserId = userService.save(user);
 
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUserId);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> fullUpdateUser(
+    public ResponseEntity<Long> fullUpdateUser(
             @PathVariable("id") Long id,
             @RequestBody UserDto user) {
 
-        if(!userService.exists(id)) {
-            return ResponseEntity.notFound().build();
-        }
+        Long updatedUserId = userService.save(user);
 
-        UserDto updatedUser = userService.save(user);
-
-        return ResponseEntity.ok(updatedUser);
+        return ResponseEntity.ok(updatedUserId);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserDto> partialUpdateUser(
+    public ResponseEntity<Long> partialUpdateUser(
             @PathVariable("id") Long id,
             @RequestBody UserDto user) {
 
-        if(!userService.exists(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
-        UserDto updatedUser = userService.partialUpdate(id, user);
-        return ResponseEntity.ok(updatedUser);
+        Long updatedUserId = userService.partialUpdate(id, user);
+        return ResponseEntity.ok(updatedUserId);
     }
 
     @DeleteMapping("/{id}")
