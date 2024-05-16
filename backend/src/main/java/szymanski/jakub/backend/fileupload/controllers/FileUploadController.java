@@ -23,10 +23,6 @@ public class FileUploadController {
 
         Resource file = fileUploadService.loadAsResource(filename);
 
-        if(file == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         return ResponseEntity.ok(file);
     }
 
