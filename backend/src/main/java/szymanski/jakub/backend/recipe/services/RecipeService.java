@@ -5,23 +5,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import szymanski.jakub.backend.recipe.TagsEnum;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
+import szymanski.jakub.backend.recipe.entities.RecipeEntity;
 import szymanski.jakub.backend.recipe.requests.CreateRecipeRequest;
 
 import java.util.List;
 
 public interface RecipeService {
 
-    List<RecipeDto> findAll();
-    Page<RecipeDto> findAllWithPagination(Pageable pageable);
-    List<RecipeDto> findRecipeByTags(List<TagsEnum> tagsEnumList);
-    Page<RecipeDto> findAllByTags(List<TagsEnum> tagsEnumList, Pageable pageable);
-    Page<RecipeDto> findAllByAuthor(Pageable pageable, Authentication connectedUser);
-    RecipeDto find(Long id);
+    List<RecipeEntity> findAll();
+    Page<RecipeEntity> findAllWithPagination(Pageable pageable);
+    List<RecipeEntity> findRecipeByTags(List<TagsEnum> tagsEnumList);
+    Page<RecipeEntity> findAllByTags(List<TagsEnum> tagsEnumList, Pageable pageable);
+    Page<RecipeEntity> findAllByAuthor(Pageable pageable, Authentication connectedUser);
+    RecipeEntity find(Long id);
     Long create(CreateRecipeRequest request, Authentication connectedUser);
-    Long save(RecipeDto recipe);
-    Long partialUpdate(Long id, RecipeDto recipe);
+    Long save(RecipeEntity recipe);
+    Long partialUpdate(Long id, RecipeEntity recipe);
     void delete(Long id);
-    void delete(RecipeDto recipe);
+    void delete(RecipeEntity recipe);
     boolean exists(Long id);
 
 }

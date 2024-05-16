@@ -1,9 +1,8 @@
 package szymanski.jakub.backend.ingredient.services.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
-import szymanski.jakub.backend.common.Mapper;
 import szymanski.jakub.backend.ingredient.exceptions.IngredientNotFoundException;
 import szymanski.jakub.backend.ingredient.repositories.IngredientRepository;
 import szymanski.jakub.backend.ingredient.services.IngredientService;
@@ -12,46 +11,38 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class IngredientServiceImpl implements IngredientService {
 
     private final IngredientRepository ingredientRepository;
-    private final Mapper<IngredientEntity, IngredientDto> ingredientMapper;
 
-    public IngredientServiceImpl(IngredientRepository ingredientRepository, Mapper<IngredientEntity, IngredientDto> ingredientMapper) {
-        this.ingredientRepository = ingredientRepository;
-        this.ingredientMapper = ingredientMapper;
+    public List<IngredientEntity> findAll() {
+        return ingredientRepository.findAll();
     }
 
-    public List<IngredientDto> findAll() {
-        return ingredientRepository.findAll().stream().map(ingredientMapper::mapTo).toList();
-    }
-
-    public IngredientDto find(Long id) {
-        return ingredientRepository.findById(id).map(ingredientMapper::mapTo)
+    public IngredientEntity find(Long id) {
+        return ingredientRepository.findById(id)
                 .orElseThrow(
                         () -> new IngredientNotFoundException("Ingredient with id: " + id + " not found")
                 );
     }
 
-    public IngredientDto find(String name) {
-        return ingredientRepository.findByName(name).map(ingredientMapper::mapTo)
+    public IngredientEntity find(String name) {
+        return ingredientRepository.findByName(name)
                 .orElseThrow(
                         () -> new IngredientNotFoundException("Ingredient with name: " + name + " not found")
                 );
     }
 
-    public Long save(IngredientDto ingredient) {
-        IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
-        return ingredientRepository.save(ingredientEntity).getId();
+    public Long save(IngredientEntity ingredient) {
+        return ingredientRepository.save(ingredient).getId();
     }
 
-    public Long partialUpdate(Long id, IngredientDto ingredient) {
+    public Long partialUpdate(Long id, IngredientEntity ingredient) {
         ingredient.setId(id);
 
-        IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
-
         IngredientEntity updatedIngredient = ingredientRepository.findById(id).map(existingIngredient -> {
-            Optional.ofNullable(ingredientEntity.getName()).ifPresent(existingIngredient::setName);
+            Optional.ofNullable(ingredient.getName()).ifPresent(existingIngredient::setName);
             return ingredientRepository.save(existingIngredient);
         }).orElseThrow(
                 () -> new IngredientNotFoundException("Ingredient with id: " + id + " not found")
@@ -68,9 +59,8 @@ public class IngredientServiceImpl implements IngredientService {
         ingredientRepository.deleteByName(name);
     }
 
-    public void delete(IngredientDto ingredient) {
-        IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
-        ingredientRepository.delete(ingredientEntity);
+    public void delete(IngredientEntity ingredient) {
+        ingredientRepository.delete(ingredient);
     }
 
     public boolean exists(Long id) {

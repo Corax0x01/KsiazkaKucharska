@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import szymanski.jakub.backend.ingredient.exceptions.IngredientNotFoundException;
 import szymanski.jakub.backend.recipe.exceptions.RecipeNotFoundException;
-import szymanski.jakub.backend.recipeingredients.dtos.RecipeIngredientDto;
 import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientEntity;
 import szymanski.jakub.backend.recipeingredients.exceptions.RecipeIngredientNotFoundException;
-import szymanski.jakub.backend.common.Mapper;
 import szymanski.jakub.backend.recipeingredients.repositories.RecipeIngredientsRepository;
 import szymanski.jakub.backend.recipeingredients.services.RecipeIngredientsService;
 
@@ -19,42 +17,34 @@ import java.util.Optional;
 public class RecipeIngredientsServiceImpl implements RecipeIngredientsService {
 
     private final RecipeIngredientsRepository recipeIngredientsRepository;
-    private final Mapper<RecipeIngredientEntity, RecipeIngredientDto> recipeIngredientMapper;
 
-    public List<RecipeIngredientDto> findRecipeIngredients(Long recipeId) {
+    public List<RecipeIngredientEntity> findRecipeIngredients(Long recipeId) {
         return recipeIngredientsRepository.findAllByRecipeEntityId(recipeId)
                 .orElseThrow(
                         () -> new RecipeNotFoundException("Recipe with id: " + recipeId + " not found")
-                )
-                .stream()
-                .map(recipeIngredientMapper::mapTo)
-                .toList();
+                );
     }
 
-    public List<RecipeIngredientDto> findIngredientRecipes(Long ingredientId) {
+    public List<RecipeIngredientEntity> findIngredientRecipes(Long ingredientId) {
         return recipeIngredientsRepository.findAllByIngredientEntityId(ingredientId)
                 .orElseThrow(
                         () -> new IngredientNotFoundException("Ingredient with id: " + ingredientId + " not found")
-                )
-                .stream()
-                .map(recipeIngredientMapper::mapTo)
-                .toList();
+                );
     }
 
-    public Long save(RecipeIngredientDto recipeIngredient) {
-        RecipeIngredientEntity recipeIngredientEntity = recipeIngredientMapper.mapFrom(recipeIngredient);
-        return recipeIngredientsRepository.save(recipeIngredientEntity).getId();
+    public Long save(RecipeIngredientEntity recipeIngredient) {
+        return recipeIngredientsRepository.save(recipeIngredient).getId();
     }
 
-    public Long partialUpdate(Long id, RecipeIngredientDto recipeIngredient) {
+    public Long partialUpdate(Long id, RecipeIngredientEntity recipeIngredient) {
         recipeIngredient.setId(id);
 
-        RecipeIngredientEntity recipeIngredientEntity = recipeIngredientMapper.mapFrom(recipeIngredient);
-
         RecipeIngredientEntity updatedRecipeIngredient = recipeIngredientsRepository.findById(id).map(existingRecipeIngredient -> {
-            Optional.ofNullable(recipeIngredientEntity.getQuantity()).ifPresent(existingRecipeIngredient::setQuantity);
+            Optional.ofNullable(recipeIngredient.getQuantity()).ifPresent(existingRecipeIngredient::setQuantity);
             return recipeIngredientsRepository.save(existingRecipeIngredient);
-        }).orElseThrow(() -> new RuntimeException("RecipeIngredient not found"));
+        }).orElseThrow(
+                () -> new RecipeIngredientNotFoundException("RecipeIngredient with id: " + id + " not found")
+        );
 
         return updatedRecipeIngredient.getId();
     }
@@ -72,9 +62,8 @@ public class RecipeIngredientsServiceImpl implements RecipeIngredientsService {
         recipeIngredientsRepository.delete(recipeIngredientEntity);
     }
 
-    public void delete(RecipeIngredientDto recipeIngredient) {
-        RecipeIngredientEntity recipeIngredientEntity = recipeIngredientMapper.mapFrom(recipeIngredient);
-        recipeIngredientsRepository.delete(recipeIngredientEntity);
+    public void delete(RecipeIngredientEntity recipeIngredient) {
+        recipeIngredientsRepository.delete(recipeIngredient);
     }
 
     @Override
