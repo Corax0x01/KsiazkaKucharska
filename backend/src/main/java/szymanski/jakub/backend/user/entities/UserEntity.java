@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import szymanski.jakub.backend.recipe.entities.RecipeEntity;
 import szymanski.jakub.backend.role.entities.RoleEntity;
 
 import java.security.Principal;
@@ -27,8 +28,7 @@ import java.util.stream.Collectors;
 public class UserEntity implements UserDetails, Principal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_generator")
-    @SequenceGenerator(name = "user_id_generator", sequenceName = "user_id_seq", allocationSize = 1)
+    @GeneratedValue
     private Long id;
     @Column(unique = true)
     private String username;
@@ -37,6 +37,9 @@ public class UserEntity implements UserDetails, Principal {
     private String email;
     private Boolean locked;
     private Boolean enabled;
+
+    @OneToMany(mappedBy = "userEntity")
+    private List<RecipeEntity> recipes;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<RoleEntity> roles;

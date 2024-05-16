@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientKey;
 import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 
@@ -14,7 +13,7 @@ import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 @Builder
 public class RecipeIngredientDto {
 
-    private RecipeIngredientKey id;
+    private Long id;
     private RecipeDto recipe;
     private IngredientDto ingredient;
 

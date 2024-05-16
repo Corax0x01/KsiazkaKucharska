@@ -1,28 +1,31 @@
 package szymanski.jakub.backend.recipe.services.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import szymanski.jakub.backend.recipe.TagsEnum;
 import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
+import szymanski.jakub.backend.recipe.dtos.IngredientQuantityDto;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
+import szymanski.jakub.backend.recipe.requests.CreateRecipeRequest;
 import szymanski.jakub.backend.recipeingredients.dtos.RecipeIngredientDto;
-import szymanski.jakub.backend.user.dtos.UserDto;
 import szymanski.jakub.backend.recipe.entities.RecipeEntity;
-import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientKey;
-import szymanski.jakub.backend.shared.mappers.Mapper;
+import szymanski.jakub.backend.common.Mapper;
 import szymanski.jakub.backend.recipe.repositories.RecipeRepository;
 import szymanski.jakub.backend.ingredient.services.IngredientService;
 import szymanski.jakub.backend.recipeingredients.services.RecipeIngredientsService;
 import szymanski.jakub.backend.recipe.services.RecipeService;
+import szymanski.jakub.backend.user.entities.UserEntity;
 import szymanski.jakub.backend.user.services.UserService;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
@@ -32,18 +35,6 @@ public class RecipeServiceImpl implements RecipeService {
     private final IngredientService ingredientService;
     private final RecipeIngredientsService recipeIngredientsService;
 
-
-    public RecipeServiceImpl(RecipeRepository recipeRepository,
-                             Mapper<RecipeEntity, RecipeDto> recipeMapper,
-                             UserService userService,
-                             IngredientService ingredientService,
-                             RecipeIngredientsService recipeIngredientsService) {
-        this.recipeRepository = recipeRepository;
-        this.recipeMapper = recipeMapper;
-        this.userService = userService;
-        this.ingredientService = ingredientService;
-        this.recipeIngredientsService = recipeIngredientsService;
-    }
 
     public List<RecipeDto> findAll() {
         List<RecipeEntity> recipes = recipeRepository.findAll();
@@ -61,45 +52,59 @@ public class RecipeServiceImpl implements RecipeService {
         )).toList();
     }
 
-    public Page<RecipeDto> findRecipeByTagsWithPagination(List<TagsEnum> tagsEnumList, Pageable pageable) {
+    public Page<RecipeDto> findAllByTags(List<TagsEnum> tagsEnumList, Pageable pageable) {
         List<RecipeDto> recipes = recipeRepository.findAll(pageable).stream().map(recipeMapper::mapTo).toList();
 
         List<RecipeDto> filteredRecipes = recipes.stream().filter(recipe -> (
                 new HashSet<>(recipe.getTags()).containsAll(tagsEnumList)
-                )).toList();
+        )).toList();
 
         return new PageImpl<>(filteredRecipes);
+    }
+
+    @Override
+    public Page<RecipeDto> findAllByAuthor(Pageable pageable, Authentication connectedUser) {
+
+        UserEntity user = ((UserEntity) connectedUser.getPrincipal());
+
+        return recipeRepository.findAllByUserEntity(pageable, user).map(recipeMapper::mapTo);
     }
 
     public Optional<RecipeDto> find(Long id) {
         return recipeRepository.findById(id).map(recipeMapper::mapTo);
     }
 
-    public RecipeDto create(RecipeDto recipe, JsonNode ingredients) {
+    public Long create(CreateRecipeRequest request, Authentication connectedUser) {
 
-        UserDto userDto = userService.find(recipe.getUser().getId()).orElseThrow();
-        recipe.setUser(userDto);
+        UserEntity user = ((UserEntity) connectedUser.getPrincipal());
+
+        RecipeEntity recipe = RecipeEntity.builder()
+                .title(request.title())
+                .description(request.description())
+                .imageName(request.imageName())
+                .tags(request.tags())
+                .userEntity(user)
+                .build();
 
         RecipeDto savedRecipe = recipeMapper.mapTo(
-                recipeRepository.save(
-                        recipeMapper.mapFrom(recipe)
-                )
+                recipeRepository.save(recipe)
         );
 
-        for(JsonNode n : ingredients) {
-            String ingredientName = n.get("name").asText();
-            String quantity = n.get("quantity").asText();
+        for(IngredientQuantityDto i : request.ingredients()) {
+            String ingredientName = i.getName();
+            String upperFirstLetter = ingredientName.substring(0, 1).toUpperCase();
+            String capitalizedIngredientName = upperFirstLetter + ingredientName.substring(1);
+            String quantity = i.getQuantity();
             IngredientDto ingredient;
 
-            if (!ingredientService.exists(ingredientName)){
-                IngredientDto newIngredient = IngredientDto.builder().name(ingredientName).build();
+            if (!ingredientService.exists(capitalizedIngredientName)) {
+                IngredientDto newIngredient = IngredientDto.builder().name(capitalizedIngredientName).build();
                 ingredient = ingredientService.save(newIngredient);
             } else {
-                ingredient = ingredientService.find(ingredientName).orElseThrow();
+                ingredient = ingredientService.find(capitalizedIngredientName).orElseThrow();
             }
 
             RecipeIngredientDto newRecipeIngredient = RecipeIngredientDto.builder()
-                    .id(new RecipeIngredientKey(savedRecipe.getId(), ingredient.getId()))
                     .recipe(savedRecipe)
                     .ingredient(ingredient)
                     .quantity(quantity)
@@ -108,7 +113,7 @@ public class RecipeServiceImpl implements RecipeService {
             recipeIngredientsService.save(newRecipeIngredient);
         }
 
-        return savedRecipe;
+        return savedRecipe.getId();
     }
 
     public RecipeDto save(RecipeDto recipe) {
@@ -124,6 +129,7 @@ public class RecipeServiceImpl implements RecipeService {
             Optional.ofNullable(recipeEntity.getTitle()).ifPresent(existingRecipe::setTitle);
             Optional.ofNullable(recipeEntity.getDescription()).ifPresent(existingRecipe::setDescription);
             Optional.ofNullable(recipeEntity.getImageName()).ifPresent(existingRecipe::setImageName);
+            Optional.ofNullable(recipeEntity.getTags()).ifPresent(existingRecipe::setTags);
             return recipeRepository.save(existingRecipe);
         }).orElseThrow(() -> new RuntimeException("Recipe not found"));
 

@@ -1,7 +1,6 @@
 package szymanski.jakub.backend.recipeingredients.services;
 
 import szymanski.jakub.backend.recipeingredients.dtos.RecipeIngredientDto;
-import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientKey;
 
 import java.util.List;
 
@@ -13,11 +12,11 @@ public interface RecipeIngredientsService {
 
     RecipeIngredientDto save(RecipeIngredientDto recipeIngredient);
 
-    RecipeIngredientDto partialUpdate(RecipeIngredientKey id, RecipeIngredientDto recipeIngredient);
+    RecipeIngredientDto partialUpdate(Long id, RecipeIngredientDto recipeIngredient);
 
-    void delete(Long recipeId, Long ingredientId);
+//    void delete(Long recipeId, Long ingredientId);
 
     void delete(RecipeIngredientDto recipeIngredient);
 
-    boolean exists(RecipeIngredientKey id);
+    boolean exists(Long id);
 }

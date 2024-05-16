@@ -63,13 +63,4 @@ public class RecipeIngredientsController {
         return ResponseEntity.ok(recipeIngredients.stream().map(RecipeIngredientDto::getRecipe).toList());
     }
 
-    @DeleteMapping("/recipes/{recipeId}/ingredients/{ingredientId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteRecipeIngredient(
-            @PathVariable("recipeId") Long recipeId,
-            @PathVariable("ingredientId") Long ingredientId) {
-
-        recipeIngredientsService.delete(recipeId, ingredientId);
-    }
-
 }

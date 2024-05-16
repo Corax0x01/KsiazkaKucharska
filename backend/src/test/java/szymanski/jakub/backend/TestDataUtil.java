@@ -7,7 +7,6 @@ import szymanski.jakub.backend.user.dtos.UserDto;
 import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
 import szymanski.jakub.backend.recipe.entities.RecipeEntity;
 import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientEntity;
-import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientKey;
 import szymanski.jakub.backend.user.entities.UserEntity;
 
 public final class TestDataUtil {
@@ -21,7 +20,6 @@ public final class TestDataUtil {
                 .username("testUser")
                 .password("testPassword")
                 .email("testEmail")
-                .isAdmin(false)
                 .build();
     }
 
@@ -31,7 +29,6 @@ public final class TestDataUtil {
                 .username("testUser")
                 .password("testPassword")
                 .email("testEmail")
-                .isAdmin(false)
                 .build();
     }
 
@@ -41,7 +38,6 @@ public final class TestDataUtil {
                 .username("testUser")
                 .password("testPassword")
                 .email("testEmail")
-                .isAdmin(false)
                 .build();
     }
 
@@ -83,7 +79,6 @@ public final class TestDataUtil {
 
     public static RecipeIngredientEntity createTestRecipeIngredientEntity(final RecipeEntity recipeEntity, final IngredientEntity ingredientEntity) {
         return RecipeIngredientEntity.builder()
-                .id(new RecipeIngredientKey(recipeEntity.getId(), ingredientEntity.getId()))
                 .recipeEntity(recipeEntity)
                 .ingredientEntity(ingredientEntity)
                 .quantity("testQuantity")
@@ -97,7 +92,6 @@ public final class TestDataUtil {
                 .username("testUser")
                 .password("testPassword")
                 .email("testEmail")
-                .isAdmin(false)
                 .build();
     }
 
@@ -107,7 +101,6 @@ public final class TestDataUtil {
                 .username("testUser")
                 .password("testPassword")
                 .email("testEmail")
-                .isAdmin(false)
                 .build();
     }
 
@@ -117,7 +110,6 @@ public final class TestDataUtil {
                 .username("testUser")
                 .password("testPassword")
                 .email("testEmail")
-                .isAdmin(false)
                 .build();
     }
 
@@ -159,7 +151,6 @@ public final class TestDataUtil {
 
     public static RecipeIngredientDto createTestRecipeIngredient(final RecipeDto recipe, final IngredientDto ingredient) {
         return RecipeIngredientDto.builder()
-                .id(new RecipeIngredientKey(recipe.getId(), ingredient.getId()))
                 .recipe(recipe)
                 .ingredient(ingredient)
                 .quantity("testQuantity")
