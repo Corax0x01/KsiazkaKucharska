@@ -3,7 +3,7 @@ package szymanski.jakub.backend.ingredient.services.impl;
 import org.springframework.stereotype.Service;
 import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
-import szymanski.jakub.backend.shared.mappers.Mapper;
+import szymanski.jakub.backend.common.Mapper;
 import szymanski.jakub.backend.ingredient.repositories.IngredientRepository;
 import szymanski.jakub.backend.ingredient.services.IngredientService;
 

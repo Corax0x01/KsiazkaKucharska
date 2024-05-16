@@ -3,7 +3,7 @@ package szymanski.jakub.backend.user.dtos;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import szymanski.jakub.backend.user.entities.UserEntity;
-import szymanski.jakub.backend.shared.mappers.Mapper;
+import szymanski.jakub.backend.common.Mapper;
 
 @Component
 public class UserMapperImpl implements Mapper<UserEntity, UserDto> {

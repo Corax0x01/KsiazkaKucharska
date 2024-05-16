@@ -3,7 +3,7 @@ package szymanski.jakub.backend.ingredient.dtos;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
-import szymanski.jakub.backend.shared.mappers.Mapper;
+import szymanski.jakub.backend.common.Mapper;
 
 @Component
 public class IngredientMapperImpl implements Mapper<IngredientEntity, IngredientDto> {

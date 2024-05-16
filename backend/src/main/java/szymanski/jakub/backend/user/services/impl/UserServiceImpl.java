@@ -3,7 +3,7 @@ package szymanski.jakub.backend.user.services.impl;
 import org.springframework.stereotype.Service;
 import szymanski.jakub.backend.user.dtos.UserDto;
 import szymanski.jakub.backend.user.entities.UserEntity;
-import szymanski.jakub.backend.shared.mappers.Mapper;
+import szymanski.jakub.backend.common.Mapper;
 import szymanski.jakub.backend.user.repositories.UserRepository;
 import szymanski.jakub.backend.user.services.UserService;
 

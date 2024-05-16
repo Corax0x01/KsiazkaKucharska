@@ -51,7 +51,6 @@ public class KsiazkaKucharskaApplication {
 						.enabled(true)
 						.build()
 				);
-
 			}
 			fileUploadService.deleteAll();
 			fileUploadService.init();

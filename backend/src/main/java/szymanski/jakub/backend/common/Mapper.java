@@ -1,4 +1,4 @@
-package szymanski.jakub.backend.shared.mappers;
+package szymanski.jakub.backend.common;
 
 public interface Mapper<A, B> {
 

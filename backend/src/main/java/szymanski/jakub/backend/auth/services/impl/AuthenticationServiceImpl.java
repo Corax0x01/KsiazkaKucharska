@@ -30,7 +30,6 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 @Log
 @Service
@@ -128,9 +127,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new TokenExpiredException("Activation token has expired. A new token has been sent.");
         }
 
-        UserEntity user = userRepository.findById(savedToken.getUser().getId()).orElseThrow(
-                () -> new UsernameNotFoundException("User not found")
-        );
+        UserEntity user = userRepository.findById(savedToken.getUser().getId())
+                .orElseThrow(
+                        () -> new UsernameNotFoundException("User not found")
+                );
 
         user.setEnabled(true);
         userRepository.save(user);

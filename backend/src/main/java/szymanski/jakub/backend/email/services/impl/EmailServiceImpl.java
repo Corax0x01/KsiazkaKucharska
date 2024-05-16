@@ -62,6 +62,5 @@ public class EmailServiceImpl implements EmailService {
         messageHelper.setText(template, true);
 
         mailSender.send(mimeMessage);
-
     }
 }
