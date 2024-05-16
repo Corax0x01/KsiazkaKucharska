@@ -18,4 +18,9 @@ public class ApplicationException extends RuntimeException {
         super(message);
         this.errorCode = errorCode;
     }
+
+    public ApplicationException(BusinessErrorCodesEnum errorCode, String message, Throwable cause) {
+        super(message, cause);
+        this.errorCode = errorCode;
+    }
 }
