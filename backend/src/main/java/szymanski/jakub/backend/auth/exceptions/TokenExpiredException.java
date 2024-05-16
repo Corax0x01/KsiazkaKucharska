@@ -1,12 +1,13 @@
 package szymanski.jakub.backend.auth.exceptions;
 
-public class TokenExpiredException extends RuntimeException {
+import szymanski.jakub.backend.common.exceptionhandler.ApplicationException;
+
+import static szymanski.jakub.backend.common.exceptionhandler.BusinessErrorCodesEnum.TOKEN_EXPIRED;
+
+public class TokenExpiredException extends ApplicationException {
 
     public TokenExpiredException(String message) {
-        super(message);
+        super(TOKEN_EXPIRED, message);
     }
 
-    public TokenExpiredException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

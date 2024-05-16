@@ -1,12 +1,13 @@
 package szymanski.jakub.backend.role.exceptions;
 
-public class UserRoleNotFoundException extends RuntimeException {
+import szymanski.jakub.backend.common.exceptionhandler.ApplicationException;
+
+import static szymanski.jakub.backend.common.exceptionhandler.BusinessErrorCodesEnum.ROLE_NOT_FOUND;
+
+public class UserRoleNotFoundException extends ApplicationException {
 
     public UserRoleNotFoundException(String message) {
-        super(message);
+        super(ROLE_NOT_FOUND, message);
     }
 
-    public UserRoleNotFoundException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

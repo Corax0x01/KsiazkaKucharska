@@ -1,4 +1,4 @@
-package szymanski.jakub.backend.handler;
+package szymanski.jakub.backend.common.exceptionhandler;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

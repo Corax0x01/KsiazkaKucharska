@@ -1,7 +1,6 @@
-package szymanski.jakub.backend.handler;
+package szymanski.jakub.backend.common.exceptionhandler;
 
 import jakarta.mail.MessagingException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -19,7 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.springframework.http.HttpStatus.*;
-import static szymanski.jakub.backend.handler.BusinessErrorCodesEnum.*;
+import static szymanski.jakub.backend.common.exceptionhandler.BusinessErrorCodesEnum.*;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -81,56 +80,12 @@ public class GlobalExceptionHandler {
         );
     }
 
-    @ExceptionHandler(TokenExpiredException.class)
-    public ResponseEntity<ExceptionResponse> handleException(TokenExpiredException exc) {
-        return ResponseEntity.status(UNAUTHORIZED).body(
+    @ExceptionHandler(ApplicationException.class)
+    public ResponseEntity<ExceptionResponse> handleException(ApplicationException exc) {
+        return ResponseEntity.status(exc.getErrorCode().getHttpStatus()).body(
                 ExceptionResponse.builder()
-                        .businessErrorCode(TOKEN_EXPIRED.getCode())
-                        .businessErrorDescription(TOKEN_EXPIRED.getDescription())
-                        .error(exc.getMessage())
-                        .build()
-        );
-    }
-
-    @ExceptionHandler(TokenNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> handleException(TokenNotFoundException exc) {
-        return ResponseEntity.status(UNAUTHORIZED).body(
-                ExceptionResponse.builder()
-                        .businessErrorCode(TOKEN_NOT_FOUND.getCode())
-                        .businessErrorDescription(TOKEN_NOT_FOUND.getDescription())
-                        .error(exc.getMessage())
-                        .build()
-        );
-    }
-
-    @ExceptionHandler(FileUploadException.class)
-    public ResponseEntity<ExceptionResponse> handleException(FileUploadException exc) {
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(
-                ExceptionResponse.builder()
-                        .businessErrorCode(FILE_NOT_UPLOADED.getCode())
-                        .businessErrorDescription(FILE_NOT_UPLOADED.getDescription())
-                        .error(exc.getMessage())
-                        .build()
-        );
-    }
-
-    @ExceptionHandler(UploadedFileNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> handleException(UploadedFileNotFoundException exc) {
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(
-                ExceptionResponse.builder()
-                        .businessErrorCode(FILE_NOT_FOUND.getCode())
-                        .businessErrorDescription(FILE_NOT_FOUND.getDescription())
-                        .error(exc.getMessage())
-                        .build()
-        );
-    }
-
-    @ExceptionHandler(UserRoleNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> handleException(UserRoleNotFoundException exc) {
-        return ResponseEntity.status(ROLE_NOT_FOUND.getHttpStatus()).body(
-                ExceptionResponse.builder()
-                        .businessErrorCode(ROLE_NOT_FOUND.getCode())
-                        .businessErrorDescription(ROLE_NOT_FOUND.getDescription())
+                        .businessErrorCode(exc.getErrorCode().getCode())
+                        .businessErrorDescription(exc.getErrorCode().getDescription())
                         .error(exc.getMessage())
                         .build()
         );

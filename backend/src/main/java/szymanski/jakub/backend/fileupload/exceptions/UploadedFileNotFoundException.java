@@ -1,12 +1,12 @@
 package szymanski.jakub.backend.fileupload.exceptions;
 
-public class UploadedFileNotFoundException extends FileUploadException {
+import szymanski.jakub.backend.common.exceptionhandler.ApplicationException;
+
+import static szymanski.jakub.backend.common.exceptionhandler.BusinessErrorCodesEnum.FILE_NOT_FOUND;
+
+public class UploadedFileNotFoundException extends ApplicationException {
 
     public UploadedFileNotFoundException(String message) {
-        super(message);
-    }
-
-    public UploadedFileNotFoundException(String message, Throwable cause) {
-        super(message, cause);
+        super(FILE_NOT_FOUND, message);
     }
 }
