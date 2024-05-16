@@ -1,4 +1,4 @@
-package szymanski.jakub.backend.recipe.requests;
+package szymanski.jakub.backend.recipe.dtos.requests;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

@@ -8,14 +8,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
 import szymanski.jakub.backend.recipe.TagsEnum;
-import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.recipe.dtos.IngredientQuantityDto;
-import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 import szymanski.jakub.backend.recipe.exceptions.RecipeNotFoundException;
-import szymanski.jakub.backend.recipe.requests.CreateRecipeRequest;
-import szymanski.jakub.backend.recipeingredients.dtos.RecipeIngredientDto;
+import szymanski.jakub.backend.recipe.dtos.requests.CreateRecipeRequest;
 import szymanski.jakub.backend.recipe.entities.RecipeEntity;
-import szymanski.jakub.backend.common.Mapper;
 import szymanski.jakub.backend.recipe.repositories.RecipeRepository;
 import szymanski.jakub.backend.ingredient.services.IngredientService;
 import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientEntity;
@@ -32,7 +28,6 @@ import java.util.Optional;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
-    private final Mapper<RecipeEntity, RecipeDto> recipeMapper;
     private final IngredientService ingredientService;
     private final RecipeIngredientsService recipeIngredientsService;
 

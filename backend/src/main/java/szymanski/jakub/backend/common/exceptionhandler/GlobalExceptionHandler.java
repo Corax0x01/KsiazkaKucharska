@@ -8,11 +8,6 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import szymanski.jakub.backend.auth.exceptions.TokenExpiredException;
-import szymanski.jakub.backend.auth.exceptions.TokenNotFoundException;
-import szymanski.jakub.backend.fileupload.exceptions.FileUploadException;
-import szymanski.jakub.backend.fileupload.exceptions.UploadedFileNotFoundException;
-import szymanski.jakub.backend.role.exceptions.UserRoleNotFoundException;
 
 import java.util.HashSet;
 import java.util.Set;

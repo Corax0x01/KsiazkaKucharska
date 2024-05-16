@@ -1,4 +1,4 @@
-package szymanski.jakub.backend.auth.responses;
+package szymanski.jakub.backend.auth.dtos.responses;
 
 import lombok.Builder;
 import lombok.Getter;

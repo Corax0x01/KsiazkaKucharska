@@ -29,7 +29,7 @@ public enum BusinessErrorCodesEnum {
     TOKEN_EXPIRED(1103, FORBIDDEN, "Activation token has expired"),
     TOKEN_NOT_FOUND(1104, NOT_FOUND, "Activation token not found"),
     ACCOUNT_LOCKED(1105, FORBIDDEN, "User account is locked"),
-    ACCOUNT_DISABLED(1106, FORBIDDEN, "User accound is disabled"),
+    ACCOUNT_DISABLED(1106, FORBIDDEN, "User account is disabled"),
 
     FILE_NOT_UPLOADED(1200, INTERNAL_SERVER_ERROR, "Error when uploading file"),
     FILE_NOT_FOUND(1204, NOT_FOUND, "File not found"),

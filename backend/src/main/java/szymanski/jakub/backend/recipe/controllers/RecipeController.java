@@ -14,7 +14,7 @@ import szymanski.jakub.backend.common.Mapper;
 import szymanski.jakub.backend.recipe.TagsEnum;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 import szymanski.jakub.backend.recipe.entities.RecipeEntity;
-import szymanski.jakub.backend.recipe.requests.CreateRecipeRequest;
+import szymanski.jakub.backend.recipe.dtos.requests.CreateRecipeRequest;
 import szymanski.jakub.backend.recipe.services.RecipeService;
 
 import java.util.Arrays;

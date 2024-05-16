@@ -4,9 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import szymanski.jakub.backend.recipe.TagsEnum;
-import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 import szymanski.jakub.backend.recipe.entities.RecipeEntity;
-import szymanski.jakub.backend.recipe.requests.CreateRecipeRequest;
+import szymanski.jakub.backend.recipe.dtos.requests.CreateRecipeRequest;
 
 import java.util.List;
 

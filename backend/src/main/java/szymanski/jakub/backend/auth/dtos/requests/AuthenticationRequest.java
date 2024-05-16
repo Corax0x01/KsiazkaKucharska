@@ -1,4 +1,4 @@
-package szymanski.jakub.backend.auth.requests;
+package szymanski.jakub.backend.auth.dtos.requests;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,11 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class RegistrationRequest {
-
-    @NotEmpty(message = "Username is mandatory")
-    @NotBlank(message = "Username is mandatory")
-    private String username;
+public class AuthenticationRequest {
 
     @NotEmpty(message = "Email is mandatory")
     @NotBlank(message = "Email is mandatory")
