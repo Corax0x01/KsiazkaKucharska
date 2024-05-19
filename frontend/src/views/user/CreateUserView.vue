@@ -2,7 +2,9 @@
   import UserService from "@/services/UserService.js";
   import {ref} from "vue";
   import {useRouter} from "vue-router";
+  import {useAuthStore} from "@/stores/AuthStore.js";
 
+  const authStore = useAuthStore();
   const user = ref({
     "isAdmin": false
   });
@@ -10,7 +12,7 @@
 
   const createUser = (async () => {
     if(!user.value.username || !user.value.email || !user.value.password) return;
-    await UserService.createUser(user.value);
+    await UserService.createUser(user.value, authStore.token);
 
     await router.push("/users");
   })
@@ -18,6 +20,7 @@
 </script>
 
 <template>
+<!-- TODO: create form schema and use dynamic form component -->
   <form>
     <div class="mb-2">
       <label for="username" class="form-label">Username:</label>

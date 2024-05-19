@@ -105,7 +105,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
+                        request.getUsername(),
                         request.getPassword()
                 )
         );

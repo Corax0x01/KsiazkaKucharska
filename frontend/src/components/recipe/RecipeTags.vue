@@ -1,13 +1,14 @@
 <script setup>
   import RecipeService from "@/services/RecipeService.js";
   import {onMounted, ref, watch} from "vue";
+  import {useAuthStore} from "@/stores/AuthStore.js";
 
   const tags = ref([]);
   const chosenTags = ref([]);
   const emit = defineEmits(['recipeTags']);
 
   onMounted(async () => {
-    tags.value = await RecipeService.getAllTags();
+    tags.value = await RecipeService.getAllTags(useAuthStore().token);
   });
 
   watch(chosenTags, () => {

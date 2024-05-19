@@ -1,5 +1,6 @@
 <script setup>
 import {onMounted, ref} from "vue";
+import {useAuthStore} from "@/stores/AuthStore.js";
 import RecipeService from "@/services/RecipeService.js";
 
   const emit = defineEmits(['page']);
@@ -32,7 +33,7 @@ import RecipeService from "@/services/RecipeService.js";
   }
 
   onMounted(async () => {
-    totalPages.value = await RecipeService.getNumberOfPages();
+    totalPages.value = await RecipeService.getNumberOfPages(useAuthStore().token);
   })
 
 </script>

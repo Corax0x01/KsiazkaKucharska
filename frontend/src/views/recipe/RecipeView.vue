@@ -3,7 +3,9 @@
   import {ref, onMounted} from "vue";
   import RecipeService from "@/services/RecipeService.js";
   import FileUploadService from "@/services/FileUploadService.js";
+  import {useAuthStore} from "@/stores/AuthStore.js";
 
+  const authStore = useAuthStore();
   const route = useRoute();
   const recipe = ref({});
   const ingredients = ref([]);
@@ -11,9 +13,9 @@
 
   onMounted(async () => {
     const recipeId = route.params.id;
-    recipe.value = await RecipeService.getRecipeData(recipeId);
-    ingredients.value = await RecipeService.getRecipeIngredients(recipeId);
-    image.value = await FileUploadService.getFile(recipe.value.imageURL);
+    recipe.value = await RecipeService.getRecipeData(recipeId, authStore.token);
+    ingredients.value = await RecipeService.getRecipeIngredients(recipeId, authStore.token);
+    image.value = await FileUploadService.getFile(recipe.value.imageURL, authStore.token);
   });
 </script>
 

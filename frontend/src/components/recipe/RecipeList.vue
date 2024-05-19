@@ -2,13 +2,14 @@
 import {ref, watch} from "vue";
   import RecipeItem from "@/components/recipe/RecipeItem.vue";
   import RecipeService from "@/services/RecipeService.js";
+  import {useAuthStore} from "@/stores/AuthStore.js";
 
+  const authStore = useAuthStore();
   const props = defineProps(['pageProp']);
-
   const recipes = ref([]);
 
   watch(() => props.pageProp, async () => {
-    recipes.value = await RecipeService.getRecipesData(props.pageProp - 1);
+    recipes.value = await RecipeService.getRecipesData(props.pageProp - 1, authStore.token);
   },
       {immediate: true}
   );

@@ -5,13 +5,15 @@
   import RecipeService from "@/services/RecipeService.js";
   import {ref} from "vue";
   import {useRouter} from "vue-router";
+  import {useAuthStore} from "@/stores/AuthStore.js";
   import FileUploadService from "@/services/FileUploadService.js";
 
+  const authStore = useAuthStore();
   const router = useRouter();
   const recipe = ref({
     "title": "",
     "description": "",
-    "imageURL": "",
+    "imageName": "",
     "recipeURL": "",
     "tags": [],
     "user": {}
@@ -20,18 +22,14 @@
   const file = ref();
 
   const createRecipeButtonClicked = async () => {
-    // TODO: swap with logged user id
-    recipe.value.user = {
-      "id": 1
-    };
-    const recipeResponse = await RecipeService.createRecipe(recipe.value, ingredientsList.value);
-    await FileUploadService.uploadFile(file.value, recipeResponse.id);
+    const recipeResponse = await RecipeService.createRecipe(recipe.value, ingredientsList.value, authStore.token);
+    await FileUploadService.uploadFile(file.value, recipeResponse.id, authStore.token);
     await router.push("/recipes/" + recipeResponse.id);
   }
 
   const setFile = (event) => {
     file.value = event.target.files[0];
-    recipe.value.imageURL = file.value.name;
+    recipe.value.imageName = file.value.name;
   }
 </script>
 

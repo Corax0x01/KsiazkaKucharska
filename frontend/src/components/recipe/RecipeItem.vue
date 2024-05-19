@@ -2,6 +2,7 @@
   import {onMounted, ref} from "vue";
   import {useRouter} from "vue-router";
   import FileUploadService from "@/services/FileUploadService.js";
+  import {useAuthStore} from "@/stores/AuthStore.js";
 
   const { recipe } = defineProps(['recipe'])
 
@@ -13,7 +14,7 @@
   }
 
   onMounted(async () => {
-    image.value = await FileUploadService.getFile(recipe.imageURL);
+    image.value = await FileUploadService.getFile(recipe.imageURL, useAuthStore().token);
   })
 </script>
 

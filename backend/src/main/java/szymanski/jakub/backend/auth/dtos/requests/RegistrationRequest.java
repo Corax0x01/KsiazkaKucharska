@@ -4,13 +4,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RegistrationRequest {
 
     @NotEmpty(message = "Username is mandatory")
@@ -24,7 +24,7 @@ public class RegistrationRequest {
 
     @NotEmpty(message = "Password is mandatory")
     @NotBlank(message = "Password is mandatory")
-    @Size(min = 8, message = "Password should be minimum 8 characters long")
-    @Size(max = 100, message = "Password should be maximum 100 characters long")
+    @Size(min = 6, message = "Password should be minimum 6 characters long")
+    @Size(max = 30, message = "Password should be maximum 100 characters long")
     private String password;
 }

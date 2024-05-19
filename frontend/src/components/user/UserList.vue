@@ -1,12 +1,14 @@
 <script setup>
   import {onMounted, ref} from 'vue'
+  import {useAuthStore} from "@/stores/AuthStore.js";
   import UserItem from "@/components/user/UserItem.vue";
   import UserService from "@/services/UserService.js";
 
+  const authStore = useAuthStore();
   const users = ref([]);
 
   onMounted(async () => {
-    users.value = await UserService.getUsersData();
+    users.value = await UserService.getUsersData(authStore.token);
   });
 </script>
 

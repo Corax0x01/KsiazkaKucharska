@@ -25,6 +25,8 @@
           <RouterLink class="nav-link" active-class="active" to="/recipes">Recipes</RouterLink>
           <RouterLink v-if="allowCreateUser" class="nav-link" active-class="active" to="/create-user">Create User</RouterLink>
           <RouterLink v-if="allowCreateRecipe" class="nav-link" to="/create-recipe">Create Recipe</RouterLink>
+          <RouterLink class="nav-link" to="/login">Sign in</RouterLink>
+          <RouterLink class="nav-link" to="/register">Register</RouterLink>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@
   import IngredientService from "@/services/IngredientService.js";
   import CheckButton from "@/components/buttons/CheckButton.vue";
   import {onMounted, ref} from "vue";
+  import {useAuthStore} from "@/stores/AuthStore.js";
 
   const ingredients = ref([]);
   const ingredientNameSearchText = ref("");
@@ -11,7 +12,7 @@
   const warningText = ref("");
 
   onMounted(async () => {
-    ingredients.value = await IngredientService.getAllIngredients();
+    ingredients.value = await IngredientService.getAllIngredients(useAuthStore().token);
   });
 
   const checkButtonClicked = () => {
