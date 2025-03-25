@@ -12,7 +12,6 @@ import szymanski.jakub.backend.recipeingredients.services.RecipeIngredientsServi
 import java.util.List;
 
 
-// TODO: endpoint returning recipe name and its quantity
 @RequestMapping("")
 @RestController
 @RequiredArgsConstructor
@@ -51,7 +50,6 @@ public class RecipeIngredientsController {
         );
     }
 
-    //TODO: modify this endpoint to consume list of ingredients as param and return list of recipes that contain all of them
     /**
      * Fetches all recipes that contain given ingredient.
      *
@@ -62,7 +60,6 @@ public class RecipeIngredientsController {
     public ResponseEntity<List<RecipeDto>> getIngredientRecipes(
             @PathVariable("id") Long ingredientId) {
 
-        //TODO: move this data manipulation to service
         List<RecipeIngredientDto> ingredientRecipes = recipeIngredientsService.findIngredientRecipes(ingredientId)
                 .stream()
                 .map(recipeIngredientMapper::mapTo)

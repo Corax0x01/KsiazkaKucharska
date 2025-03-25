@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-//    TODO: add functionality that will check if token already exists, if yes send it to user
 
 /**
  * Service responsible for handling JSON Web Token

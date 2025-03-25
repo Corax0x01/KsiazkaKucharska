@@ -71,7 +71,6 @@ public class RecipeServiceImpl implements RecipeService {
                 );
     }
 
-    //TODO: Create method that finds all recipes by user ID
 
     public Long create(CreateRecipeRequest request, Authentication connectedUser) {
 

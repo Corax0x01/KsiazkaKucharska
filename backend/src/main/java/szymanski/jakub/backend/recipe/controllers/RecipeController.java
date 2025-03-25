@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 
 
-//TODO: move logic from controllers to services
 @Log
 @RequestMapping("recipes")
 @RequiredArgsConstructor

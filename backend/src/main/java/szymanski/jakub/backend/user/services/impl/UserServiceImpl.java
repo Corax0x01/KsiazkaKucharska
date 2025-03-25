@@ -64,7 +64,6 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    //TODO: zdecydować czy rzucać wyjątki jeśli nie znaleziono użytkownika i zmienić w całym programie
     public void delete(UserDto user) {
         UserEntity userEntity = userMapper.mapFrom(user);
         userRepository.delete(userEntity);

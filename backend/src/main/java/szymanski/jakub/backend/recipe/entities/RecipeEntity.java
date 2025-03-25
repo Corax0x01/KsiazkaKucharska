@@ -43,7 +43,6 @@ public class RecipeEntity {
 
     private String imageName;
 
-    // TODO: check tsvectors
     @Enumerated(EnumType.STRING)
     private List<TagsEnum> tags;
 
