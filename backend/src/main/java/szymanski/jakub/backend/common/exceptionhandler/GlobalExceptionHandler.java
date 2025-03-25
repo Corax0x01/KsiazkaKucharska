@@ -15,9 +15,18 @@ import java.util.Set;
 import static org.springframework.http.HttpStatus.*;
 import static szymanski.jakub.backend.common.exceptionhandler.BusinessErrorCodesEnum.*;
 
+/**
+ * Application exception handler.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * Handler for {@link LockedException}
+     *
+     * @param exc   {@link LockedException} instance
+     * @return      {@link ResponseEntity} containing {@link ExceptionResponse response}
+     */
     @ExceptionHandler(LockedException.class)
     public ResponseEntity<ExceptionResponse> handleException(LockedException exc) {
         return ResponseEntity.status(UNAUTHORIZED).body(
@@ -29,6 +38,12 @@ public class GlobalExceptionHandler {
         );
     }
 
+    /**
+     * Handler for {@link DisabledException}
+     *
+     * @param exc   {@link DisabledException} instance
+     * @return      {@link ResponseEntity} containing {@link ExceptionResponse response}
+     */
     @ExceptionHandler(DisabledException.class)
     public ResponseEntity<ExceptionResponse> handleException(DisabledException exc) {
         return ResponseEntity.status(UNAUTHORIZED).body(
@@ -40,6 +55,12 @@ public class GlobalExceptionHandler {
         );
     }
 
+    /**
+     * Handler for {@link BadCredentialsException}
+     *
+     * @param exc   {@link BadCredentialsException} instance
+     * @return      {@link ResponseEntity} containing {@link ExceptionResponse response}
+     */
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ExceptionResponse> handleException(BadCredentialsException exc) {
         return ResponseEntity.status(UNAUTHORIZED).body(
@@ -51,6 +72,12 @@ public class GlobalExceptionHandler {
         );
     }
 
+    /**
+     * Handler for {@link MessagingException}
+     *
+     * @param exc   {@link MessagingException} instance
+     * @return      {@link ResponseEntity} containing {@link ExceptionResponse response}
+     */
     @ExceptionHandler(MessagingException.class)
     public ResponseEntity<ExceptionResponse> handleException(MessagingException exc) {
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(
@@ -60,6 +87,12 @@ public class GlobalExceptionHandler {
         );
     }
 
+    /**
+     * Handler for {@link MethodArgumentNotValidException}
+     *
+     * @param exc   {@link MethodArgumentNotValidException} instance
+     * @return      {@link ResponseEntity} containing {@link ExceptionResponse response}
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponse> handleException(MethodArgumentNotValidException exc) {
         Set<String> errors = new HashSet<>();
@@ -75,6 +108,12 @@ public class GlobalExceptionHandler {
         );
     }
 
+    /**
+     * Handler for {@link ApplicationException}
+     *
+     * @param exc   {@link ApplicationException} instance
+     * @return      {@link ResponseEntity} containing {@link ExceptionResponse response}
+     */
     @ExceptionHandler(ApplicationException.class)
     public ResponseEntity<ExceptionResponse> handleException(ApplicationException exc) {
         return ResponseEntity.status(exc.getErrorCode().getHttpStatus()).body(
@@ -86,6 +125,12 @@ public class GlobalExceptionHandler {
         );
     }
 
+    /**
+     * Default exception handler.
+     *
+     * @param exc   {@link Exception} instance
+     * @return      {@link ResponseEntity} containing {@link ExceptionResponse response}
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleException(Exception exc) {
         exc.printStackTrace();

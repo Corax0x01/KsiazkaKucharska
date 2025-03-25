@@ -30,16 +30,22 @@ public class FileUploadServiceImpl implements FileUploadService {
     private final Path rootLocation;
     private final RecipeService recipeService;
 
+    /**
+     * Class constructor.
+     *
+     * @param   properties          file upload {@link FileUploadProperties properties}
+     * @param   recipeService       instance of {@link RecipeService}
+     * @throws  FileUploadException if error with uploading file occurs
+     */
     public FileUploadServiceImpl(FileUploadProperties properties, RecipeService recipeService) {
         if(properties.getLocation().trim().isEmpty()) {
-            throw new FileUploadException("File upload location can not be Empty");
+            throw new FileUploadException("File upload location can not be empty");
         }
 
         this.rootLocation = Paths.get(properties.getLocation());
         this.recipeService = recipeService;
     }
 
-    @Override
     public void init() {
         try {
             Files.createDirectories(rootLocation);
@@ -48,7 +54,6 @@ public class FileUploadServiceImpl implements FileUploadService {
         }
     }
 
-    @Override
     public void upload(MultipartFile file, Long recipeId) {
         try {
             if(file.isEmpty()) {
@@ -84,12 +89,10 @@ public class FileUploadServiceImpl implements FileUploadService {
         }
     }
 
-    @Override
     public Path load(String filename) {
         return rootLocation.resolve(filename);
     }
 
-    @Override
     public Resource loadAsResource(String filename) {
         try {
             Path file = load(filename);
@@ -105,13 +108,11 @@ public class FileUploadServiceImpl implements FileUploadService {
         }
     }
 
-    @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
         log.info("All images deleted");
     }
 
-    @Override
     public void delete(String filename) {
         try {
             FileSystemUtils.deleteRecursively(load(filename));

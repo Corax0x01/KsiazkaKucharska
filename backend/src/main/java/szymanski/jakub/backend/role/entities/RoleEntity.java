@@ -11,6 +11,9 @@ import szymanski.jakub.backend.user.entities.UserEntity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Role entity stored in database.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,6 +27,7 @@ public class RoleEntity {
     @Id
     @GeneratedValue
     private Long id;
+
     @Column(unique = true)
     private String name;
 
@@ -34,6 +38,7 @@ public class RoleEntity {
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
+
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;

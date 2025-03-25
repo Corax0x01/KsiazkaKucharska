@@ -19,6 +19,9 @@ import szymanski.jakub.backend.user.entities.UserEntity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Recipe data stored in database.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,27 +35,38 @@ public class RecipeEntity {
     @Id
     @GeneratedValue
     private Long id;
+
     private String title;
+
     @Column(columnDefinition = "varchar(32768)")
     private String description;
+
     private String imageName;
+
+    // TODO: check tsvectors
     @Enumerated(EnumType.STRING)
     private List<TagsEnum> tags;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
+
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
 
-    //Author
+    /**
+     * User that created recipe.
+     */
     @ManyToOne
     @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty("user")
     private UserEntity userEntity;
 
+    /**
+     * Connects this recipe to ingredients and their quantity.
+     */
     @OneToMany(mappedBy = "recipeEntity")
     private List<RecipeIngredientEntity> recipeIngredients;
 

@@ -5,9 +5,17 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * {@link ModelMapper} configuration.
+ */
 @Configuration
 public class MapperConfig {
 
+    /**
+     * Configures {@link ModelMapper} used in application.
+     *
+     * @return  configured {@link ModelMapper} instance
+     */
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();

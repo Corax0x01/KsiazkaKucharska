@@ -18,6 +18,9 @@ import szymanski.jakub.backend.security.JwtFilter;
 
 import java.util.List;
 
+/**
+ * Configuration for Spring Security
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -27,6 +30,12 @@ public class SecurityConfig {
     private final JwtFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    /**
+     *
+     * @param   http        incoming request
+     * @return              {@link SecurityFilterChain} applied to each request
+     * @throws Exception    when error occurs
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -58,6 +67,11 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Source for CORS configuration.
+     *
+     * @return  configured cors source
+     */
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:8080"));

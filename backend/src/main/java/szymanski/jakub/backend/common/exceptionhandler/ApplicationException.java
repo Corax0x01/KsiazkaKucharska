@@ -3,6 +3,9 @@ package szymanski.jakub.backend.common.exceptionhandler;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Superclass for custom application exceptions.
+ */
 @Getter
 @Setter
 public class ApplicationException extends RuntimeException {

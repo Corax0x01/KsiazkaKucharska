@@ -12,12 +12,14 @@ import szymanski.jakub.backend.user.services.UserService;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final Mapper<UserEntity, UserDto> userMapper;
+
 
     public List<UserDto> findAll() {
         return userRepository.findAll().stream().map(userMapper::mapTo).toList();
@@ -27,7 +29,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id)
                 .map(userMapper::mapTo)
                 .orElseThrow(
-                        () -> new UserNotFoundException("User with id: " + id + " not found")
+                        () -> new UserNotFoundException("User with ID: " + id + " not found")
                 );
     }
 
@@ -53,7 +55,7 @@ public class UserServiceImpl implements UserService {
            Optional.ofNullable(userEntity.getPassword()).ifPresent(existingUser::setPassword);
            Optional.ofNullable(userEntity.getEmail()).ifPresent(existingUser::setEmail);
            return userRepository.save(existingUser);
-        }).orElseThrow(() -> new RuntimeException("User not found"));
+        }).orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
 
         return updatedUser.getId();
     }
@@ -62,6 +64,7 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
+    //TODO: zdecydować czy rzucać wyjątki jeśli nie znaleziono użytkownika i zmienić w całym programie
     public void delete(UserDto user) {
         UserEntity userEntity = userMapper.mapFrom(user);
         userRepository.delete(userEntity);

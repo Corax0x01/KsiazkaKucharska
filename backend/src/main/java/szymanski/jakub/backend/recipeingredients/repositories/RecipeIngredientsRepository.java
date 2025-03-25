@@ -10,8 +10,26 @@ import java.util.Optional;
 @Repository
 public interface RecipeIngredientsRepository extends JpaRepository<RecipeIngredientEntity, Long> {
 
+    /**
+     * Finds all recipeIngredients by recipe ID.
+     *
+     * @return  {@link Optional} list of all {@link RecipeIngredientEntity} objects associated with recipe of given ID
+     */
     Optional<List<RecipeIngredientEntity>> findAllByRecipeEntityId(Long recipeId);
+
+    /**
+     * Finds all recipeIngredients by ingredient ID.
+     *
+     * @return  {@link Optional} list of all {@link RecipeIngredientEntity} objects associated with ingredient of given ID
+     */
     Optional<List<RecipeIngredientEntity>> findAllByIngredientEntityId(Long ingredientId);
+
+    /**
+     * Finds recipeIngredient of given recipe and ingredient.
+     *
+     * @return  {@link Optional} {@link RecipeIngredientEntity} object associated with recipe of given ID
+     *          and ingredient of given ID
+     */
     Optional<RecipeIngredientEntity> findByRecipeEntityIdAndIngredientEntityId(Long recipeId, Long ingredientId);
 
 }

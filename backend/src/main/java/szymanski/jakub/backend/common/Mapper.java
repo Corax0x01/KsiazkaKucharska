@@ -1,9 +1,18 @@
 package szymanski.jakub.backend.common;
 
-public interface Mapper<A, B> {
+/**
+ * Template used for mapping between Entities and DTO's of different classes
+ */
+public interface Mapper<T, S> {
 
-    B mapTo(A a);
+    /**
+     * Maps from class <code>T</code> to <code>S</code>.
+     */
+    S mapTo(T t);
 
-    A mapFrom(B b);
+    /**
+     * Maps from class <code>S</code> to <code>T</code>.
+     */
+    T mapFrom(S s);
 
 }

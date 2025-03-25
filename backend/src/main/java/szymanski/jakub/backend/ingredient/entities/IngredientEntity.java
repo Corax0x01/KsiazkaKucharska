@@ -10,6 +10,9 @@ import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientEntity
 
 import java.util.List;
 
+/**
+ * Ingredient data stored in database
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,6 +25,7 @@ public class IngredientEntity {
     @Id
     @GeneratedValue
     private Long id;
+
     @Column(unique = true)
     private String name;
 

@@ -5,6 +5,9 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Account activation token entity.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,9 +20,13 @@ public class TokenEntity {
     @Id
     @GeneratedValue
     private Long id;
+
     private String token;
+
     private LocalDateTime createdAt;
+
     private LocalDateTime expiresAt;
+
     private LocalDateTime validatedAt;
 
     @ManyToOne

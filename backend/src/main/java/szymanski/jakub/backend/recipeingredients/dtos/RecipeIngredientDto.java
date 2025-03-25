@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 
+/**
+ * Data Transfer Object used to pass recipeIngredient data.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +19,5 @@ public class RecipeIngredientDto {
     private Long id;
     private RecipeDto recipe;
     private IngredientDto ingredient;
-
     private String quantity;
-
 }

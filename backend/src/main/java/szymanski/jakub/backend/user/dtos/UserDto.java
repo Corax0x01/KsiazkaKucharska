@@ -2,6 +2,9 @@ package szymanski.jakub.backend.user.dtos;
 
 import lombok.*;
 
+/**
+ * Data Transfer Object used to pass user data.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

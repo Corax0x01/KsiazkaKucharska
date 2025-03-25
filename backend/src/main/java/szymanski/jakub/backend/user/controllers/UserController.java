@@ -19,11 +19,24 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * Fetches all users.
+     *
+     * @return  {@link ResponseEntity} containing list of all users
+     */
     @GetMapping
     public ResponseEntity<List<UserDto>> getUsers() {
-        return ResponseEntity.ok(userService.findAll());
+
+        List<UserDto> users = userService.findAll();
+        return ResponseEntity.ok(users);
     }
 
+    /**
+     * Fetches user with given ID.
+     *
+     * @param   id  ID of the user
+     * @return      {@link ResponseEntity} containing {@link UserDto} object with given ID
+     */
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(
             @PathVariable("id") Long id) {
@@ -32,6 +45,12 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    /**
+     * Creates a user.
+     *
+     * @param   user    {@link UserDto} object that contains data for creating user
+     * @return          {@link ResponseEntity} containing ID of created user
+     */
     @PostMapping
     public ResponseEntity<Long> createUser(
             @RequestBody UserDto user) {
@@ -41,16 +60,25 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUserId);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Long> fullUpdateUser(
-            @PathVariable("id") Long id,
-            @RequestBody UserDto user) {
 
-        Long updatedUserId = userService.save(user);
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Long> fullUpdateUser(
+//            @PathVariable("id") Long id,
+//            @RequestBody UserDto user) {
+//
+//        user.setId(id);
+//        Long updatedUserId = userService.save(user);
+//
+//        return ResponseEntity.ok(updatedUserId);
+//    }
 
-        return ResponseEntity.ok(updatedUserId);
-    }
-
+    /**
+     * Updates user with given ID.
+     *
+     * @param   id      ID of the user to update
+     * @param   user    {@link UserDto} object that contains data for updating user
+     * @return          {@link ResponseEntity} containing ID of updated user
+     */
     @PatchMapping("/{id}")
     public ResponseEntity<Long> partialUpdateUser(
             @PathVariable("id") Long id,
@@ -60,6 +88,11 @@ public class UserController {
         return ResponseEntity.ok(updatedUserId);
     }
 
+    /**
+     * Deletes user with given ID.
+     *
+     * @param   id  ID of the user to delete
+     */
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable("id") Long id) {

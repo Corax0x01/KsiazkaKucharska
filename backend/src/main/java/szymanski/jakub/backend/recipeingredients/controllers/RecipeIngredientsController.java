@@ -33,6 +33,12 @@ public class RecipeIngredientsController {
 //        return ResponseEntity.ok(recipeIngredients.stream().map(RecipeIngredientDto::getIngredient).toList());
 //    }
 
+    /**
+     * Fetches all ingredients of given recipe.
+     *
+     * @param   recipeId    ID of recipe which ingredients are to be found
+     * @return              {@link ResponseEntity} containing list of all {@link RecipeIngredientDto} objects
+     */
     @GetMapping("/recipes/{id}/ingredients")
     public ResponseEntity<List<RecipeIngredientDto>> getRecipeIngredients(
             @PathVariable("id") Long recipeId)  {
@@ -45,10 +51,18 @@ public class RecipeIngredientsController {
         );
     }
 
+    //TODO: modify this endpoint to consume list of ingredients as param and return list of recipes that contain all of them
+    /**
+     * Fetches all recipes that contain given ingredient.
+     *
+     * @param   ingredientId    ID of ingredient that recipe must contain
+     * @return                  {@link ResponseEntity} containing list of recipes with given ingredient
+     */
     @GetMapping("/ingredients/{id}/recipes")
     public ResponseEntity<List<RecipeDto>> getIngredientRecipes(
             @PathVariable("id") Long ingredientId) {
 
+        //TODO: move this data manipulation to service
         List<RecipeIngredientDto> ingredientRecipes = recipeIngredientsService.findIngredientRecipes(ingredientId)
                 .stream()
                 .map(recipeIngredientMapper::mapTo)

@@ -20,6 +20,12 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
+    /**
+     * Registers user.
+     *
+     * @param   request             {@link RegistrationRequest} object containing data used to register user account
+     * @throws  MessagingException  if error with sending verification email occurs
+     */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void register(
@@ -28,6 +34,12 @@ public class AuthenticationController {
         authenticationService.register(request);
     }
 
+    /**
+     * Authenticates user.
+     *
+     * @param   request {@link AuthenticationRequest} containing authentication data
+     * @return          {@link ResponseEntity} containing {@link AuthenticationResponse} with auth token
+     */
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody @Valid AuthenticationRequest request) {
@@ -35,6 +47,12 @@ public class AuthenticationController {
     }
 
 
+    /**
+     * Activates account.
+     *
+     * @param   token               {@link szymanski.jakub.backend.user.entities.TokenEntity} object
+     * @throws  MessagingException  if error with sending verification email occurs
+     */
     @GetMapping("/activate-account")
     @ResponseStatus(HttpStatus.OK)
     public void activateAccount(

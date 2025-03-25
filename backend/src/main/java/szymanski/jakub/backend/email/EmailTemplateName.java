@@ -1,5 +1,8 @@
 package szymanski.jakub.backend.email;
 
+/**
+ * Email templates
+ */
 public enum EmailTemplateName {
 
     CONFIRM_EMAIL("confirm_email"),

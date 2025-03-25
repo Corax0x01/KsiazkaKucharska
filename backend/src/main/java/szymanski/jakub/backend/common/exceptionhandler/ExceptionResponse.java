@@ -6,6 +6,9 @@ import lombok.*;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Response template for application exception.
+ */
 @Getter
 @Setter
 @Builder

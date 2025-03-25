@@ -9,5 +9,13 @@ import szymanski.jakub.backend.user.entities.UserEntity;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
+
+    /**
+     * Finds all recipes created by given user.
+     *
+     * @param   pageable    pagination information
+     * @param   author      user to filter by
+     * @return              all {@link RecipeEntity} objects created by given user with pagination
+     */
     Page<RecipeEntity> findAllByUserEntity(Pageable pageable, UserEntity author);
 }

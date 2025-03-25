@@ -17,6 +17,12 @@ public class FileUploadController {
         this.fileUploadService = fileUploadService;
     }
 
+    /**
+     * Fetches file with given filename
+     *
+     * @param   filename    name of file
+     * @return              {@link ResponseEntity} containing {@link Resource file} with given name
+     */
     @GetMapping("/{filename}")
     public ResponseEntity<Resource> getFile(
             @PathVariable("filename") String filename) {
@@ -26,6 +32,12 @@ public class FileUploadController {
         return ResponseEntity.ok(file);
     }
 
+    /**
+     * Uploads file.
+     *
+     * @param   file        {@link MultipartFile file} to upload
+     * @param   recipeId    ID of recipe that file is attached to
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public void uploadFile(
@@ -36,6 +48,11 @@ public class FileUploadController {
 
     }
 
+    /**
+     * Deletes file with given filename.
+     *
+     * @param   filename    name of file to delete
+     */
     @DeleteMapping("/{filename}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFile(

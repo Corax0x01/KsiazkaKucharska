@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Data Transfer Object used to pass ingredient and its quantity.
+ */
 @Getter
 @Setter
 @Builder

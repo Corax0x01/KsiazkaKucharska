@@ -8,6 +8,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
 import szymanski.jakub.backend.recipe.entities.RecipeEntity;
 
+/**
+ * Information about ingredients and their quantity used in recipes stored in database.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

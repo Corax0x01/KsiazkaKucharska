@@ -20,6 +20,8 @@ import szymanski.jakub.backend.recipe.services.RecipeService;
 import java.util.Arrays;
 import java.util.List;
 
+
+//TODO: move logic from controllers to services
 @Log
 @RequestMapping("recipes")
 @RequiredArgsConstructor
@@ -30,7 +32,14 @@ public class RecipeController {
     private final RecipeService recipeService;
     private final Mapper<RecipeEntity, RecipeDto> recipeMapper;
 
-//  Get all recipes filtered by tags
+    /**
+     * Fetches all recipes optionally filtered by tags.
+     *
+     * @param   tagsEnumList        optional list of {@link TagsEnum tags} of recipe
+     * @param   pageable            pagination info
+     * @return                      {@link ResponseEntity} containing all {@link RecipeDto} objects
+     *                              matching given tags with pagination, all recipes when there are no tags given
+     */
     @GetMapping
     public ResponseEntity<Page<RecipeDto>> getRecipes(
             @RequestBody(required = false) List<TagsEnum> tagsEnumList,
@@ -46,6 +55,14 @@ public class RecipeController {
         return ResponseEntity.ok(recipes.map(recipeMapper::mapTo));
     }
 
+    /**
+     * Fetches all recipes of user that is currently logged in.
+     *
+     * @param   pageable            pagination information
+     * @param   connectedUser       authenticated user info
+     * @return                      {@link ResponseEntity} containing all recipes created by authenticated user
+     *                              with pagination
+     */
     @GetMapping("/my")
     public ResponseEntity<Page<RecipeDto>> getRecipesByAuthor(
             Pageable pageable,
@@ -58,6 +75,12 @@ public class RecipeController {
         );
     }
 
+    /**
+     * Fetches recipe with given ID.
+     *
+     * @param   id  ID of recipe to find
+     * @return      {@link ResponseEntity} containing recipe with given ID
+     */
     @GetMapping("/{id}")
     public ResponseEntity<RecipeDto> getRecipe(
             @PathVariable("id") Long id) {
@@ -66,6 +89,13 @@ public class RecipeController {
         return ResponseEntity.ok(recipe);
     }
 
+    /**
+     * Creates recipe.
+     *
+     * @param   request             {@link CreateRecipeRequest} containing data used to create recipe
+     * @param   connectedUser       authenticated user info
+     * @return                      ID of created recipe
+     */
     @PostMapping
     public ResponseEntity<Long> createRecipe(
             @RequestBody @Valid CreateRecipeRequest request,
@@ -76,21 +106,35 @@ public class RecipeController {
         );
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Long> fullUpdateRecipe(
-            @PathVariable("id") Long id,
-            @RequestBody RecipeDto recipe) {
+//    /**
+//     * Updates recipe.
+//     *
+//     * @param   id                  ID of recipe to be updated
+//     * @param   recipe              Recipe data to be updated
+//     * @return                      ID of updated recipe
+//     */
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Long> fullUpdateRecipe(
+//            @PathVariable("id") Long id,
+//            @RequestBody RecipeDto recipe) {
+//
+//        if(!recipeService.exists(id)) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        recipe.setId(id);
+//        Long updatedRecipeId = recipeService.save(recipeMapper.mapFrom(recipe));
+//
+//        return ResponseEntity.ok(updatedRecipeId);
+//    }
 
-        if(!recipeService.exists(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
-        recipe.setId(id);
-        Long updatedRecipeId = recipeService.save(recipeMapper.mapFrom(recipe));
-
-        return ResponseEntity.ok(updatedRecipeId);
-    }
-
+    /**
+     * Updates recipe.
+     *
+     * @param   id      ID of recipe to update
+     * @param   recipe  {@link RecipeDto} object containing data for updating recipe
+     * @return          {@link ResponseEntity} containing ID of updated recipe
+     */
     @PatchMapping("/{id}")
     public ResponseEntity<Long> partialUpdateRecipe(
             @PathVariable("id") Long id,
@@ -101,12 +145,22 @@ public class RecipeController {
         return ResponseEntity.ok(updatedRecipeId);
     }
 
+    /**
+     * Deletes recipe.
+     *
+     * @param   id  ID of recipe to delete
+     */
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteRecipe(@PathVariable("id") Long id) {
         recipeService.delete(id);
     }
 
+    /**
+     * Fetches all recipe tags.
+     *
+     * @return      {@link ResponseEntity} containing list of {@link TagsEnum tags}
+     */
     @GetMapping("/tags")
     public ResponseEntity<List<TagsEnum>> getAllTags() {
         return ResponseEntity.ok(Arrays.stream(TagsEnum.values()).toList());

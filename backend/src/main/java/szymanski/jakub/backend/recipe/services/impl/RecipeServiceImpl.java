@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+
 @RequiredArgsConstructor
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -30,7 +31,6 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final IngredientService ingredientService;
     private final RecipeIngredientsService recipeIngredientsService;
-
 
     public List<RecipeEntity> findAll() {
         return recipeRepository.findAll();
@@ -57,7 +57,6 @@ public class RecipeServiceImpl implements RecipeService {
         return new PageImpl<>(filteredRecipes);
     }
 
-    @Override
     public Page<RecipeEntity> findAllByAuthor(Pageable pageable, Authentication connectedUser) {
 
         UserEntity user = ((UserEntity) connectedUser.getPrincipal());
@@ -71,6 +70,8 @@ public class RecipeServiceImpl implements RecipeService {
                         () -> new RecipeNotFoundException("Recipe with id: " + id + " not found")
                 );
     }
+
+    //TODO: Create method that finds all recipes by user ID
 
     public Long create(CreateRecipeRequest request, Authentication connectedUser) {
 

@@ -9,6 +9,9 @@ import szymanski.jakub.backend.user.dtos.UserDto;
 
 import java.util.List;
 
+/**
+ * Data Transfer Object used to pass recipe data.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

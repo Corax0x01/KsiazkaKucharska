@@ -5,6 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+ * Data Transfer Object used to pass ingredient data.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

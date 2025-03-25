@@ -47,7 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
 
-    @Override
+
     public void register(RegistrationRequest request) throws MessagingException {
         RoleEntity userRole = roleRepository.findByName("USER")
                 .orElseThrow(() -> new UserRoleNotFoundException("Role USER was not initialized"));

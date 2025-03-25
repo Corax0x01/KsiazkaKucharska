@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 
 import static org.springframework.http.HttpStatus.*;
 
-/**
+/*
  * Business error codes are 4 digits, all starts with "1", second digit identifies domain: <br>
  * 0 - commons <br>
  * 1 - authentication <br>
@@ -17,6 +17,10 @@ import static org.springframework.http.HttpStatus.*;
  * 7 - ingredients <br>
  * 8 - recipeIngredient <br>
  * Last two digits identifies specific error
+ */
+
+/**
+ * Error codes.
  */
 @Getter
 public enum BusinessErrorCodesEnum {

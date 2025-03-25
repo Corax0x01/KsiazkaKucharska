@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+/**
+ * Registration request template
+ */
 @Getter
 @Setter
 @Builder
