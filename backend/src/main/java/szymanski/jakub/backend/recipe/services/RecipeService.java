@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import szymanski.jakub.backend.recipe.TagsEnum;
+import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 import szymanski.jakub.backend.recipe.entities.RecipeEntity;
 import szymanski.jakub.backend.recipe.dtos.requests.CreateRecipeRequest;
 import szymanski.jakub.backend.recipe.exceptions.RecipeNotFoundException;
@@ -15,52 +16,52 @@ public interface RecipeService {
     /**
      * Finds all recipes.
      *
-     * @return  List of all {@link RecipeEntity} objects
+     * @return  list of all {@link RecipeDto} objects
      */
-    List<RecipeEntity> findAll();
+    List<RecipeDto> findAll();
 
     /**
      * Finds all recipes with pagination.
      *
      * @param   pageable    pagination information
-     * @return              all recipes with pagination
+     * @return             list of all {@link RecipeDto} objects with pagination
      */
-    Page<RecipeEntity> findAllWithPagination(Pageable pageable);
+    Page<RecipeDto> findAllWithPagination(Pageable pageable);
 
     /**
      * Finds all recipes with given tags.
      *
      * @param   tagsEnumList    list of tags
-     * @return                  list of {@link RecipeEntity} objects that match given tags
+     * @return                  list of {@link RecipeDto} objects that match given tags
      */
-    List<RecipeEntity> findRecipeByTags(List<TagsEnum> tagsEnumList);
+    List<RecipeDto> findRecipeByTags(List<TagsEnum> tagsEnumList);
 
     /**
      * Finds all recipes with given tags with pagination.
      *
      * @param   tagsEnumList    list of tags
      * @param   pageable        pagination information
-     * @return                  {@link RecipeEntity} objects that match given tags with pagination
+     * @return                  {@link RecipeDto} objects that match given tags with pagination
      */
-    Page<RecipeEntity> findAllByTags(List<TagsEnum> tagsEnumList, Pageable pageable);
+    Page<RecipeDto> findAllByTags(List<TagsEnum> tagsEnumList, Pageable pageable);
 
     /**
      * Finds recipes created by logged user with pagination.
      *
      * @param   pageable        pagination information
      * @param   connectedUser   authenticated user
-     * @return                  {@link RecipeEntity} objects created by user that is currently logged in
+     * @return                  {@link RecipeDto} objects created by user that is currently logged in
      */
-    Page<RecipeEntity> findAllByAuthor(Pageable pageable, Authentication connectedUser);
+    Page<RecipeDto> findAllByAuthor(Pageable pageable, Authentication connectedUser);
 
     /**
      * Finds recipe with given ID.
      *
      * @param   id                      ID of recipe to be found
-     * @return                          {@link RecipeEntity} object with given ID
+     * @return                          {@link RecipeDto} object with given ID
      * @throws RecipeNotFoundException  if recipe with given ID was not found
      */
-    RecipeEntity find(Long id);
+    RecipeDto find(Long id);
 
     /**
      * Creates recipe.
@@ -74,20 +75,20 @@ public interface RecipeService {
     /**
      * Saves recipe.
      *
-     * @param   recipe          {@link RecipeEntity} object with recipe's data to save
+     * @param   recipe          {@link RecipeDto} object with recipe's data to save
      * @return                  ID of saved recipe
      */
-    Long save(RecipeEntity recipe);
+    Long save(RecipeDto recipe);
 
     /**
      * Updates recipe.
      *
      * @param   id      ID of recipe to be updated
-     * @param   recipe  {@link RecipeEntity} object containing recipe's updated data
+     * @param   recipe  {@link RecipeDto} object containing recipe's updated data
      * @return          ID of updated recipe
      * @throws  RecipeNotFoundException if recipe was not found
      */
-    Long partialUpdate(Long id, RecipeEntity recipe);
+    Long partialUpdate(Long id, RecipeDto recipe);
 
     /**
      * Deletes recipe.
@@ -99,9 +100,9 @@ public interface RecipeService {
     /**
      * Deletes recipe.
      *
-     * @param   recipe  {@link RecipeEntity} object to delete
+     * @param   recipe  {@link RecipeDto} object to delete
      */
-    void delete(RecipeEntity recipe);
+    void delete(RecipeDto recipe);
 
     /**
      * Checks if recipe with given ID exists.

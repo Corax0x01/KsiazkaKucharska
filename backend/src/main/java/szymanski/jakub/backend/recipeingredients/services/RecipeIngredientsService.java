@@ -1,8 +1,10 @@
 package szymanski.jakub.backend.recipeingredients.services;
 
 import szymanski.jakub.backend.ingredient.exceptions.IngredientNotFoundException;
+import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 import szymanski.jakub.backend.recipe.exceptions.RecipeNotFoundException;
 import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientEntity;
+import szymanski.jakub.backend.recipeingredients.dtos.RecipeIngredientDto;
 import szymanski.jakub.backend.recipeingredients.exceptions.RecipeIngredientNotFoundException;
 
 import java.util.List;
@@ -12,19 +14,19 @@ public interface RecipeIngredientsService {
     /**
      * Finds all recipeIngredients associated with given recipe.
      *
-     * @return  list of all {@link RecipeIngredientEntity} objects with recipe of given ID
+     * @return  list of all {@link RecipeIngredientDto} objects with recipe of given ID
      * @throws  RecipeNotFoundException    if recipe with given ID was not found
      */
-    List<RecipeIngredientEntity> findRecipeIngredients(Long recipeId);
+    List<RecipeIngredientDto> findRecipeIngredients(Long recipeId);
 
     /**
      * Finds all recipes that contain given ingredient.
      *
      * @param   ingredientId        ID of ingredient that recipe has to contain
-     * @return                      list of {@link RecipeIngredientEntity} objects with ingredient of given ID
+     * @return                      list of {@link RecipeDto} objects containing ingredient of given ID
      * @throws  IngredientNotFoundException    if ingredient with given ID was not found
      */
-    List<RecipeIngredientEntity> findIngredientRecipes(Long ingredientId);
+    List<RecipeDto> findIngredientRecipes(Long ingredientId);
 
     /**
      * Saves recipeIngredient.

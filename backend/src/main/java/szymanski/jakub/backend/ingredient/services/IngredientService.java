@@ -1,5 +1,6 @@
 package szymanski.jakub.backend.ingredient.services;
 
+import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
 import szymanski.jakub.backend.ingredient.exceptions.IngredientNotFoundException;
 
@@ -10,45 +11,45 @@ public interface IngredientService {
     /**
      * Finds all ingredients.
      *
-     * @return  list of all {@link IngredientEntity} objects
+     * @return  list of all {@link IngredientDto} objects
      */
-    List<IngredientEntity> findAll();
+    List<IngredientDto> findAll();
 
     /**
      * Finds ingredient by ID.
      *
      * @param   id                          ID of ingredient to find
-     * @return                              {@link IngredientEntity} object with given ID
+     * @return                              {@link IngredientDto} object with given ID
      * @throws  IngredientNotFoundException if ingredient with given ID was not found
      */
-    IngredientEntity find(Long id);
+    IngredientDto find(Long id);
 
     /**
      * Finds ingredient by name.
      *
      * @param   name    name of ingredient to find
-     * @return          {@link IngredientEntity} object with given name
+     * @return          {@link IngredientDto} object with given name
      * @throws  IngredientNotFoundException if ingredient with given name was not found
      */
-    IngredientEntity find(String name);
+    IngredientDto find(String name);
 
     /**
      * Saves given ingredient.
      *
-     * @param   ingredient  {@link IngredientEntity} object with ingredient's data to save
+     * @param   ingredient  {@link IngredientDto} object with ingredient's data to save
      * @return              ID of saved ingredient
      */
-    Long save(IngredientEntity ingredient);
+    Long save(IngredientDto ingredient);
 
     /**
      * Updates ingredient with specified ID.
      *
      * @param   id                          ID of ingredient to update
-     * @param   ingredient                  {@link IngredientEntity} object containing ingredient's updated data
+     * @param   ingredient                  {@link IngredientDto} object containing ingredient's updated data
      * @return                              ID of updated ingredient
      * @throws  IngredientNotFoundException if ingredient with given ID was not found
      */
-    Long partialUpdate(Long id, IngredientEntity ingredient);
+    Long partialUpdate(Long id, IngredientDto ingredient);
 
     /**
      * Deletes ingredient with given ID.
@@ -67,9 +68,9 @@ public interface IngredientService {
     /**
      * Deletes specified ingredient.
      *
-     * @param   ingredient  {@link IngredientEntity} object to delete
+     * @param   ingredient  {@link IngredientDto} object to delete
      */
-    void delete(IngredientEntity ingredient);
+    void delete(IngredientDto ingredient);
 
     /**
      * Checks if ingredient with given ID exists.

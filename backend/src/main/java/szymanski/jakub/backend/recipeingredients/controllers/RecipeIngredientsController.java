@@ -18,7 +18,7 @@ import java.util.List;
 public class RecipeIngredientsController {
 
     private final RecipeIngredientsService recipeIngredientsService;
-    private final Mapper<RecipeIngredientEntity, RecipeIngredientDto> recipeIngredientMapper;
+
 
 //    @GetMapping("/recipes/{id}/ingredients")
 //    public ResponseEntity<List<IngredientDto>> getRecipeIngredients(
@@ -42,12 +42,8 @@ public class RecipeIngredientsController {
     public ResponseEntity<List<RecipeIngredientDto>> getRecipeIngredients(
             @PathVariable("id") Long recipeId)  {
 
-        return ResponseEntity.ok(
-                recipeIngredientsService.findRecipeIngredients(recipeId)
-                        .stream()
-                        .map(recipeIngredientMapper::mapTo)
-                        .toList()
-        );
+        List<RecipeIngredientDto> recipeIngredients = recipeIngredientsService.findRecipeIngredients(recipeId);
+        return ResponseEntity.ok( recipeIngredients);
     }
 
     /**
@@ -60,12 +56,8 @@ public class RecipeIngredientsController {
     public ResponseEntity<List<RecipeDto>> getIngredientRecipes(
             @PathVariable("id") Long ingredientId) {
 
-        List<RecipeIngredientDto> ingredientRecipes = recipeIngredientsService.findIngredientRecipes(ingredientId)
-                .stream()
-                .map(recipeIngredientMapper::mapTo)
-                .toList();
-
-        return ResponseEntity.ok(ingredientRecipes.stream().map(RecipeIngredientDto::getRecipe).toList());
+        List<RecipeDto> ingredientRecipes = recipeIngredientsService.findIngredientRecipes(ingredientId);
+        return ResponseEntity.ok(ingredientRecipes);
     }
 
 }
