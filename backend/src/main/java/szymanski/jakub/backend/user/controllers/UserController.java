@@ -7,7 +7,6 @@ import szymanski.jakub.backend.user.dtos.UserDto;
 import szymanski.jakub.backend.user.services.UserService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("users")
 @RestController
@@ -56,7 +55,6 @@ public class UserController {
             @RequestBody UserDto user) {
 
         Long savedUserId = userService.save(user);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUserId);
     }
 

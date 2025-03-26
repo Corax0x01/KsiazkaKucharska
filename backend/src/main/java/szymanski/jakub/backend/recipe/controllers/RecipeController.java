@@ -10,10 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import szymanski.jakub.backend.common.Mapper;
 import szymanski.jakub.backend.recipe.TagsEnum;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
-import szymanski.jakub.backend.recipe.entities.RecipeEntity;
 import szymanski.jakub.backend.recipe.dtos.requests.CreateRecipeRequest;
 import szymanski.jakub.backend.recipe.services.RecipeService;
 
@@ -29,7 +27,6 @@ import java.util.List;
 public class RecipeController {
 
     private final RecipeService recipeService;
-    private final Mapper<RecipeEntity, RecipeDto> recipeMapper;
 
     /**
      * Fetches all recipes optionally filtered by tags.
@@ -44,14 +41,14 @@ public class RecipeController {
             @RequestBody(required = false) List<TagsEnum> tagsEnumList,
             Pageable pageable) {
 
-        Page<RecipeEntity> recipes;
+        Page<RecipeDto> recipes;
         if(tagsEnumList == null || tagsEnumList.isEmpty())  {
             recipes = recipeService.findAllWithPagination(pageable);
         } else {
             recipes = recipeService.findAllByTags(tagsEnumList, pageable);
         }
 
-        return ResponseEntity.ok(recipes.map(recipeMapper::mapTo));
+        return ResponseEntity.ok(recipes);
     }
 
     /**
@@ -68,10 +65,9 @@ public class RecipeController {
             Authentication connectedUser
     ) {
 
-        return ResponseEntity.ok(
-                recipeService.findAllByAuthor(pageable, connectedUser)
-                .map(recipeMapper::mapTo)
-        );
+        Page<RecipeDto> recipes = recipeService.findAllByAuthor(pageable, connectedUser);
+
+        return ResponseEntity.ok(recipes);
     }
 
     /**
@@ -84,7 +80,7 @@ public class RecipeController {
     public ResponseEntity<RecipeDto> getRecipe(
             @PathVariable("id") Long id) {
 
-        RecipeDto recipe = recipeMapper.mapTo(recipeService.find(id));
+        RecipeDto recipe = recipeService.find(id);
         return ResponseEntity.ok(recipe);
     }
 
@@ -109,7 +105,7 @@ public class RecipeController {
 //     * Updates recipe.
 //     *
 //     * @param   id                  ID of recipe to be updated
-//     * @param   recipe              Recipe data to be updated
+//     * @param   recipe              recipe data to be updated
 //     * @return                      ID of updated recipe
 //     */
 //    @PutMapping("/{id}")
@@ -139,7 +135,7 @@ public class RecipeController {
             @PathVariable("id") Long id,
             @RequestBody RecipeDto recipe) {
 
-        Long updatedRecipeId = recipeService.partialUpdate(id, recipeMapper.mapFrom(recipe));
+        Long updatedRecipeId = recipeService.partialUpdate(id, recipe);
 
         return ResponseEntity.ok(updatedRecipeId);
     }

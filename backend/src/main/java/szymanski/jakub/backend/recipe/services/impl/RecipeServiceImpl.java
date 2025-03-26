@@ -6,9 +6,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import szymanski.jakub.backend.common.Mapper;
 import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
 import szymanski.jakub.backend.recipe.TagsEnum;
 import szymanski.jakub.backend.recipe.dtos.IngredientQuantityDto;
+import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 import szymanski.jakub.backend.recipe.exceptions.RecipeNotFoundException;
 import szymanski.jakub.backend.recipe.dtos.requests.CreateRecipeRequest;
 import szymanski.jakub.backend.recipe.entities.RecipeEntity;
@@ -31,44 +33,70 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final IngredientService ingredientService;
     private final RecipeIngredientsService recipeIngredientsService;
+    private final Mapper<RecipeEntity, RecipeDto> recipeMapper;
 
-    public List<RecipeEntity> findAll() {
-        return recipeRepository.findAll();
+
+    public List<RecipeDto> findAll() {
+        List<RecipeDto> recipes = recipeRepository
+                .findAll()
+                .stream()
+                .map(recipeMapper::mapTo)
+                .toList();
+
+        return recipes;
     }
 
-    public Page<RecipeEntity> findAllWithPagination(Pageable pageable) {
-        return recipeRepository.findAll(pageable);
+    public Page<RecipeDto> findAllWithPagination(Pageable pageable) {
+        Page<RecipeDto> recipes = recipeRepository
+                .findAll(pageable)
+                .map(recipeMapper::mapTo);
+
+        return recipes;
     }
 
-    public List<RecipeEntity> findRecipeByTags(List<TagsEnum> tagsEnumList) {
+    public List<RecipeDto> findRecipeByTags(List<TagsEnum> tagsEnumList) {
 
         return findAll().stream().filter(recipe -> (
                 new HashSet<>(recipe.getTags()).containsAll(tagsEnumList)
         )).toList();
     }
 
-    public Page<RecipeEntity> findAllByTags(List<TagsEnum> tagsEnumList, Pageable pageable) {
+    public Page<RecipeDto> findAllByTags(List<TagsEnum> tagsEnumList, Pageable pageable) {
         List<RecipeEntity> recipes = recipeRepository.findAll(pageable).toList();
 
         List<RecipeEntity> filteredRecipes = recipes.stream().filter(recipe -> (
                 new HashSet<>(recipe.getTags()).containsAll(tagsEnumList)
         )).toList();
 
-        return new PageImpl<>(filteredRecipes);
+        Page<RecipeDto> pagedRecipes = new PageImpl<>(
+                filteredRecipes
+                .stream()
+                .map(recipeMapper::mapTo)
+                .toList());
+
+        return pagedRecipes;
     }
 
-    public Page<RecipeEntity> findAllByAuthor(Pageable pageable, Authentication connectedUser) {
+    public Page<RecipeDto> findAllByAuthor(Pageable pageable, Authentication connectedUser) {
 
         UserEntity user = ((UserEntity) connectedUser.getPrincipal());
 
-        return recipeRepository.findAllByUserEntity(pageable, user);
+        Page<RecipeDto> recipes = recipeRepository
+                .findAllByUserEntity(pageable, user)
+                .map(recipeMapper::mapTo);
+
+        return recipes;
     }
 
-    public RecipeEntity find(Long id) {
-        return recipeRepository.findById(id)
+    public RecipeDto find(Long id) {
+        RecipeEntity recipeEntity = recipeRepository.findById(id)
                 .orElseThrow(
                         () -> new RecipeNotFoundException("Recipe with id: " + id + " not found")
                 );
+
+        RecipeDto recipeDto = recipeMapper.mapTo(recipeEntity);
+
+        return recipeDto;
     }
 
 
@@ -114,11 +142,13 @@ public class RecipeServiceImpl implements RecipeService {
         return savedRecipe.getId();
     }
 
-    public Long save(RecipeEntity recipe) {
-        return recipeRepository.save(recipe).getId();
+    public Long save(RecipeDto recipe) {
+        RecipeEntity recipeEntity = recipeMapper.mapFrom(recipe);
+
+        return recipeRepository.save(recipeEntity).getId();
     }
 
-    public Long partialUpdate(Long id, RecipeEntity recipe) {
+    public Long partialUpdate(Long id, RecipeDto recipe) {
         recipe.setId(id);
 
         RecipeEntity updatedRecipe = recipeRepository.findById(id).map(existingRecipe -> {
@@ -138,8 +168,10 @@ public class RecipeServiceImpl implements RecipeService {
         recipeRepository.deleteById(id);
     }
 
-    public void delete(RecipeEntity recipe) {
-        recipeRepository.delete(recipe);
+    public void delete(RecipeDto recipe) {
+        RecipeEntity recipeEntity =  recipeMapper.mapFrom(recipe);
+
+        recipeRepository.delete(recipeEntity);
     }
 
     public boolean exists(Long id) {
