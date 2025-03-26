@@ -10,7 +10,7 @@ import szymanski.jakub.backend.config.FileUploadProperties;
 import szymanski.jakub.backend.fileupload.exceptions.FileUploadException;
 import szymanski.jakub.backend.fileupload.exceptions.UploadedFileNotFoundException;
 import szymanski.jakub.backend.fileupload.services.FileUploadService;
-import szymanski.jakub.backend.recipe.entities.RecipeEntity;
+import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 import szymanski.jakub.backend.recipe.services.RecipeService;
 
 import java.io.IOException;
@@ -79,7 +79,7 @@ public class FileUploadServiceImpl implements FileUploadService {
             String newFilename = UUID.randomUUID() + "." + fileExtension;
             Path newFilePath = Paths.get(destinationFile.getParent() + "/" + newFilename);
 
-            recipeService.partialUpdate(recipeId, RecipeEntity.builder().imageName(newFilename).build());
+            recipeService.partialUpdate(recipeId, RecipeDto.builder().imageName(newFilename).build());
 
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, newFilePath, StandardCopyOption.REPLACE_EXISTING);

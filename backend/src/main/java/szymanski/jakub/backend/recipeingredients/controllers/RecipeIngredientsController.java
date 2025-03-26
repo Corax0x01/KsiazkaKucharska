@@ -3,10 +3,8 @@ package szymanski.jakub.backend.recipeingredients.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import szymanski.jakub.backend.common.Mapper;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 import szymanski.jakub.backend.recipeingredients.dtos.RecipeIngredientDto;
-import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientEntity;
 import szymanski.jakub.backend.recipeingredients.services.RecipeIngredientsService;
 
 import java.util.List;

@@ -4,8 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientEntity;
 import szymanski.jakub.backend.common.Mapper;
-import szymanski.jakub.backend.user.dtos.UserDto;
-import szymanski.jakub.backend.user.entities.UserEntity;
 
 /**
  * Implementation of {@link Mapper} to map between {@link RecipeIngredientEntity} and {@link RecipeIngredientDto}.

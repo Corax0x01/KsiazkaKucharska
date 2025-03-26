@@ -67,7 +67,7 @@ public class GlobalExceptionHandler {
                 ExceptionResponse.builder()
                         .businessErrorCode(BAD_CREDENTIALS.getCode())
                         .businessErrorDescription(BAD_CREDENTIALS.getDescription())
-                        .error(BAD_CREDENTIALS.getDescription())
+                        .error(exc.getMessage())
                         .build()
         );
     }

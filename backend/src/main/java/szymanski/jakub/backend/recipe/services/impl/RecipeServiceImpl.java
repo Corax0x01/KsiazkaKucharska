@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import szymanski.jakub.backend.common.Mapper;
+import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
 import szymanski.jakub.backend.recipe.TagsEnum;
 import szymanski.jakub.backend.recipe.dtos.IngredientQuantityDto;
@@ -34,6 +35,7 @@ public class RecipeServiceImpl implements RecipeService {
     private final IngredientService ingredientService;
     private final RecipeIngredientsService recipeIngredientsService;
     private final Mapper<RecipeEntity, RecipeDto> recipeMapper;
+    private final Mapper<IngredientEntity, IngredientDto> ingredientMapper;
 
 
     public List<RecipeDto> findAll() {
@@ -125,9 +127,15 @@ public class RecipeServiceImpl implements RecipeService {
                 IngredientEntity newIngredient = IngredientEntity.builder()
                         .name(capitalizedIngredientName)
                         .build();
-                ingredient = ingredientService.find(ingredientService.save(newIngredient));
+                ingredient = ingredientMapper.mapFrom(
+                        ingredientService.find(
+                                ingredientService.save(ingredientMapper.mapTo(newIngredient))
+                        )
+                );
             } else {
-                ingredient = ingredientService.find(capitalizedIngredientName);
+                ingredient = ingredientMapper.mapFrom(
+                        ingredientService.find(capitalizedIngredientName)
+                );
             }
 
             RecipeIngredientEntity newRecipeIngredient = RecipeIngredientEntity.builder()

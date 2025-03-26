@@ -4,7 +4,6 @@ import szymanski.jakub.backend.user.dtos.UserDto;
 import szymanski.jakub.backend.user.exceptions.UserNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
 
