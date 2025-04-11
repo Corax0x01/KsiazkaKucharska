@@ -8,6 +8,7 @@ import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 import szymanski.jakub.backend.recipe.dtos.requests.CreateRecipeRequest;
 import szymanski.jakub.backend.recipe.entities.RecipeEntity;
 import szymanski.jakub.backend.recipe.exceptions.RecipeNotFoundException;
+import szymanski.jakub.backend.user.exceptions.UserNotFoundException;
 
 import java.util.List;
 
@@ -46,13 +47,24 @@ public interface RecipeService {
     Page<RecipeDto> findAllByTags(List<TagsEnum> tagsEnumList, Pageable pageable);
 
     /**
-     * Finds recipes created by logged user with pagination.
+     * Finds all recipes created by user that is currently logged in with pagination.
+     *
+     * @param   pageable    pagination information
+     * @param   auth        information about authenticated user
+     * @return              {@link RecipeDto} objects created by user that is currently logged in
+     * @throws UserNotFoundException if authenticated user was not found
+     */
+    Page<RecipeDto> findAllByAuthor(Pageable pageable, Authentication auth);
+
+    /**
+     * Finds recipes created by given user with pagination.
      *
      * @param   pageable        pagination information
-     * @param   connectedUser   authenticated user
+     * @param   id              ID of author
      * @return                  {@link RecipeDto} objects created by user that is currently logged in
+     * @throws UserNotFoundException    if user with given ID was not found
      */
-    Page<RecipeDto> findAllByAuthor(Pageable pageable, Authentication connectedUser);
+    Page<RecipeDto> findAllByAuthor(Pageable pageable, Long id);
 
     /**
      * Finds recipe with given ID.

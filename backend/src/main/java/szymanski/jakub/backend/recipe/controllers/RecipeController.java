@@ -60,12 +60,27 @@ public class RecipeController {
      *                              with pagination
      */
     @GetMapping("/my")
+    public ResponseEntity<Page<RecipeDto>> getMyRecipes(
+            Pageable pageable,
+            Authentication connectedUser) {
+        Page<RecipeDto> recipes = recipeService.findAllByAuthor(pageable, connectedUser);
+
+        return ResponseEntity.ok(recipes);
+    }
+
+    /**
+     * Fetches all recipes created by user with given ID.
+     *
+     * @param   pageable    pagination information
+     * @param   id          ID of author
+     * @return              {@link ResponseEntity} containing all recipes created by given user
+     *                      with pagination
+     */
+    @GetMapping("/user/{id}")
     public ResponseEntity<Page<RecipeDto>> getRecipesByAuthor(
             Pageable pageable,
-            Authentication connectedUser
-    ) {
-
-        Page<RecipeDto> recipes = recipeService.findAllByAuthor(pageable, connectedUser);
+            @PathVariable("id") Long id ) {
+        Page<RecipeDto> recipes = recipeService.findAllByAuthor(pageable, id);
 
         return ResponseEntity.ok(recipes);
     }
