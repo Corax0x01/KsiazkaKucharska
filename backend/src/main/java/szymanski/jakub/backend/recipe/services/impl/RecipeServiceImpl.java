@@ -21,6 +21,8 @@ import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientEntity
 import szymanski.jakub.backend.recipeingredients.services.RecipeIngredientsService;
 import szymanski.jakub.backend.recipe.services.RecipeService;
 import szymanski.jakub.backend.user.entities.UserEntity;
+import szymanski.jakub.backend.user.exceptions.UserNotFoundException;
+import szymanski.jakub.backend.user.repositories.UserRepository;
 
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +34,7 @@ import java.util.Optional;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final UserRepository userRepository;
     private final IngredientService ingredientService;
     private final RecipeIngredientsService recipeIngredientsService;
     private final Mapper<RecipeEntity, RecipeDto> recipeMapper;
@@ -79,9 +82,17 @@ public class RecipeServiceImpl implements RecipeService {
         return pagedRecipes;
     }
 
-    public Page<RecipeDto> findAllByAuthor(Pageable pageable, Authentication connectedUser) {
+    public Page<RecipeDto> findAllByAuthor(Pageable pageable, Authentication auth) {
+        UserEntity user = (UserEntity) auth.getPrincipal();
+        return findAllByAuthor(pageable, user.getId());
+    }
 
-        UserEntity user = ((UserEntity) connectedUser.getPrincipal());
+    public Page<RecipeDto> findAllByAuthor(Pageable pageable, Long id) {
+
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(
+                        () -> new UserNotFoundException("User with ID: " + id + " not found")
+        );
 
         Page<RecipeDto> recipes = recipeRepository
                 .findAllByUserEntity(pageable, user)
