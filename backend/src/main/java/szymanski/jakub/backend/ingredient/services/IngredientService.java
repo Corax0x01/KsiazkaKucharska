@@ -1,6 +1,7 @@
 package szymanski.jakub.backend.ingredient.services;
 
 import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
+import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
 import szymanski.jakub.backend.ingredient.exceptions.IngredientNotFoundException;
 
 import java.util.List;
@@ -54,6 +55,7 @@ public interface IngredientService {
      * Deletes ingredient with given ID.
      *
      * @param   id  ID of ingredient to delete
+     * @throws  IngredientNotFoundException if ingredient was not found
      */
     void delete(Long id);
 
@@ -61,6 +63,7 @@ public interface IngredientService {
      * Deletes ingredient with given name.
      *
      * @param   name    name of ingredient to delete
+     * @throws  IngredientNotFoundException if ingredient was not found
      */
     void delete(String name);
 
@@ -68,20 +71,31 @@ public interface IngredientService {
      * Deletes specified ingredient.
      *
      * @param   ingredient  {@link IngredientDto} object to delete
+     * @throws  IngredientNotFoundException if ingredient was not found
      */
     void delete(IngredientDto ingredient);
 
     /**
+     * Checks if ingredient exists.
+     *
+     * @param   ingredient  {@link IngredientEntity} object to check
+     * @return              <code>true</code> if ingredient exist, <code>false</code> otherwise
+     */
+    boolean exists(IngredientEntity ingredient);
+
+    /**
      * Checks if ingredient with given ID exists.
      *
-     * @return              <code>true</code> if ingredient exist, <code>false</code> otherwise
+     * @param   id      ID of ingredient to check
+     * @return          <code>true</code> if ingredient exist, <code>false</code> otherwise
      */
     boolean exists(Long id);
 
     /**
      * Checks if ingredient with given name exists.
      *
-     * @return              <code>true</code> if ingredient exist, <code>false</code> otherwise
+     * @param   name    name of ingredient to check
+     * @return          <code>true</code> if ingredient exist, <code>false</code> otherwise
      */
     boolean exists(String name);
 }

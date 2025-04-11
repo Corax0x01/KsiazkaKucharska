@@ -71,16 +71,30 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     public void delete(Long id) {
+        if (!exists(id)) {
+            throw new IngredientNotFoundException("Ingredient with id: " + id + " not found");
+        }
         ingredientRepository.deleteById(id);
     }
 
     public void delete(String name) {
+        if(!exists(name)) {
+            throw new IngredientNotFoundException("Ingredient with name: " + name + " not found");
+        }
         ingredientRepository.deleteByName(name);
     }
 
     public void delete(IngredientDto ingredient) {
         IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
+        if (!exists(ingredientEntity)) {
+            throw new IngredientNotFoundException("Ingredient " + ingredient.toString() + " not found");
+        }
         ingredientRepository.delete(ingredientEntity);
+    }
+
+    public boolean exists(IngredientEntity ingredient) {
+
+        return ingredientRepository.exists(ingredient);
     }
 
     public boolean exists(Long id) {

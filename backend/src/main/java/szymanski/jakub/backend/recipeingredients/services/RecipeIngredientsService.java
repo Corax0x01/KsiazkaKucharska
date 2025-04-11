@@ -59,6 +59,7 @@ public interface RecipeIngredientsService {
      * Deletes given recipeIngredient.
      *
      * @param    recipeIngredient   {@link RecipeIngredientEntity} object to delete
+     * @throws   RecipeIngredientNotFoundException  if recipeIngredient was not found
      */
     void delete(RecipeIngredientEntity recipeIngredient);
 
@@ -69,4 +70,12 @@ public interface RecipeIngredientsService {
      * @return                      <code>true</code> if recipeIngredient exists, <code>false</code> otherwise
      */
     boolean exists(Long id);
+
+    /**
+     * Checks if recipeIngredient exists.
+     *
+     * @param   recipeIngredient    {@link RecipeIngredientEntity} object to check
+     * @return                      <code>true</code> if recipeIngredient exists, <code>false</code> otherwise
+     */
+    boolean exists(RecipeIngredientEntity recipeIngredient);
 }
