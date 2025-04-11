@@ -173,17 +173,27 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     public void delete(Long id) {
+        if(!exists(id)) {
+            throw new RecipeNotFoundException("Recipe with id: " + id + " not found");
+        }
         recipeRepository.deleteById(id);
     }
 
     public void delete(RecipeDto recipe) {
         RecipeEntity recipeEntity =  recipeMapper.mapFrom(recipe);
+        if(!exists(recipeEntity)) {
+            throw new RecipeNotFoundException("Recipe " + recipe.toString() + " not found");
+        }
 
         recipeRepository.delete(recipeEntity);
     }
 
     public boolean exists(Long id) {
         return recipeRepository.existsById(id);
+    }
+
+    public boolean exists(RecipeEntity recipe) {
+        return recipeRepository.exists(recipe);
     }
 
 }

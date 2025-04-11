@@ -26,6 +26,14 @@ public interface IngredientRepository extends JpaRepository<IngredientEntity, Lo
     boolean existsByName(String name);
 
     /**
+     * Checks if ingredient exists.
+     *
+     * @param   ingredient  {@link IngredientEntity} object to check
+     * @return              <code>true</code> if ingredient exists, <code>false</code> otherwise
+     */
+    boolean exists(IngredientEntity ingredient);
+
+    /**
      * Deletes ingredient with given name.
      *
      * @param   name    name of ingredient to delete

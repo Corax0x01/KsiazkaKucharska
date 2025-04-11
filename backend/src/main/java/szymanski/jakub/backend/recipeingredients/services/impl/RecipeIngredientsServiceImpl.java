@@ -82,11 +82,17 @@ public class RecipeIngredientsServiceImpl implements RecipeIngredientsService {
     }
 
     public void delete(RecipeIngredientEntity recipeIngredient) {
+        if(!exists(recipeIngredient)) {
+            throw new RecipeIngredientNotFoundException("Recipe Ingredient " + recipeIngredient.toString() + " not found");
+        }
         recipeIngredientsRepository.delete(recipeIngredient);
     }
 
-    @Override
     public boolean exists(Long id) {
         return recipeIngredientsRepository.existsById(id);
+    }
+
+    public boolean exists(RecipeIngredientEntity recipeIngredient) {
+        return recipeIngredientsRepository.exists(recipeIngredient);
     }
 }

@@ -61,15 +61,26 @@ public class UserServiceImpl implements UserService {
     }
 
     public void delete(Long id) {
+        if(!exists(id)) {
+            throw new UserNotFoundException("User with ID: " + id + " not found");
+        }
         userRepository.deleteById(id);
     }
 
     public void delete(UserDto user) {
         UserEntity userEntity = userMapper.mapFrom(user);
+        if(!exists(userEntity)) {
+            throw new UserNotFoundException("User " + userEntity.toString() + " not found");
+        }
         userRepository.delete(userEntity);
     }
 
     public boolean exists(Long id) {
         return userRepository.existsById(id);
+    }
+
+    public boolean exists(UserEntity user) {
+
+        return userRepository.exists(user);
     }
 }

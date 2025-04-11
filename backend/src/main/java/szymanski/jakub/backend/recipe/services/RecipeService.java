@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import szymanski.jakub.backend.recipe.TagsEnum;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 import szymanski.jakub.backend.recipe.dtos.requests.CreateRecipeRequest;
+import szymanski.jakub.backend.recipe.entities.RecipeEntity;
 import szymanski.jakub.backend.recipe.exceptions.RecipeNotFoundException;
 
 import java.util.List;
@@ -93,6 +94,7 @@ public interface RecipeService {
      * Deletes recipe.
      *
      * @param   id  ID of recipe to delete
+     * @throws  RecipeNotFoundException if recipe with given ID was not found
      */
     void delete(Long id);
 
@@ -100,6 +102,7 @@ public interface RecipeService {
      * Deletes recipe.
      *
      * @param   recipe  {@link RecipeDto} object to delete
+     * @throws  RecipeNotFoundException if recipe with given name was not found
      */
     void delete(RecipeDto recipe);
 
@@ -110,5 +113,13 @@ public interface RecipeService {
      * @return                  <code>true</code> if recipe exists, <code>false</code> otherwise
      */
     boolean exists(Long id);
+
+    /**
+     * Checks if recipe exists.
+     *
+     * @param   recipe  {@link RecipeEntity} object to check
+     * @return          <code>true</code> if recipe exists, <code>false</code> otherwise
+     */
+    boolean exists(RecipeEntity recipe);
 
 }

@@ -18,4 +18,12 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
      * @return              all {@link RecipeEntity} objects created by given user with pagination
      */
     Page<RecipeEntity> findAllByUserEntity(Pageable pageable, UserEntity author);
+
+    /**
+     * Checks if recipe exists.
+     *
+     * @param   recipe  recipe to check
+     * @return          <code>true</code> if recipe exists, <code>false</code> otherwise
+     */
+    boolean exists(RecipeEntity recipe);
 }

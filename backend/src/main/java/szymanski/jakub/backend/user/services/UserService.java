@@ -1,6 +1,7 @@
 package szymanski.jakub.backend.user.services;
 
 import szymanski.jakub.backend.user.dtos.UserDto;
+import szymanski.jakub.backend.user.entities.UserEntity;
 import szymanski.jakub.backend.user.exceptions.UserNotFoundException;
 
 import java.util.List;
@@ -54,6 +55,7 @@ public interface UserService {
      * Deletes user with given ID.
      *
      * @param   id          ID of user to delete
+     * @throws  UserNotFoundException   if user with given ID was not found
      */
     void delete(Long id);
 
@@ -61,6 +63,7 @@ public interface UserService {
      * Deletes specified user.
      *
      * @param   user        {@link UserDto} object to delete
+     * @throws  UserNotFoundException   if user was not found
      */
     void delete(UserDto user);
 
@@ -71,5 +74,13 @@ public interface UserService {
      * @return              <code>true</code> if user exists, <code>false</code> otherwise
      */
     boolean exists(Long id);
+
+    /**
+     * Checks if user exists.
+     *
+     * @param   user    {@link UserEntity} object to check
+     * @return          <code>true</code> if user exists, <code>false</code> otherwise
+     */
+    boolean exists(UserEntity user);
 
 }
