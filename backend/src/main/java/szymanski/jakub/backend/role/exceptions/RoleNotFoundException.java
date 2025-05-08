@@ -7,14 +7,14 @@ import static szymanski.jakub.backend.common.exceptionhandler.BusinessErrorCodes
 /**
  * Thrown when role is not found.
  */
-public class UserRoleNotFoundException extends ApplicationException {
+public class RoleNotFoundException extends ApplicationException {
 
     /**
      * Class constructor.
      *
      * @param message   specific information about exception
      */
-    public UserRoleNotFoundException(String message) {
+    public RoleNotFoundException(String message) {
         super(ROLE_NOT_FOUND, message);
     }
 

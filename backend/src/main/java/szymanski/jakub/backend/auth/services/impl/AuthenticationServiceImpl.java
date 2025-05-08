@@ -18,7 +18,7 @@ import szymanski.jakub.backend.auth.services.AuthenticationService;
 import szymanski.jakub.backend.email.EmailTemplateName;
 import szymanski.jakub.backend.email.services.EmailService;
 import szymanski.jakub.backend.role.entities.RoleEntity;
-import szymanski.jakub.backend.role.exceptions.UserRoleNotFoundException;
+import szymanski.jakub.backend.role.exceptions.RoleNotFoundException;
 import szymanski.jakub.backend.role.repositories.RoleRepository;
 import szymanski.jakub.backend.security.JwtService;
 import szymanski.jakub.backend.user.entities.TokenEntity;
@@ -50,7 +50,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     public void register(RegistrationRequest request) throws MessagingException {
         RoleEntity userRole = roleRepository.findByName("USER")
-                .orElseThrow(() -> new UserRoleNotFoundException("Role USER was not initialized"));
+                .orElseThrow(() -> new RoleNotFoundException("Role USER was not initialized"));
 
         UserEntity user = UserEntity.builder()
                 .username(request.getUsername())
