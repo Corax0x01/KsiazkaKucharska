@@ -31,15 +31,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
      * Finds users with given roles.
      *
      * @param   roles   list of roles that user has to have
-     * @return          {@link Optional} list of {@link UserEntity} objects that have specified roles
+     * @return          list of {@link UserEntity} objects that have specified roles
      */
-    Optional<List<UserEntity>> findByRoles(List<RoleEntity> roles);
-
-    /**
-     * Checks if user exists.
-     *
-     * @param   user    {@link UserEntity} object to check
-     * @return          <code>true</code> if user exists, <code>false</code> otherwise
-     */
-    boolean exists(UserEntity user);
+    List<UserEntity> findByRoles(List<RoleEntity> roles);
 }

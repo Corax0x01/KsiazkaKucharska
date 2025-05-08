@@ -1,5 +1,6 @@
 package szymanski.jakub.backend.user.services;
 
+import szymanski.jakub.backend.role.entities.RoleEntity;
 import szymanski.jakub.backend.user.dtos.UserDto;
 import szymanski.jakub.backend.user.entities.UserEntity;
 import szymanski.jakub.backend.user.exceptions.UserNotFoundException;
@@ -34,12 +35,23 @@ public interface UserService {
     UserDto find(String username);
 
     /**
+     * Finds users with given roles.
+     *
+     * @param   roles       list of roles
+     * @return              list of {@link UserDto} objects with given roles
+     */
+    List<UserDto> findByRoles(List<RoleEntity> roles);
+
+    /**
      * Saves a user.
      *
      * @param   user    {@link UserDto} object with user's data to save
+     * @param   enabled defines if account is enabled
+     * @param   locked  defines if account is locked
+     * @param   roles   roles associated with this user
      * @return          ID of saved user
      */
-    Long save(UserDto user);
+    Long save(UserDto user, boolean enabled, boolean locked, List<RoleEntity> roles);
 
     /**
      * Updates user with specified ID.

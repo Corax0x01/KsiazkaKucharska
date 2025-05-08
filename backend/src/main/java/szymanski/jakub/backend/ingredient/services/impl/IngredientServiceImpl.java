@@ -94,7 +94,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     public boolean exists(IngredientEntity ingredient) {
 
-        return ingredientRepository.exists(ingredient);
+        return ingredientRepository.existsById(ingredient.getId());
     }
 
     public boolean exists(Long id) {
@@ -102,7 +102,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     public boolean exists(String name) {
-        return ingredientRepository.existsByName(name);
+        return ingredientRepository.findByName(name).isPresent();
     }
 
 }

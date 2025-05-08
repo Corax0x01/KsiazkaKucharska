@@ -31,12 +31,4 @@ public interface RecipeIngredientsRepository extends JpaRepository<RecipeIngredi
      *          and ingredient of given ID
      */
     Optional<RecipeIngredientEntity> findByRecipeEntityIdAndIngredientEntityId(Long recipeId, Long ingredientId);
-
-    /**
-     * Checks if recipeIngredient exists.
-     *
-     * @param   recipeIngredient    {@link RecipeIngredientEntity} object to check
-     * @return                      <code>true</code> if recipeIngredient exists, <code>false</code> otherwise
-     */
-    boolean exists(RecipeIngredientEntity recipeIngredient);
 }

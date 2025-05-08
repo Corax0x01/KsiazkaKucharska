@@ -2,6 +2,7 @@ package szymanski.jakub.backend.user.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import szymanski.jakub.backend.role.entities.RoleEntity;
 import szymanski.jakub.backend.user.dtos.UserDto;
 import szymanski.jakub.backend.user.entities.UserEntity;
 import szymanski.jakub.backend.common.Mapper;
@@ -40,8 +41,17 @@ public class UserServiceImpl implements UserService {
                 );
     }
 
-    public Long save(UserDto user) {
+    public List<UserDto> findByRoles(List<RoleEntity> roles) {
+        List<UserEntity> users = userRepository.findByRoles(roles);
+
+        return users.stream().map(userMapper::mapTo).toList();
+    }
+
+    public Long save(UserDto user, boolean enabled, boolean locked, List<RoleEntity> roles) {
         UserEntity userEntity = userMapper.mapFrom(user);
+        userEntity.setEnabled(enabled);
+        userEntity.setLocked(locked);
+        userEntity.setRoles(roles);
         return userRepository.save(userEntity).getId();
     }
 
@@ -70,7 +80,7 @@ public class UserServiceImpl implements UserService {
     public void delete(UserDto user) {
         UserEntity userEntity = userMapper.mapFrom(user);
         if(!exists(userEntity)) {
-            throw new UserNotFoundException("User " + userEntity.toString() + " not found");
+            throw new UserNotFoundException("User " + userEntity + " not found");
         }
         userRepository.delete(userEntity);
     }
@@ -81,6 +91,6 @@ public class UserServiceImpl implements UserService {
 
     public boolean exists(UserEntity user) {
 
-        return userRepository.exists(user);
+        return userRepository.existsById(user.getId());
     }
 }

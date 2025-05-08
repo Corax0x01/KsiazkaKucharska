@@ -93,6 +93,6 @@ public class RecipeIngredientsServiceImpl implements RecipeIngredientsService {
     }
 
     public boolean exists(RecipeIngredientEntity recipeIngredient) {
-        return recipeIngredientsRepository.exists(recipeIngredient);
+        return recipeIngredientsRepository.existsById(recipeIngredient.getId());
     }
 }

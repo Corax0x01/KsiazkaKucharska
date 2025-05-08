@@ -3,6 +3,8 @@ package szymanski.jakub.backend.user.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import szymanski.jakub.backend.role.exceptions.RoleNotFoundException;
+import szymanski.jakub.backend.role.repositories.RoleRepository;
 import szymanski.jakub.backend.user.dtos.UserDto;
 import szymanski.jakub.backend.user.services.UserService;
 
@@ -13,9 +15,11 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final RoleRepository roleRepository;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RoleRepository roleRepository) {
         this.userService = userService;
+        this.roleRepository = roleRepository;
     }
 
     /**
@@ -54,7 +58,13 @@ public class UserController {
     public ResponseEntity<Long> createUser(
             @RequestBody UserDto user) {
 
-        Long savedUserId = userService.save(user);
+        Long savedUserId = userService.save(
+                user,
+                false,
+                false,
+                List.of(roleRepository.findByName("USER").orElseThrow(
+                        () -> new RoleNotFoundException("Role USER not found")
+                )));
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUserId);
     }
 

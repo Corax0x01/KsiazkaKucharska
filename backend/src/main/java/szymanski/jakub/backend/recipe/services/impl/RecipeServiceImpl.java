@@ -204,7 +204,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     public boolean exists(RecipeEntity recipe) {
-        return recipeRepository.exists(recipe);
+        return recipeRepository.existsById(recipe.getId());
     }
 
 }
