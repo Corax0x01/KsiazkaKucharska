@@ -3,6 +3,7 @@ package szymanski.jakub.backend.role.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import szymanski.jakub.backend.common.BaseEntity;
 import szymanski.jakub.backend.user.entities.UserEntity;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "roles")
