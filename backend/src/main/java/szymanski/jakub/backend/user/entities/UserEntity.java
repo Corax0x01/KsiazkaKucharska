@@ -2,17 +2,15 @@ package szymanski.jakub.backend.user.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import szymanski.jakub.backend.common.BaseEntity;
 import szymanski.jakub.backend.recipe.entities.RecipeEntity;
 import szymanski.jakub.backend.role.entities.RoleEntity;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,16 +22,11 @@ import java.util.stream.Collectors;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@EqualsAndHashCode
+@SuperBuilder
+@EqualsAndHashCode(callSuper = false)
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
-public class UserEntity implements UserDetails, Principal {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class UserEntity extends BaseEntity implements UserDetails, Principal {
 
     @Column(unique = true)
     private String username;
@@ -64,21 +57,6 @@ public class UserEntity implements UserDetails, Principal {
      */
     @ManyToMany(fetch = FetchType.EAGER)
     private List<RoleEntity> roles;
-
-    /**
-     * User creation date.
-     */
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate;
-
-    /**
-     * User last modification date.
-     */
-    @LastModifiedDate
-    @Column(insertable = false)
-    private LocalDateTime lastModifiedDate;
-
 
     /**
      * Returns username of this {@link UserEntity} object.

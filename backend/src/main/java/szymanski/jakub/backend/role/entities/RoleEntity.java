@@ -3,12 +3,10 @@ package szymanski.jakub.backend.role.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.experimental.SuperBuilder;
+import szymanski.jakub.backend.common.BaseEntity;
 import szymanski.jakub.backend.user.entities.UserEntity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -17,16 +15,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@EqualsAndHashCode
+@SuperBuilder
+@EqualsAndHashCode(callSuper = false)
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "roles")
-public class RoleEntity {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class RoleEntity extends BaseEntity {
 
     @Column(unique = true)
     private String name;
@@ -35,11 +28,4 @@ public class RoleEntity {
     @JsonIgnore
     private List<UserEntity> users;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate;
-
-    @LastModifiedDate
-    @Column(insertable = false)
-    private LocalDateTime lastModifiedDate;
 }
