@@ -12,12 +12,19 @@
     const receivedToken = await AuthenticationService.logIn(credentials);
 
     if(receivedToken != null) {
-      authStore.token = receivedToken;
-      authStore.authenticated = true;
+      authStore.setToken(receivedToken);
+      authStore.setAuthenticated(true);
+
+      localStorage.setItem("token", receivedToken);
+      localStorage.setItem("authenticated", true );
+
       await router.push("/recipes");
     } else {
-      authStore.token = null;
-      authStore.authenticated = false;
+      authStore.setToken(null);
+      authStore.setAuthenticated(false);
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("authenticated");
       console.error("Error when logging in");
     }
 
