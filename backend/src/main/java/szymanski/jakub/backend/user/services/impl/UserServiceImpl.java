@@ -1,6 +1,7 @@
 package szymanski.jakub.backend.user.services.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import szymanski.jakub.backend.role.entities.RoleEntity;
 import szymanski.jakub.backend.user.dtos.UserDto;
@@ -20,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final Mapper<UserEntity, UserDto> userMapper;
-
+    private final PasswordEncoder passwordEncoder;
 
     public List<UserDto> findAll() {
         return userRepository.findAll().stream().map(userMapper::mapTo).toList();
@@ -52,6 +53,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setEnabled(enabled);
         userEntity.setLocked(locked);
         userEntity.setRoles(roles);
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(userEntity).getId();
     }
 

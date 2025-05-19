@@ -72,7 +72,7 @@ public class KsiazkaKucharskaApplication {
 					.isEmpty()) {
 				UserDto admin = UserDto.builder()
 						.username(adminAccountConfig.getUsername())
-						.password(passwordEncoder.encode(adminAccountConfig.getPassword()))
+						.password(adminAccountConfig.getPassword())
 						.email(adminAccountConfig.getEmail())
 						.build();
 
