@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(LockedException.class)
     public ResponseEntity<ExceptionResponse> handleException(LockedException exc) {
-        return ResponseEntity.status(UNAUTHORIZED).body(
+        return ResponseEntity.status(ACCOUNT_LOCKED.getHttpStatus()).body(
                 ExceptionResponse.builder()
                         .businessErrorCode(ACCOUNT_LOCKED.getCode())
                         .businessErrorDescription(ACCOUNT_LOCKED.getDescription())
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(DisabledException.class)
     public ResponseEntity<ExceptionResponse> handleException(DisabledException exc) {
-        return ResponseEntity.status(UNAUTHORIZED).body(
+        return ResponseEntity.status(ACCOUNT_DISABLED.getHttpStatus()).body(
                 ExceptionResponse.builder()
                         .businessErrorCode(ACCOUNT_DISABLED.getCode())
                         .businessErrorDescription(ACCOUNT_DISABLED.getDescription())
@@ -63,7 +63,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ExceptionResponse> handleException(BadCredentialsException exc) {
-        return ResponseEntity.status(UNAUTHORIZED).body(
+        return ResponseEntity.status(BAD_CREDENTIALS.getHttpStatus()).body(
                 ExceptionResponse.builder()
                         .businessErrorCode(BAD_CREDENTIALS.getCode())
                         .businessErrorDescription(BAD_CREDENTIALS.getDescription())
