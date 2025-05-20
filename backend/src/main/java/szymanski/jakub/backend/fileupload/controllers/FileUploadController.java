@@ -36,9 +36,10 @@ public class FileUploadController {
     @Operation(summary = "Fetches file with given filename")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "File fetched",
-            content = @Content(mediaType = "multipart/form-data",
+            content = @Content(mediaType = "multipart/form-data, application/json",
                 schema = @Schema(implementation = Resource.class))),
-        @ApiResponse(responseCode = "403", description = "Not authorized", content = @Content),
+        @ApiResponse(responseCode = "403", description = "Not authorized",
+                content = @Content(mediaType = "application/json")),
         @ApiResponse(responseCode = "404", description = "File not found",
             content = @Content(mediaType = "application/json",
                 schema = @Schema(implementation = ExceptionResponse.class)))

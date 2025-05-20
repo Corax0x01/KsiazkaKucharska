@@ -98,7 +98,7 @@ public class FileUploadServiceImpl implements FileUploadService {
             Path file = load(filename);
             Resource resource = new UrlResource(file.toUri());
 
-            if(resource.exists() || resource.isReadable()){
+            if(resource.exists() && resource.isReadable()){
                 return resource;
             } else {
                 throw new UploadedFileNotFoundException("Could not read file: " + filename);
