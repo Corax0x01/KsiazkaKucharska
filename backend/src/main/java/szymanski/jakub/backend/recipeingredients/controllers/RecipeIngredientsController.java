@@ -4,17 +4,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import szymanski.jakub.backend.common.exceptionhandler.ExceptionResponse;
+import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 import szymanski.jakub.backend.recipeingredients.dtos.RecipeIngredientDto;
 import szymanski.jakub.backend.recipeingredients.services.RecipeIngredientsService;
@@ -92,4 +91,33 @@ public class RecipeIngredientsController {
         return ResponseEntity.ok(ingredientRecipes);
     }
 
+    /**
+     * Fetches all recipes that contain all given ingredients.
+     *
+     * @param ingredients   list of ingredients that recipe must contain
+     * @return              {@link ResponseEntity} containing list of recipes that contain all given ingredients
+     */
+    @Operation(summary = "Fetches all recipes that contain all given ingredients")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Recipes fetched",
+            content = @Content(mediaType = "application/json",
+                array = @ArraySchema(schema = @Schema(implementation = RecipeDto.class)))),
+        @ApiResponse(responseCode = "403", description = "Not authorized", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Ingredient not found",
+            content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = ExceptionResponse.class)))
+    })
+    @PostMapping("/recipes/ingredients")
+    public ResponseEntity<List<RecipeDto>> getRecipesByIngredients(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                description = "Ingredients that recipe must contain",
+                    content = @Content(mediaType = "application/json",
+                    examples = @ExampleObject("""
+                            ["Kurczak", "Makaron", "Pomidory suszone"]
+                            """))
+            )
+            @RequestBody List<String> ingredients) {
+        List<RecipeDto> recipes = recipeIngredientsService.findRecipesByIngredients(ingredients);
+        return ResponseEntity.ok(recipes);
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import szymanski.jakub.backend.common.Mapper;
 import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
+import szymanski.jakub.backend.ingredient.repositories.IngredientRepository;
 import szymanski.jakub.backend.recipe.TagsEnum;
 import szymanski.jakub.backend.recipe.dtos.IngredientQuantityDto;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
@@ -24,6 +25,7 @@ import szymanski.jakub.backend.user.entities.UserEntity;
 import szymanski.jakub.backend.user.exceptions.UserNotFoundException;
 import szymanski.jakub.backend.user.repositories.UserRepository;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +36,7 @@ import java.util.Optional;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final IngredientRepository ingredientRepository;
     private final UserRepository userRepository;
     private final IngredientService ingredientService;
     private final RecipeIngredientsService recipeIngredientsService;
@@ -123,6 +126,7 @@ public class RecipeServiceImpl implements RecipeService {
                 .imageName(request.imageName())
                 .tags(request.tags())
                 .userEntity(user)
+                .recipeIngredients(new ArrayList<>())
                 .build();
 
         RecipeEntity savedRecipe = recipeRepository.save(recipe);
@@ -132,22 +136,12 @@ public class RecipeServiceImpl implements RecipeService {
             String upperFirstLetter = ingredientName.substring(0, 1).toUpperCase();
             String capitalizedIngredientName = upperFirstLetter + ingredientName.substring(1);
             String quantity = i.getQuantity();
-            IngredientEntity ingredient;
-
-            if (!ingredientService.exists(capitalizedIngredientName)) {
-                IngredientEntity newIngredient = IngredientEntity.builder()
-                        .name(capitalizedIngredientName)
-                        .build();
-                ingredient = ingredientMapper.mapFrom(
-                        ingredientService.find(
-                                ingredientService.save(ingredientMapper.mapTo(newIngredient))
-                        )
-                );
-            } else {
-                ingredient = ingredientMapper.mapFrom(
-                        ingredientService.find(capitalizedIngredientName)
-                );
-            }
+            IngredientEntity ingredient = ingredientRepository.findByName(capitalizedIngredientName).
+                    orElse(
+                            IngredientEntity.builder()
+                                    .name(capitalizedIngredientName)
+                                    .build()
+                    );
 
             RecipeIngredientEntity newRecipeIngredient = RecipeIngredientEntity.builder()
                     .recipeEntity(savedRecipe)

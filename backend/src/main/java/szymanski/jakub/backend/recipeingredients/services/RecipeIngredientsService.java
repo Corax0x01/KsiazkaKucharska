@@ -1,5 +1,6 @@
 package szymanski.jakub.backend.recipeingredients.services;
 
+import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.ingredient.exceptions.IngredientNotFoundException;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 import szymanski.jakub.backend.recipe.exceptions.RecipeNotFoundException;
@@ -27,6 +28,14 @@ public interface RecipeIngredientsService {
      * @throws  IngredientNotFoundException    if ingredient with given ID was not found
      */
     List<RecipeDto> findIngredientRecipes(Long ingredientId);
+
+    /**
+     * Finds all recipes that contains all ingredients from parameter
+     *
+     * @param ingredients   list of ingredient names that recipes have to contain
+     * @return              list of {@link RecipeDto} objects containing given ingredients
+     */
+    List<RecipeDto> findRecipesByIngredients(List<String> ingredients);
 
     /**
      * Saves recipeIngredient.

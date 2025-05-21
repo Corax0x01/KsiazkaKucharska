@@ -11,7 +11,6 @@ import java.util.List;
  * Request template used for creating recipe
  */
 public record CreateRecipeRequest(
-        Long id,
 
         @NotNull(message = "100")
         @NotEmpty(message = "100")
