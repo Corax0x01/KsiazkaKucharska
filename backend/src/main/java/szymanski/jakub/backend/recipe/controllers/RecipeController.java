@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,12 +27,9 @@ import szymanski.jakub.backend.recipe.services.RecipeService;
 import java.util.Arrays;
 import java.util.List;
 
-
-@Log
-@RequestMapping("recipes")
-@RequiredArgsConstructor
-@RestController
 @Tag(name = "Recipes")
+@RestController
+@RequiredArgsConstructor
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -172,28 +168,6 @@ public class RecipeController {
                 recipeService.create(request, connectedUser)
         );
     }
-
-//    /**
-//     * Updates recipe.
-//     *
-//     * @param   id                  ID of recipe to be updated
-//     * @param   recipe              recipe data to be updated
-//     * @return                      ID of updated recipe
-//     */
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Long> fullUpdateRecipe(
-//            @PathVariable("id") Long id,
-//            @RequestBody RecipeDto recipe) {
-//
-//        if(!recipeService.exists(id)) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        recipe.setId(id);
-//        Long updatedRecipeId = recipeService.save(recipeMapper.mapFrom(recipe));
-//
-//        return ResponseEntity.ok(updatedRecipeId);
-//    }
 
     /**
      * Updates recipe.

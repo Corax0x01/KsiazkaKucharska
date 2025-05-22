@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 /**
  * Data Transfer Object used to pass ingredient data.
  */
@@ -17,5 +16,4 @@ public class IngredientDto {
 
     private Long id;
     private String name;
-
 }

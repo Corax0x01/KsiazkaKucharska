@@ -25,8 +25,8 @@ public record CreateRecipeRequest(
         String imageName,
 
         List<TagsEnum> tags,
+
         @NotNull(message = "103")
         @NotEmpty(message = "103")
-        List<IngredientQuantityDto> ingredients
-) {
+        List<IngredientQuantityDto> ingredients) {
 }

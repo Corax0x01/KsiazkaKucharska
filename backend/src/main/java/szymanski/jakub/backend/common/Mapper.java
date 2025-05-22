@@ -14,5 +14,4 @@ public interface Mapper<T, S> {
      * Maps from class <code>S</code> to <code>T</code>.
      */
     T mapFrom(S s);
-
 }

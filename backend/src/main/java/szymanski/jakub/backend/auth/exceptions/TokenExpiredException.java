@@ -17,5 +17,4 @@ public class TokenExpiredException extends ApplicationException {
     public TokenExpiredException(String message) {
         super(TOKEN_EXPIRED, message);
     }
-
 }

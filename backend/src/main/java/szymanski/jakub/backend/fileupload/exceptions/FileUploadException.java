@@ -24,5 +24,4 @@ public class FileUploadException extends ApplicationException {
     public FileUploadException(String message, Throwable cause) {
         super(FILE_NOT_UPLOADED, message, cause);
     }
-
 }

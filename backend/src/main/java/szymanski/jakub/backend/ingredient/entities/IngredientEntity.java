@@ -13,12 +13,12 @@ import java.util.List;
 /**
  * Ingredient data stored in database
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Entity
 @Tag(name = "Ingredient")
+@Data
+@Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "ingredients")
 public class IngredientEntity {
 
@@ -31,5 +31,4 @@ public class IngredientEntity {
 
     @OneToMany(mappedBy = "ingredientEntity")
     private List<RecipeIngredientEntity> recipeIngredients;
-
 }

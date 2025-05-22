@@ -10,14 +10,13 @@ import szymanski.jakub.backend.auth.exceptions.TokenNotFoundException;
 import szymanski.jakub.backend.role.exceptions.RoleNotFoundException;
 import szymanski.jakub.backend.user.entities.UserEntity;
 
-
 public interface AuthenticationService {
 
     /**
      * Registers user.
      *
-     * @param   request                     {@link RegistrationRequest} object containing data required for account registration
-     * @throws  MessagingException          if error with email sending occurs
+     * @param  request                  {@link RegistrationRequest} object containing data required for account registration
+     * @throws MessagingException       if error with email sending occurs
      * @throws RoleNotFoundException    if role assigned to this user does not exist
      */
     void register(RegistrationRequest request) throws MessagingException;
@@ -51,7 +50,7 @@ public interface AuthenticationService {
      *
      * @param   request     {@link AuthenticationRequest} containing data for user authentication
      * @return              {@link AuthenticationResponse} with authentication JSON Web Token
-     * @see     szymanski.jakub.backend.security.JwtService JwtService
+     * @see                 szymanski.jakub.backend.security.JwtService JwtService
      */
     AuthenticationResponse authenticate(AuthenticationRequest request);
 

@@ -20,8 +20,8 @@ import szymanski.jakub.backend.ingredient.services.IngredientService;
 import java.util.List;
 
 @Tag(name = "Ingredients")
-@RequestMapping("ingredients")
 @RestController
+@RequestMapping("ingredients")
 @RequiredArgsConstructor
 public class IngredientController {
 
@@ -36,7 +36,7 @@ public class IngredientController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Ingredients fetched",
             content = @Content(mediaType = "application/json", array = @ArraySchema(
-                    schema = @Schema(implementation = IngredientDto.class)
+                schema = @Schema(implementation = IngredientDto.class)
             ))),
         @ApiResponse(responseCode = "403", description = "Not authorized", content = @Content)
     })
@@ -103,26 +103,6 @@ public class IngredientController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedIngredientId);
     }
-
-//    /**
-//     * Updates ingredient.
-//     * @param id
-//     * @param ingredient
-//     * @return
-//     */
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Long> fullUpdateIngredient(
-//            @PathVariable("id") Long id,
-//            @RequestBody IngredientDto ingredient) {
-//
-//        if(!ingredientService.exists(id)) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        Long updatedIngredientId = ingredientService.save(ingredientMapper.mapFrom(ingredient));
-//
-//        return ResponseEntity.ok(updatedIngredientId);
-//    }
 
     /**
      * Updates ingredient.

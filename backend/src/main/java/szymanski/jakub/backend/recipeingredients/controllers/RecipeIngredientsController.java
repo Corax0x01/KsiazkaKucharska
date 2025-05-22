@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import szymanski.jakub.backend.common.exceptionhandler.ExceptionResponse;
-import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 import szymanski.jakub.backend.recipeingredients.dtos.RecipeIngredientDto;
 import szymanski.jakub.backend.recipeingredients.services.RecipeIngredientsService;
@@ -21,25 +20,12 @@ import szymanski.jakub.backend.recipeingredients.services.RecipeIngredientsServi
 import java.util.List;
 
 @Tag(name = "RecipeIngredients")
-@RequestMapping("")
 @RestController
+@RequestMapping("")
 @RequiredArgsConstructor
 public class RecipeIngredientsController {
 
     private final RecipeIngredientsService recipeIngredientsService;
-
-
-//    @GetMapping("/recipes/{id}/ingredients")
-//    public ResponseEntity<List<IngredientDto>> getRecipeIngredients(
-//            @PathVariable("id") Long recipeId) {
-//        if(!recipeService.exists(recipeId)) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//        List<RecipeIngredientDto> recipeIngredients = recipeIngredientsService.findRecipeIngredients(recipeId);
-//
-//        return ResponseEntity.ok(recipeIngredients.stream().map(RecipeIngredientDto::getIngredient).toList());
-//    }
 
     /**
      * Fetches all ingredients of given recipe.
@@ -113,8 +99,8 @@ public class RecipeIngredientsController {
                 description = "Ingredients that recipe must contain",
                     content = @Content(mediaType = "application/json",
                     examples = @ExampleObject("""
-                            ["Kurczak", "Makaron", "Pomidory suszone"]
-                            """))
+                        ["Kurczak", "Makaron", "Pomidory suszone"]
+                    """))
             )
             @RequestBody List<String> ingredients) {
         List<RecipeDto> recipes = recipeIngredientsService.findRecipesByIngredients(ingredients);

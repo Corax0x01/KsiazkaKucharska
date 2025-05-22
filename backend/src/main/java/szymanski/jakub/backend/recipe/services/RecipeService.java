@@ -24,7 +24,7 @@ public interface RecipeService {
     /**
      * Finds all recipes with pagination.
      *
-     * @param   pageable    pagination information
+     * @param   pageable   pagination information
      * @return             list of all {@link RecipeDto} objects with pagination
      */
     Page<RecipeDto> findAllWithPagination(Pageable pageable);
@@ -49,29 +49,29 @@ public interface RecipeService {
     /**
      * Finds all recipes created by user that is currently logged in with pagination.
      *
-     * @param   pageable    pagination information
-     * @param   auth        information about authenticated user
-     * @return              {@link RecipeDto} objects created by user that is currently logged in
-     * @throws UserNotFoundException if authenticated user was not found
+     * @param   pageable                pagination information
+     * @param   auth                    information about authenticated user
+     * @return                          {@link RecipeDto} objects created by user that is currently logged in
+     * @throws  UserNotFoundException   if authenticated user was not found
      */
     Page<RecipeDto> findAllByAuthor(Pageable pageable, Authentication auth);
 
     /**
      * Finds recipes created by given user with pagination.
      *
-     * @param   pageable        pagination information
-     * @param   id              ID of author
-     * @return                  {@link RecipeDto} objects created by user that is currently logged in
-     * @throws UserNotFoundException    if user with given ID was not found
+     * @param   pageable                pagination information
+     * @param   id                      ID of author
+     * @return                          {@link RecipeDto} objects created by user that is currently logged in
+     * @throws  UserNotFoundException   if user with given ID was not found
      */
     Page<RecipeDto> findAllByAuthor(Pageable pageable, Long id);
 
     /**
      * Finds recipe with given ID.
      *
-     * @param   id                      ID of recipe to be found
-     * @return                          {@link RecipeDto} object with given ID
-     * @throws RecipeNotFoundException  if recipe with given ID was not found
+     * @param   id                          ID of recipe to be found
+     * @return                              {@link RecipeDto} object with given ID
+     * @throws  RecipeNotFoundException     if recipe with given ID was not found
      */
     RecipeDto find(Long id);
 
@@ -95,34 +95,34 @@ public interface RecipeService {
     /**
      * Updates recipe.
      *
-     * @param   id      ID of recipe to be updated
-     * @param   recipe  {@link RecipeDto} object containing recipe's updated data
-     * @return          ID of updated recipe
-     * @throws  RecipeNotFoundException if recipe was not found
+     * @param   id                          ID of recipe to be updated
+     * @param   recipe                      {@link RecipeDto} object containing recipe's updated data
+     * @return                              ID of updated recipe
+     * @throws  RecipeNotFoundException     if recipe was not found
      */
     Long partialUpdate(Long id, RecipeDto recipe);
 
     /**
      * Deletes recipe.
      *
-     * @param   id  ID of recipe to delete
-     * @throws  RecipeNotFoundException if recipe with given ID was not found
+     * @param   id                          ID of recipe to delete
+     * @throws  RecipeNotFoundException     if recipe with given ID was not found
      */
     void delete(Long id);
 
     /**
      * Deletes recipe.
      *
-     * @param   recipe  {@link RecipeDto} object to delete
-     * @throws  RecipeNotFoundException if recipe with given name was not found
+     * @param   recipe                      {@link RecipeDto} object to delete
+     * @throws  RecipeNotFoundException     if recipe with given name was not found
      */
     void delete(RecipeDto recipe);
 
     /**
      * Checks if recipe with given ID exists.
      *
-     * @param   id              ID of recipe to check
-     * @return                  <code>true</code> if recipe exists, <code>false</code> otherwise
+     * @param   id      ID of recipe to check
+     * @return          <code>true</code> if recipe exists, <code>false</code> otherwise
      */
     boolean exists(Long id);
 
@@ -133,5 +133,4 @@ public interface RecipeService {
      * @return          <code>true</code> if recipe exists, <code>false</code> otherwise
      */
     boolean exists(RecipeEntity recipe);
-
 }

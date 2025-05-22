@@ -20,11 +20,10 @@ import szymanski.jakub.backend.auth.dtos.responses.AuthenticationResponse;
 import szymanski.jakub.backend.auth.services.AuthenticationService;
 import szymanski.jakub.backend.common.exceptionhandler.ExceptionResponse;
 
-
+@Tag(name = "Authentication")
 @RestController
 @RequestMapping("auth")
 @RequiredArgsConstructor
-@Tag(name = "Authentication")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -32,7 +31,7 @@ public class AuthenticationController {
     /**
      * Registers user.
      *
-     * @param   request             {@link RegistrationRequest} object containing data used to register user account
+     * @param   request {@link RegistrationRequest} object containing data used to register user account
      */
     @Operation(summary = "Registers user")
     @ApiResponses(value = {
@@ -99,11 +98,10 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
-
     /**
      * Activates account.
      *
-     * @param   token               {@link szymanski.jakub.backend.user.entities.TokenEntity} object
+     * @param   token   {@link szymanski.jakub.backend.user.entities.TokenEntity} object
      */
     @Operation(summary = "Activates account")
     @ApiResponses(value = {
@@ -125,5 +123,4 @@ public class AuthenticationController {
             @RequestParam String token) throws MessagingException {
         authenticationService.activateAccount(token);
     }
-
 }

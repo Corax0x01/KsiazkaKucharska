@@ -27,9 +27,9 @@ public interface IngredientService {
     /**
      * Finds ingredient by name.
      *
-     * @param   name    name of ingredient to find
-     * @return          {@link IngredientDto} object with given name
-     * @throws  IngredientNotFoundException if ingredient with given name was not found
+     * @param   name                            name of ingredient to find
+     * @return                                  {@link IngredientDto} object with given name
+     * @throws  IngredientNotFoundException     if ingredient with given name was not found
      */
     IngredientDto find(String name);
 
@@ -44,42 +44,42 @@ public interface IngredientService {
     /**
      * Updates ingredient with specified ID.
      *
-     * @param   id                          ID of ingredient to update
-     * @param   ingredient                  {@link IngredientDto} object containing ingredient's updated data
-     * @return                              ID of updated ingredient
-     * @throws  IngredientNotFoundException if ingredient with given ID was not found
+     * @param   id                              ID of ingredient to update
+     * @param   ingredient                      {@link IngredientDto} object containing ingredient's updated data
+     * @return                                  ID of updated ingredient
+     * @throws  IngredientNotFoundException     if ingredient with given ID was not found
      */
     Long partialUpdate(Long id, IngredientDto ingredient);
 
     /**
      * Deletes ingredient with given ID.
      *
-     * @param   id  ID of ingredient to delete
-     * @throws  IngredientNotFoundException if ingredient was not found
+     * @param   id                              ID of ingredient to delete
+     * @throws  IngredientNotFoundException     if ingredient was not found
      */
     void delete(Long id);
 
     /**
      * Deletes ingredient with given name.
      *
-     * @param   name    name of ingredient to delete
-     * @throws  IngredientNotFoundException if ingredient was not found
+     * @param   name                            name of ingredient to delete
+     * @throws  IngredientNotFoundException     if ingredient was not found
      */
     void delete(String name);
 
     /**
      * Deletes specified ingredient.
      *
-     * @param   ingredient  {@link IngredientDto} object to delete
-     * @throws  IngredientNotFoundException if ingredient was not found
+     * @param   ingredient                      {@link IngredientDto} object to delete
+     * @throws  IngredientNotFoundException     if ingredient was not found
      */
     void delete(IngredientDto ingredient);
 
     /**
      * Checks if ingredient exists.
      *
-     * @param   ingredient  {@link IngredientEntity} object to check
-     * @return              <code>true</code> if ingredient exist, <code>false</code> otherwise
+     * @param   ingredient      {@link IngredientEntity} object to check
+     * @return                  <code>true</code> if ingredient exist, <code>false</code> otherwise
      */
     boolean exists(IngredientEntity ingredient);
 

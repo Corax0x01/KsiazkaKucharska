@@ -17,5 +17,4 @@ public class RecipeIngredientNotFoundException extends ApplicationException {
     public RecipeIngredientNotFoundException(String message) {
         super(RECIPE_INGREDIENT_NOT_FOUND, message);
     }
-
 }

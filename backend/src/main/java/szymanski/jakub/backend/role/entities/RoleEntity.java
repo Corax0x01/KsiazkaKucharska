@@ -13,12 +13,12 @@ import java.util.List;
  * Role entity stored in database.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
-@EqualsAndHashCode(callSuper = false)
 @Entity
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "roles")
+@EqualsAndHashCode(callSuper = false)
 public class RoleEntity extends BaseEntity {
 
     @Column(unique = true)
@@ -27,5 +27,4 @@ public class RoleEntity extends BaseEntity {
     @ManyToMany(mappedBy = "roles")
     @JsonIgnore
     private List<UserEntity> users;
-
 }

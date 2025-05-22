@@ -2,18 +2,17 @@ package szymanski.jakub.backend.auth.services.impl;
 
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import szymanski.jakub.backend.auth.exceptions.TokenExpiredException;
-import szymanski.jakub.backend.auth.exceptions.TokenNotFoundException;
 import szymanski.jakub.backend.auth.dtos.requests.AuthenticationRequest;
 import szymanski.jakub.backend.auth.dtos.requests.RegistrationRequest;
 import szymanski.jakub.backend.auth.dtos.responses.AuthenticationResponse;
+import szymanski.jakub.backend.auth.exceptions.TokenExpiredException;
+import szymanski.jakub.backend.auth.exceptions.TokenNotFoundException;
 import szymanski.jakub.backend.auth.services.AuthenticationService;
 import szymanski.jakub.backend.email.EmailTemplateName;
 import szymanski.jakub.backend.email.services.EmailService;
@@ -31,22 +30,20 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
-@Log
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
-    private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final EmailService emailService;
 
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
-
 
     public void register(RegistrationRequest request) throws MessagingException {
         RoleEntity userRole = roleRepository.findByName("USER")
@@ -115,7 +112,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String jwtToken = jwtService.generateToken(claims, user);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
-
 
     public void activateAccount(String token) throws MessagingException {
         TokenEntity savedToken = tokenRepository.findByToken(token).orElseThrow(

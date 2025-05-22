@@ -17,8 +17,8 @@ import szymanski.jakub.backend.common.exceptionhandler.ExceptionResponse;
 import szymanski.jakub.backend.fileupload.services.FileUploadService;
 
 @Tag(name = "File upload")
-@RequestMapping("files")
 @RestController
+@RequestMapping("files")
 public class FileUploadController {
 
     private final FileUploadService fileUploadService;

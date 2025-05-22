@@ -7,20 +7,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import szymanski.jakub.backend.common.Mapper;
-import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
 import szymanski.jakub.backend.ingredient.repositories.IngredientRepository;
 import szymanski.jakub.backend.recipe.TagsEnum;
 import szymanski.jakub.backend.recipe.dtos.IngredientQuantityDto;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
-import szymanski.jakub.backend.recipe.exceptions.RecipeNotFoundException;
 import szymanski.jakub.backend.recipe.dtos.requests.CreateRecipeRequest;
 import szymanski.jakub.backend.recipe.entities.RecipeEntity;
+import szymanski.jakub.backend.recipe.exceptions.RecipeNotFoundException;
 import szymanski.jakub.backend.recipe.repositories.RecipeRepository;
-import szymanski.jakub.backend.ingredient.services.IngredientService;
+import szymanski.jakub.backend.recipe.services.RecipeService;
 import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientEntity;
 import szymanski.jakub.backend.recipeingredients.services.RecipeIngredientsService;
-import szymanski.jakub.backend.recipe.services.RecipeService;
 import szymanski.jakub.backend.user.entities.UserEntity;
 import szymanski.jakub.backend.user.exceptions.UserNotFoundException;
 import szymanski.jakub.backend.user.repositories.UserRepository;
@@ -30,40 +28,31 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class RecipeServiceImpl implements RecipeService {
 
-    private final RecipeRepository recipeRepository;
-    private final IngredientRepository ingredientRepository;
-    private final UserRepository userRepository;
-    private final IngredientService ingredientService;
-    private final RecipeIngredientsService recipeIngredientsService;
-    private final Mapper<RecipeEntity, RecipeDto> recipeMapper;
-    private final Mapper<IngredientEntity, IngredientDto> ingredientMapper;
-
+    private final RecipeRepository                  recipeRepository;
+    private final IngredientRepository              ingredientRepository;
+    private final UserRepository                    userRepository;
+    private final RecipeIngredientsService          recipeIngredientsService;
+    private final Mapper<RecipeEntity, RecipeDto>   recipeMapper;
 
     public List<RecipeDto> findAll() {
-        List<RecipeDto> recipes = recipeRepository
+        return recipeRepository
                 .findAll()
                 .stream()
                 .map(recipeMapper::mapTo)
                 .toList();
-
-        return recipes;
     }
 
     public Page<RecipeDto> findAllWithPagination(Pageable pageable) {
-        Page<RecipeDto> recipes = recipeRepository
+        return recipeRepository
                 .findAll(pageable)
                 .map(recipeMapper::mapTo);
-
-        return recipes;
     }
 
     public List<RecipeDto> findRecipeByTags(List<TagsEnum> tagsEnumList) {
-
         return findAll().stream().filter(recipe -> (
                 new HashSet<>(recipe.getTags()).containsAll(tagsEnumList)
         )).toList();
@@ -76,13 +65,11 @@ public class RecipeServiceImpl implements RecipeService {
                 new HashSet<>(recipe.getTags()).containsAll(tagsEnumList)
         )).toList();
 
-        Page<RecipeDto> pagedRecipes = new PageImpl<>(
+        return new PageImpl<>(
                 filteredRecipes
                 .stream()
                 .map(recipeMapper::mapTo)
                 .toList());
-
-        return pagedRecipes;
     }
 
     public Page<RecipeDto> findAllByAuthor(Pageable pageable, Authentication auth) {
@@ -91,17 +78,14 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     public Page<RecipeDto> findAllByAuthor(Pageable pageable, Long id) {
-
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(
                         () -> new UserNotFoundException("User with ID: " + id + " not found")
         );
 
-        Page<RecipeDto> recipes = recipeRepository
+        return recipeRepository
                 .findAllByUserEntity(pageable, user)
                 .map(recipeMapper::mapTo);
-
-        return recipes;
     }
 
     public RecipeDto find(Long id) {
@@ -110,14 +94,11 @@ public class RecipeServiceImpl implements RecipeService {
                         () -> new RecipeNotFoundException("Recipe with id: " + id + " not found")
                 );
 
-        RecipeDto recipeDto = recipeMapper.mapTo(recipeEntity);
-
-        return recipeDto;
+        return recipeMapper.mapTo(recipeEntity);
     }
 
 
     public Long create(CreateRecipeRequest request, Authentication connectedUser) {
-
         UserEntity user = ((UserEntity) connectedUser.getPrincipal());
 
         RecipeEntity recipe = RecipeEntity.builder()
@@ -200,5 +181,4 @@ public class RecipeServiceImpl implements RecipeService {
     public boolean exists(RecipeEntity recipe) {
         return recipeRepository.existsById(recipe.getId());
     }
-
 }

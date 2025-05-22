@@ -6,9 +6,9 @@ import lombok.*;
  * Data Transfer Object used to pass user data.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
 
     private Long id;

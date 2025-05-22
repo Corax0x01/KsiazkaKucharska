@@ -13,9 +13,9 @@ import java.util.List;
  * Data Transfer Object used to pass recipe data.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RecipeDto {
 
     private Long id;
@@ -24,5 +24,4 @@ public class RecipeDto {
     private String imageName;
     private List<TagsEnum> tags;
     private UserDto user;
-
 }

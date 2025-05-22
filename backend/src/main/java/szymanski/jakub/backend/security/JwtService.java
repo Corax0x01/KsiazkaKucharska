@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-
 /**
  * Service responsible for handling JSON Web Token
  */
@@ -34,8 +33,8 @@ public class JwtService {
     /**
      * Generates JSON Web Token.
      *
-     * @param   userDetails details about the user for whom the token is to be generated
-     * @return              generated JWT
+     * @param   userDetails     details about the user for whom the token is to be generated
+     * @return                  generated JWT
      */
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);

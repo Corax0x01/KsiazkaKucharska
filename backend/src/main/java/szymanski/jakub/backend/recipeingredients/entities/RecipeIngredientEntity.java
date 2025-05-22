@@ -11,13 +11,13 @@ import szymanski.jakub.backend.recipe.entities.RecipeEntity;
 /**
  * Information about ingredients and their quantity used in recipes stored in database.
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Entity
-@EqualsAndHashCode
 @Tag(name = "Recipe ingredient")
+@Data
+@Entity
+@Builder
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "recipe_ingredients")
 public class RecipeIngredientEntity {
 

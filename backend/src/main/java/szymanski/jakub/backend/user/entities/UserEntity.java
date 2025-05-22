@@ -15,17 +15,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 /**
  * User data stored in database.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
-@EqualsAndHashCode(callSuper = false)
 @Entity
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
+@EqualsAndHashCode(callSuper = false)
 public class UserEntity extends BaseEntity implements UserDetails, Principal {
 
     @Column(unique = true)
@@ -100,7 +99,6 @@ public class UserEntity extends BaseEntity implements UserDetails, Principal {
     public String getUsername() {
         return this.username;
     }
-
 
     /**
      * Method required by {@link UserDetails}.<br>

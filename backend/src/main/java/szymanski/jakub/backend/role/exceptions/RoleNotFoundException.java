@@ -17,5 +17,4 @@ public class RoleNotFoundException extends ApplicationException {
     public RoleNotFoundException(String message) {
         super(ROLE_NOT_FOUND, message);
     }
-
 }

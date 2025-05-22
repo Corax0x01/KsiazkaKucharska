@@ -11,9 +11,9 @@ import szymanski.jakub.backend.recipe.dtos.RecipeDto;
  * Data Transfer Object used to pass recipeIngredient data.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RecipeIngredientDto {
 
     private Long id;

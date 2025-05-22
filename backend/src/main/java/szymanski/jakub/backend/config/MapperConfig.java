@@ -25,5 +25,4 @@ public class MapperConfig {
                 .setAmbiguityIgnored(true);
         return modelMapper;
     }
-
 }

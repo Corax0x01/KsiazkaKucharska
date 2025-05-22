@@ -36,9 +36,9 @@ public interface FileUploadService {
     /**
      * Loads file by filename as resource.
      *
-     * @param   filename            name of file to load
-     * @return                      loaded file as {@link Resource} object
-     * @throws  FileUploadException if error with uploading file occurs
+     * @param   filename                        name of file to load
+     * @return                                  loaded file as {@link Resource} object
+     * @throws  FileUploadException             if error with uploading file occurs
      * @throws  UploadedFileNotFoundException   if file was not found
      */
     Resource loadAsResource(String filename);
@@ -51,8 +51,8 @@ public interface FileUploadService {
     /**
      * Deletes file with given filename.
      *
-     * @param   filename    name of file to delete
-     * @throws  FileUploadException if file was not found
+     * @param   filename                name of file to delete
+     * @throws  FileUploadException     if file was not found
      */
     void delete(String filename);
 }

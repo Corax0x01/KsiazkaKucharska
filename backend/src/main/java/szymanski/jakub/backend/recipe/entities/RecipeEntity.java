@@ -17,14 +17,14 @@ import java.util.List;
 /**
  * Recipe data stored in database.
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
-@Entity
 @Tag(name = "Recipe")
+@Data
+@Entity
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "recipes")
+@EqualsAndHashCode(callSuper = true)
 public class RecipeEntity extends BaseEntity {
 
     private String title;
@@ -51,5 +51,4 @@ public class RecipeEntity extends BaseEntity {
      */
     @OneToMany(mappedBy = "recipeEntity")
     private List<RecipeIngredientEntity> recipeIngredients;
-
 }

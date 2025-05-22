@@ -66,7 +66,7 @@ public interface UserService {
     /**
      * Deletes user with given ID.
      *
-     * @param   id          ID of user to delete
+     * @param   id                      ID of user to delete
      * @throws  UserNotFoundException   if user with given ID was not found
      */
     void delete(Long id);
@@ -74,7 +74,7 @@ public interface UserService {
     /**
      * Deletes specified user.
      *
-     * @param   user        {@link UserDto} object to delete
+     * @param   user                    {@link UserDto} object to delete
      * @throws  UserNotFoundException   if user was not found
      */
     void delete(UserDto user);
@@ -94,5 +94,4 @@ public interface UserService {
      * @return          <code>true</code> if user exists, <code>false</code> otherwise
      */
     boolean exists(UserEntity user);
-
 }

@@ -14,7 +14,6 @@ import szymanski.jakub.backend.user.services.UserService;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -92,7 +91,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean exists(UserEntity user) {
-
         return userRepository.existsById(user.getId());
     }
 }

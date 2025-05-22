@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
  * Account activation token entity.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
 @Builder
 @EqualsAndHashCode
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tokens")
 public class TokenEntity {
 

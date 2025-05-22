@@ -21,8 +21,8 @@ import szymanski.jakub.backend.user.services.UserService;
 import java.util.List;
 
 @Tag(name = "Users")
-@RequestMapping("users")
 @RestController
+@RequestMapping("users")
 public class UserController {
 
     private final UserService userService;
@@ -122,18 +122,6 @@ public class UserController {
                 )));
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUserId);
     }
-
-
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Long> fullUpdateUser(
-//            @PathVariable("id") Long id,
-//            @RequestBody UserDto user) {
-//
-//        user.setId(id);
-//        Long updatedUserId = userService.save(user);
-//
-//        return ResponseEntity.ok(updatedUserId);
-//    }
 
     /**
      * Updates user with given ID.

@@ -20,13 +20,11 @@ public class IngredientServiceImpl implements IngredientService {
     private final Mapper<IngredientEntity, IngredientDto> ingredientMapper;
 
     public List<IngredientDto> findAll() {
-        List<IngredientDto> ingredients = ingredientRepository
+        return ingredientRepository
                 .findAll()
                 .stream()
                 .map(ingredientMapper::mapTo)
                 .toList();
-
-        return ingredients;
     }
 
     public IngredientDto find(Long id) {
@@ -35,9 +33,7 @@ public class IngredientServiceImpl implements IngredientService {
                         () -> new IngredientNotFoundException("Ingredient with id: " + id + " not found")
                 );
 
-        IngredientDto ingredient = ingredientMapper.mapTo(ingredientEntity);
-
-        return ingredient;
+        return ingredientMapper.mapTo(ingredientEntity);
     }
 
     public IngredientDto find(String name) {
@@ -46,9 +42,7 @@ public class IngredientServiceImpl implements IngredientService {
                         () -> new IngredientNotFoundException("Ingredient with name: " + name + " not found")
                 );
 
-        IngredientDto ingredient = ingredientMapper.mapTo(ingredientEntity);
-
-        return ingredient;
+        return ingredientMapper.mapTo(ingredientEntity);
     }
 
     public Long save(IngredientDto ingredient) {
@@ -104,5 +98,4 @@ public class IngredientServiceImpl implements IngredientService {
     public boolean exists(String name) {
         return ingredientRepository.findByName(name).isPresent();
     }
-
 }

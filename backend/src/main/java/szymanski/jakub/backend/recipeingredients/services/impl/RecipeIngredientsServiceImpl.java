@@ -17,15 +17,14 @@ import szymanski.jakub.backend.recipeingredients.services.RecipeIngredientsServi
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 @RequiredArgsConstructor
 @Service
 public class RecipeIngredientsServiceImpl implements RecipeIngredientsService {
 
+    private final IngredientService ingredientService;
     private final RecipeIngredientsRepository recipeIngredientsRepository;
     private final Mapper<RecipeIngredientEntity, RecipeIngredientDto> recipeIngredientMapper;
     private final Mapper<RecipeEntity, RecipeDto> recipeMapper;
-    private final IngredientService ingredientService;
 
     public List<RecipeIngredientDto> findRecipeIngredients(Long recipeId) {
         List<RecipeIngredientEntity> recipeIngredients = recipeIngredientsRepository.findAllByRecipeEntityId(recipeId)
@@ -46,13 +45,11 @@ public class RecipeIngredientsServiceImpl implements RecipeIngredientsService {
                         () -> new IngredientNotFoundException("Ingredient with id: " + ingredientId + " not found")
                 );
 
-        List<RecipeDto> recipeDtos = recipeIngredients
+        return recipeIngredients
                 .stream()
                 .map(recipeIngredientMapper::mapTo)
                 .map(RecipeIngredientDto::getRecipe)
                 .toList();
-
-        return recipeDtos;
     }
 
     public List<RecipeDto> findRecipesByIngredients(List<String> ingredients) {
@@ -117,7 +114,7 @@ public class RecipeIngredientsServiceImpl implements RecipeIngredientsService {
 
     public void delete(RecipeIngredientEntity recipeIngredient) {
         if(!exists(recipeIngredient)) {
-            throw new RecipeIngredientNotFoundException("Recipe Ingredient " + recipeIngredient.toString() + " not found");
+            throw new RecipeIngredientNotFoundException("Recipe Ingredient " + recipeIngredient + " not found");
         }
         recipeIngredientsRepository.delete(recipeIngredient);
     }

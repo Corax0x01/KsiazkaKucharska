@@ -22,5 +22,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         String.format("User with username %s not found", username)
                 ));
     }
-
 }
