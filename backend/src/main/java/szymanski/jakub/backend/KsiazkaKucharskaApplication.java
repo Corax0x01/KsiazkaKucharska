@@ -1,6 +1,7 @@
 package szymanski.jakub.backend;
 
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +12,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import szymanski.jakub.backend.config.AdminAccountConfig;
 import szymanski.jakub.backend.config.FileUploadProperties;
 import szymanski.jakub.backend.fileupload.services.FileUploadService;
+import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
+import szymanski.jakub.backend.ingredient.services.IngredientService;
 import szymanski.jakub.backend.recipe.dtos.RecipeDto;
 import szymanski.jakub.backend.recipe.services.RecipeService;
 import szymanski.jakub.backend.role.entities.RoleEntity;
@@ -19,7 +22,11 @@ import szymanski.jakub.backend.role.repositories.RoleRepository;
 import szymanski.jakub.backend.user.dtos.UserDto;
 import szymanski.jakub.backend.user.services.UserService;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import static szymanski.jakub.backend.recipe.TagsEnum.*;
 
@@ -30,8 +37,32 @@ import static szymanski.jakub.backend.recipe.TagsEnum.*;
 @EnableConfigurationProperties({FileUploadProperties.class, AdminAccountConfig.class})
 public class KsiazkaKucharskaApplication {
 
+	@Value("${application.db-init.filepath.ingredients}")
+	private String ingredientsInitDataFilePath;
+
 	public static void main(String[] args) {
 		SpringApplication.run(KsiazkaKucharskaApplication.class, args);
+	}
+
+	public void initDBWithIngredients(IngredientService ingredientService) {
+		List<String> ingredientNames;
+		try (Scanner scanner = new Scanner(new File(ingredientsInitDataFilePath))) {
+			String data = scanner.nextLine();
+			ingredientNames = Arrays.stream(data.split(",")).toList();
+
+			for(String ingredient : ingredientNames) {
+				ingredientService.save(
+						IngredientDto.builder()
+								.name(ingredient)
+								.build()
+				);
+			}
+
+			log.info("DB initialized with ingredients");
+		} catch (FileNotFoundException e) {
+			log.warning("DB not initialized with ingredients. Error while opening a file.");
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -41,6 +72,7 @@ public class KsiazkaKucharskaApplication {
 	CommandLineRunner init(
 			UserService userService,
 			RecipeService recipeService,
+			IngredientService ingredientService,
 			FileUploadService fileUploadService,
 			RoleRepository roleRepository,
 			AdminAccountConfig adminAccountConfig) {
@@ -79,6 +111,8 @@ public class KsiazkaKucharskaApplication {
 			} else {
 				log.warning("Admin account failed to create");
 			}
+
+			initDBWithIngredients(ingredientService);
 
 			if(!userService.findAll().isEmpty()){
 				RecipeDto recipe = RecipeDto.builder()
