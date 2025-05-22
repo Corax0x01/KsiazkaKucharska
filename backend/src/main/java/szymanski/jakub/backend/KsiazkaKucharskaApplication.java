@@ -14,8 +14,6 @@ import szymanski.jakub.backend.config.FileUploadProperties;
 import szymanski.jakub.backend.fileupload.services.FileUploadService;
 import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
 import szymanski.jakub.backend.ingredient.services.IngredientService;
-import szymanski.jakub.backend.recipe.dtos.RecipeDto;
-import szymanski.jakub.backend.recipe.services.RecipeService;
 import szymanski.jakub.backend.role.entities.RoleEntity;
 import szymanski.jakub.backend.role.exceptions.RoleNotFoundException;
 import szymanski.jakub.backend.role.repositories.RoleRepository;
@@ -27,8 +25,6 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-
-import static szymanski.jakub.backend.recipe.TagsEnum.*;
 
 @Log
 @EnableAsync
@@ -65,70 +61,58 @@ public class KsiazkaKucharskaApplication {
 		}
 	}
 
+	public void initDBWithRoles(RoleRepository roleRepository) {
+		if(roleRepository.findByName("USER").isEmpty()) {
+			roleRepository.save(RoleEntity.builder().name("USER").build());
+		}
+		if(roleRepository.findByName("ADMIN").isEmpty()) {
+			roleRepository.save(RoleEntity.builder().name("ADMIN").build());
+		}
+		log.info("Roles initialized");
+	}
+
+	public void createAdminAccount(AdminAccountConfig adminAccountConfig,
+								   UserService userService,
+								   RoleRepository roleRepository) {
+		UserDto admin = UserDto.builder()
+				.username(adminAccountConfig.getUsername())
+				.password(adminAccountConfig.getPassword())
+				.email(adminAccountConfig.getEmail())
+				.build();
+
+		userService.save(admin,
+				true,
+				false,
+				List.of(roleRepository.findByName("ADMIN")
+						.orElseThrow(
+								() -> {
+									log.warning("Admin account failed to create");
+                                    return new RoleNotFoundException("Role ADMIN not found");
+								}
+						)
+				)
+		);
+
+		log.info("Admin account created");
+	}
+
 	/**
-	 * Initializes database with user roles and creates admin account.
+	 * Populates database with user roles and ingredients, creates admin account and initializes file upload.
 	 */
 	@Bean
 	CommandLineRunner init(
 			UserService userService,
-			RecipeService recipeService,
 			IngredientService ingredientService,
 			FileUploadService fileUploadService,
 			RoleRepository roleRepository,
 			AdminAccountConfig adminAccountConfig) {
 
 		return (args -> {
-			if(roleRepository.findByName("USER").isEmpty()) {
-				roleRepository.save(RoleEntity.builder().name("USER").build());
-				log.info("USER role created");
-			}
-			if(roleRepository.findByName("ADMIN").isEmpty()) {
-				roleRepository.save(RoleEntity.builder().name("ADMIN").build());
-				log.info("ADMIN role created");
-			}
-			if(userService.findByRoles(
-					List.of(
-							roleRepository
-									.findByName("ADMIN")
-									.orElseThrow(
-											() -> new szymanski.jakub.backend.role.exceptions.RoleNotFoundException(
-															"Role ADMIN not found"
-													)
-									)
-					))
-					.isEmpty()) {
-				UserDto admin = UserDto.builder()
-						.username(adminAccountConfig.getUsername())
-						.password(adminAccountConfig.getPassword())
-						.email(adminAccountConfig.getEmail())
-						.build();
 
-				userService.save(admin, true, false, List.of(roleRepository.findByName("ADMIN")
-						.orElseThrow(
-								() -> new RoleNotFoundException("Role ADMIN not found")
-						)));
-				log.info("Admin account created");
-			} else {
-				log.warning("Admin account failed to create");
-			}
-
+			initDBWithRoles(roleRepository);
 			initDBWithIngredients(ingredientService);
+			createAdminAccount(adminAccountConfig, userService, roleRepository);
 
-			if(!userService.findAll().isEmpty()){
-				RecipeDto recipe = RecipeDto.builder()
-						.title("TEST")
-						.user(userService.findAll().getFirst())
-						.description("Test description")
-						.imageName("test_image_name.jpg")
-						.tags(List.of(MAIN_COURSE, MEAT, FAST_FOOD))
-						.build();
-				recipeService.save(recipe);
-				log.info("Test recipe created");
-			} else {
-				log.warning("Test recipe failed to create");
-			}
-
-			fileUploadService.deleteAll();
 			fileUploadService.init();
 		});
 	}
