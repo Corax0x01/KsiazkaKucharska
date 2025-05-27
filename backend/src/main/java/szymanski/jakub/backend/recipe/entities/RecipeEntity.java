@@ -42,7 +42,7 @@ public class RecipeEntity extends BaseEntity {
      */
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonProperty("user")
     private UserEntity userEntity;
 
