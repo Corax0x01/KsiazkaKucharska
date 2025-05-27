@@ -30,6 +30,7 @@ import java.util.List;
 @Tag(name = "Recipes")
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("recipes")
 public class RecipeController {
 
     private final RecipeService recipeService;
