@@ -50,9 +50,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(() -> new RoleNotFoundException("Role USER was not initialized"));
 
         UserEntity user = UserEntity.builder()
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .email(request.getEmail())
+                .username(request.username())
+                .password(passwordEncoder.encode(request.password()))
+                .email(request.email())
                 .locked(false)
                 .enabled(false)
                 .roles(List.of(userRole))
@@ -102,15 +102,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
+                        request.username(),
+                        request.password()
                 )
         );
         var claims = new HashMap<String, Object>();
         var user = ((UserEntity)auth.getPrincipal());
         claims.put("username", user.getUsername());
         String jwtToken = jwtService.generateToken(claims, user);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        return new AuthenticationResponse(jwtToken);
     }
 
     public void activateAccount(String token) throws MessagingException {
