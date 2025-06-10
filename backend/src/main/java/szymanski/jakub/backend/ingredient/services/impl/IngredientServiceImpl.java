@@ -1,5 +1,8 @@
 package szymanski.jakub.backend.ingredient.services.impl;
 
+import jakarta.validation.constraints.NotNull;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import szymanski.jakub.backend.common.Mapper;
@@ -27,7 +30,7 @@ public class IngredientServiceImpl implements IngredientService {
                 .toList();
     }
 
-    public IngredientDto find(Long id) {
+    public IngredientDto find(@NonNull Long id) {
         IngredientEntity ingredientEntity = ingredientRepository.findById(id)
                 .orElseThrow(
                         () -> new IngredientNotFoundException("Ingredient with id: " + id + " not found")
@@ -36,7 +39,7 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredientMapper.mapTo(ingredientEntity);
     }
 
-    public IngredientDto find(String name) {
+    public IngredientDto find(@NonNull String name) {
         IngredientEntity ingredientEntity = ingredientRepository.findByName(name)
                 .orElseThrow(
                         () -> new IngredientNotFoundException("Ingredient with name: " + name + " not found")
@@ -45,13 +48,13 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredientMapper.mapTo(ingredientEntity);
     }
 
-    public Long save(IngredientDto ingredient) {
+    public Long save(@NonNull IngredientDto ingredient) {
         IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
 
         return ingredientRepository.save(ingredientEntity).getId();
     }
 
-    public Long partialUpdate(Long id, IngredientDto ingredient) {
+    public Long partialUpdate(@NonNull Long id, @NonNull IngredientDto ingredient) {
         ingredient.setId(id);
 
         IngredientEntity updatedIngredient = ingredientRepository.findById(id).map(existingIngredient -> {
@@ -64,38 +67,45 @@ public class IngredientServiceImpl implements IngredientService {
         return updatedIngredient.getId();
     }
 
-    public void delete(Long id) {
+    public void delete(@NonNull Long id) {
         if (!exists(id)) {
             throw new IngredientNotFoundException("Ingredient with id: " + id + " not found");
         }
         ingredientRepository.deleteById(id);
     }
 
-    public void delete(String name) {
+    public void delete(@NonNull String name) {
         if(!exists(name)) {
             throw new IngredientNotFoundException("Ingredient with name: " + name + " not found");
         }
         ingredientRepository.deleteByName(name);
     }
 
-    public void delete(IngredientDto ingredient) {
-        IngredientEntity ingredientEntity = ingredientMapper.mapFrom(ingredient);
-        if (!exists(ingredientEntity)) {
-            throw new IngredientNotFoundException("Ingredient " + ingredient.toString() + " not found");
+    public void delete(@NonNull IngredientDto ingredient) {
+        Long id = ingredient.getId();
+        String name = ingredient.getName();
+        if(id != null) {
+            if(!exists(id)){
+                throw new IngredientNotFoundException("Ingredient " + ingredient + " not found");
+            } else {
+                ingredientRepository.deleteById(id);
+            }
+        }else if(name != null) {
+            if (!exists(name)) {
+                throw new IngredientNotFoundException("Ingredient " + ingredient + " not found");
+            } else {
+                ingredientRepository.deleteByName(name);
+            }
+        }else {
+            throw new NullPointerException("Cannot delete ingredient. ID and name are null");
         }
-        ingredientRepository.delete(ingredientEntity);
     }
 
-    public boolean exists(IngredientEntity ingredient) {
-
-        return ingredientRepository.existsById(ingredient.getId());
-    }
-
-    public boolean exists(Long id) {
+    public boolean exists(@NonNull Long id) {
         return ingredientRepository.existsById(id);
     }
 
-    public boolean exists(String name) {
+    public boolean exists(@NonNull String name) {
         return ingredientRepository.findByName(name).isPresent();
     }
 }
