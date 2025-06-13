@@ -12,21 +12,21 @@ import java.util.List;
  */
 public record CreateRecipeRequest(
 
-        @NotNull(message = "100")
-        @NotEmpty(message = "100")
+        @NotNull(message = "Title cannot be null")
+        @NotEmpty(message = "Title cannot be empty")
         String title,
 
-        @NotNull(message = "101")
-        @NotEmpty(message = "101")
+        @NotNull(message = "Description cannot be null")
+        @NotEmpty(message = "Description cannot be empty")
         String description,
 
-        @NotNull(message = "102")
-        @NotEmpty(message = "102")
+        @NotNull(message = "Image name cannot be null")
+        @NotEmpty(message = "Image name cannot be empty")
         String imageName,
 
         List<TagsEnum> tags,
 
-        @NotNull(message = "103")
-        @NotEmpty(message = "103")
+        @NotNull(message = "Ingredients list cannot be null")
+        @NotEmpty(message = "Ingredients list cannot be empty")
         List<IngredientQuantityDto> ingredients) {
 }
