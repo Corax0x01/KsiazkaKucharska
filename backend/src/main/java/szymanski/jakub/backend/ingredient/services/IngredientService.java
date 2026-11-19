@@ -72,16 +72,9 @@ public interface IngredientService {
      *
      * @param   ingredient                      {@link IngredientDto} object to delete
      * @throws  IngredientNotFoundException     if ingredient was not found
+     * @throws  NullPointerException            if both ingredient ID and name are null
      */
     void delete(IngredientDto ingredient);
-
-    /**
-     * Checks if ingredient exists.
-     *
-     * @param   ingredient      {@link IngredientEntity} object to check
-     * @return                  <code>true</code> if ingredient exist, <code>false</code> otherwise
-     */
-    boolean exists(IngredientEntity ingredient);
 
     /**
      * Checks if ingredient with given ID exists.

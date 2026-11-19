@@ -8,6 +8,7 @@ import szymanski.jakub.backend.auth.dtos.responses.AuthenticationResponse;
 import szymanski.jakub.backend.auth.exceptions.TokenExpiredException;
 import szymanski.jakub.backend.auth.exceptions.TokenNotFoundException;
 import szymanski.jakub.backend.role.exceptions.RoleNotFoundException;
+import szymanski.jakub.backend.user.dtos.UserDto;
 import szymanski.jakub.backend.user.entities.UserEntity;
 
 public interface AuthenticationService {
@@ -16,10 +17,11 @@ public interface AuthenticationService {
      * Registers user.
      *
      * @param  request                  {@link RegistrationRequest} object containing data required for account registration
+     * @return                          {@link UserDto} object of registered user
      * @throws MessagingException       if error with email sending occurs
      * @throws RoleNotFoundException    if role assigned to this user does not exist
      */
-    void register(RegistrationRequest request) throws MessagingException;
+    UserDto register(RegistrationRequest request) throws MessagingException;
 
     /**
      * Sends account activation email.
