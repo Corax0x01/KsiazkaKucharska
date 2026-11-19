@@ -1,6 +1,8 @@
 package szymanski.jakub.backend.user.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import szymanski.jakub.backend.role.entities.RoleEntity;
 import szymanski.jakub.backend.user.entities.UserEntity;
@@ -28,10 +30,37 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByEmail(String email);
 
     /**
-     * Finds users with given roles.
+     * Finds users that have every supplied role. An empty role list matches all users.
      *
-     * @param   roles   list of roles that user has to have
-     * @return          list of {@link UserEntity} objects that have specified roles
+     * @param roles list of roles that users must have
+     * @return users that have every supplied role
      */
-    List<UserEntity> findByRoles(List<RoleEntity> roles);
+    default List<UserEntity> findByRoles(List<RoleEntity> roles) {
+        if (roles.isEmpty()) {
+            return findAll();
+        }
+
+        List<Long> roleIds = roles.stream()
+                .map(RoleEntity::getId)
+                .distinct()
+                .toList();
+        if (roleIds.contains(null)) {
+            return List.of();
+        }
+
+        return findByAllRoleIds(roleIds, roleIds.size());
+    }
+
+    @Query("""
+            select user
+            from UserEntity user
+            join user.roles role
+            where role.id in :roleIds
+            group by user
+            having count(distinct role.id) = :roleCount
+            """)
+    List<UserEntity> findByAllRoleIds(
+            @Param("roleIds") List<Long> roleIds,
+            @Param("roleCount") long roleCount
+    );
 }

@@ -106,6 +106,7 @@ public class AuthenticationController {
     @Operation(summary = "Activates account")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Account activated"),
+        @ApiResponse(responseCode = "400", description = "Token not passed in request"),
         @ApiResponse(responseCode = "403", description = "Token expired",
             content = @Content(mediaType = "application/json",
                 schema = @Schema(implementation = ExceptionResponse.class))),

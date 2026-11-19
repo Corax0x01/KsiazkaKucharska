@@ -2,6 +2,7 @@ package szymanski.jakub.backend.auth.services.impl;
 
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,14 +15,18 @@ import szymanski.jakub.backend.auth.dtos.responses.AuthenticationResponse;
 import szymanski.jakub.backend.auth.exceptions.TokenExpiredException;
 import szymanski.jakub.backend.auth.exceptions.TokenNotFoundException;
 import szymanski.jakub.backend.auth.services.AuthenticationService;
+import szymanski.jakub.backend.common.Mapper;
+import szymanski.jakub.backend.common.exceptionhandler.ApplicationException;
 import szymanski.jakub.backend.email.EmailTemplateName;
 import szymanski.jakub.backend.email.services.EmailService;
 import szymanski.jakub.backend.role.entities.RoleEntity;
 import szymanski.jakub.backend.role.exceptions.RoleNotFoundException;
 import szymanski.jakub.backend.role.repositories.RoleRepository;
 import szymanski.jakub.backend.security.JwtService;
+import szymanski.jakub.backend.user.dtos.UserDto;
 import szymanski.jakub.backend.user.entities.TokenEntity;
 import szymanski.jakub.backend.user.entities.UserEntity;
+import szymanski.jakub.backend.user.exceptions.UserNotFoundException;
 import szymanski.jakub.backend.user.repositories.TokenRepository;
 import szymanski.jakub.backend.user.repositories.UserRepository;
 
@@ -41,11 +46,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final EmailService emailService;
+    private final Mapper<UserEntity, UserDto> userMapper;
 
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
 
-    public void register(RegistrationRequest request) throws MessagingException {
+    public UserDto register(RegistrationRequest request) throws MessagingException {
         RoleEntity userRole = roleRepository.findByName("USER")
                 .orElseThrow(() -> new RoleNotFoundException("Role USER was not initialized"));
 
@@ -58,8 +64,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .roles(List.of(userRole))
                 .build();
 
-        userRepository.save(user);
+        UserEntity registeredUser = userRepository.save(user);
         sendValidationEmail(user);
+
+        return userMapper.mapTo(registeredUser);
     }
 
     public void sendValidationEmail(UserEntity user) throws MessagingException {
@@ -77,10 +85,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     public String generateAndSaveActivationToken(UserEntity user) {
         String activationToken = generateActivationCode(6);
+        LocalDateTime now = LocalDateTime.now();
+
         TokenEntity token = TokenEntity.builder()
                 .token(activationToken)
-                .createdAt(LocalDateTime.now())
-                .expiresAt(LocalDateTime.now().plusMinutes(10))
+                .createdAt(now)
+                .expiresAt(now.plusMinutes(10))
                 .user(user)
                 .build();
 
@@ -125,7 +135,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         UserEntity user = userRepository.findById(savedToken.getUser().getId())
                 .orElseThrow(
-                        () -> new UsernameNotFoundException("User not found")
+                        () -> new UserNotFoundException("User not found")
                 );
 
         user.setEnabled(true);
