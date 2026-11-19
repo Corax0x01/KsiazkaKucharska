@@ -1,7 +1,6 @@
 package szymanski.jakub.backend.ingredient.services;
 
 import szymanski.jakub.backend.ingredient.dtos.IngredientDto;
-import szymanski.jakub.backend.ingredient.entities.IngredientEntity;
 import szymanski.jakub.backend.ingredient.exceptions.IngredientNotFoundException;
 
 import java.util.List;

@@ -34,18 +34,17 @@ public class SecurityConfig {
      *
      * @param   http        incoming request
      * @return              {@link SecurityFilterChain} applied to each request
-     * @throws Exception    when error occurs
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
 
         http
                 .cors((cors) -> cors
                         .configurationSource(corsConfigurationSource())
                 )
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request ->
-                        request.requestMatchers(
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(
                                 "/auth/**",
                                 "/v3/api-docs",
                                 "/v3/api-docs/**",

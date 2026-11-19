@@ -2,10 +2,7 @@ package szymanski.jakub.backend.ingredient.entities;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import szymanski.jakub.backend.recipeingredients.entities.RecipeIngredientEntity;
 
 import java.util.List;
@@ -18,6 +15,7 @@ import java.util.List;
 @Entity
 @Builder
 @NoArgsConstructor
+@EqualsAndHashCode
 @AllArgsConstructor
 @Table(name = "ingredients")
 public class IngredientEntity {

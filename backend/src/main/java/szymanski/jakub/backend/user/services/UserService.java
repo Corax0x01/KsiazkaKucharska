@@ -35,10 +35,10 @@ public interface UserService {
     UserDto find(String username);
 
     /**
-     * Finds users with given roles.
+     * Finds users that have every supplied role. An empty role list matches all users.
      *
-     * @param   roles       list of roles
-     * @return              list of {@link UserDto} objects with given roles
+     * @param roles list of roles that users must have
+     * @return users that have every supplied role
      */
     List<UserDto> findByRoles(List<RoleEntity> roles);
 

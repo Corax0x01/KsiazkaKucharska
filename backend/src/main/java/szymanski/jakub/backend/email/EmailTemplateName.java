@@ -1,8 +1,11 @@
 package szymanski.jakub.backend.email;
 
+import lombok.Getter;
+
 /**
  * Email templates
  */
+@Getter
 public enum EmailTemplateName {
 
     CONFIRM_EMAIL("confirm_email"),

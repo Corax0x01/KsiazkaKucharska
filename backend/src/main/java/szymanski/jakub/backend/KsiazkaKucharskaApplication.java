@@ -7,7 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableAsync;
 import szymanski.jakub.backend.config.AdminAccountConfig;
 import szymanski.jakub.backend.config.FileUploadProperties;
@@ -28,12 +28,11 @@ import java.util.Scanner;
 
 @Log
 @EnableAsync
-@EnableJpaAuditing
 @SpringBootApplication
 @EnableConfigurationProperties({FileUploadProperties.class, AdminAccountConfig.class})
 public class KsiazkaKucharskaApplication {
 
-	@Value("${application.db-init.filepath.ingredients}")
+	@Value("${application.db-init.ingredients}")
 	private String ingredientsInitDataFilePath;
 
 	public static void main(String[] args) {
@@ -57,7 +56,7 @@ public class KsiazkaKucharskaApplication {
 			log.info("DB initialized with ingredients");
 		} catch (FileNotFoundException e) {
 			log.warning("DB not initialized with ingredients. Error while opening a file.");
-			e.printStackTrace();
+			log.warning(e.getMessage());
 		}
 	}
 
@@ -100,6 +99,7 @@ public class KsiazkaKucharskaApplication {
 	 * Populates database with user roles and ingredients, creates admin account and initializes file upload.
 	 */
 	@Bean
+	@Profile("!test")
 	CommandLineRunner init(
 			UserService userService,
 			IngredientService ingredientService,

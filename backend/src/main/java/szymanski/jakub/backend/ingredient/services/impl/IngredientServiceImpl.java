@@ -1,7 +1,5 @@
 package szymanski.jakub.backend.ingredient.services.impl;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

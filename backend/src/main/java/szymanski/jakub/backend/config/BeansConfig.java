@@ -38,10 +38,9 @@ public class BeansConfig {
      *
      * @param configuration     authentication configuration
      * @return                  configured {@link AuthenticationManager}
-     * @throws Exception        when authentication manager error occurs
      */
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) {
         return configuration.getAuthenticationManager();
     }
 
